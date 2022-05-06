@@ -22,11 +22,19 @@ export default function Blog({ allPostsData }) {
         </h1>
 
         <p className={styles.description}>
-          Página inicial do blog
+          Todos os posts
         </p>
 
         <Link href={"/"}>
           <button>Home</button>        
+        </Link>
+
+        <h3>Todas as tags</h3>
+        <Link href={"/tags/react"}>
+          <button>react</button>        
+        </Link>
+        <Link href={"/tags/javascript"}>
+          <button>javascript</button>        
         </Link>
 
         <div className={styles.grid}>
@@ -38,6 +46,7 @@ export default function Blog({ allPostsData }) {
                   <p>
                     <Date dateString={post.date} />
                   </p>
+                  <p>{post.tags}</p>
                   <p>{post.description}</p>
               </div>
               <div>
