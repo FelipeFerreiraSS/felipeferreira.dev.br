@@ -3,7 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
-export default function Blog() {
+import Date from '../components/Date'
+
+import { getSortedPostsData } from '../lib/posts'
+
+export default function Blog({ allPostsData }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -26,20 +30,28 @@ export default function Blog() {
         </Link>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-          
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          {allPostsData.map((post, index) => (
+          <Link href={'/blog/' + post.slug} passHref key={index}>
+            <div className={styles.card}>
+              <div className={styles.cardText}>
+                <h2>{post.title}</h2>
+                  <p>
+                    <Date dateString={post.date} />
+                  </p>
+                  <p>{post.description}</p>
+              </div>
+              <div>
+                <Image
+                  src={post.thumbnailUrl}
+                  alt="thumbnail"
+                  width={1000}
+                  height={1000}
+                  objectFit="cover"
+                />
+              </div>
+            </div>
+          </Link>
+        ))}
         </div>
       </main>
 
@@ -48,4 +60,13 @@ export default function Blog() {
       </footer>
     </div>
   )
+}
+
+export async function getStaticProps() {
+  const allPostsData = getSortedPostsData()
+  return {
+    props: {
+      allPostsData
+    }
+  }
 }
