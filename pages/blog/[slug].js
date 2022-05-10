@@ -11,6 +11,7 @@ import styles from '../../styles/Home.module.css'
 import YouTube from '../../components/YouTube'
 import Date from '../../components/Date'
 import TextStyle from '../../components/TextStyle'
+import Code from '../../components/Code'
 
 export const getStaticProps = async ({ params: { slug } }) => {
   const markdownWithMeta = fs.readFileSync(path.join('posts',
@@ -62,13 +63,9 @@ const PostPage = ({ frontMatter, mdxSource }) => {
       /> */}
       <h1>{frontMatter.title}</h1>
       <Date dateString={frontMatter.date} />
-      <div>
-        {frontMatter.tags.map((item) => (
-            <span key={item}>{item}</span>
-        ))}
-      </div>
+      <span>{frontMatter.tags}</span>
       <main className={styles.mainPost}>
-        <MDXRemote {...mdxSource} components={{ YouTube, TextStyle}}/>
+        <MDXRemote {...mdxSource} components={{ YouTube, TextStyle, Code}}/>
       </main>
     </div>
   )
