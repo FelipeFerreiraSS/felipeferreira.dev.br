@@ -1,7 +1,9 @@
 import GlobalStyle from '../styles/globals.js'
 import { ThemeProvider } from 'styled-components'
+import App from 'next/app'
 
 import Header from '../components/Header/index.js'
+
 
 const theme = {
   colors: {
@@ -17,16 +19,18 @@ const theme = {
   },
 }
 
-function MyApp({ Component, pageProps }) {
-  return (
-    <>
+export default class MyApp extends App {
+  render() {
+    const { Component, pageProps } = this.props
+    return (
+      <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Header />
         <Component {...pageProps} />
       </ThemeProvider>
-    </>
-  )
+      </>
+    )
+  }
 }
 
-export default MyApp

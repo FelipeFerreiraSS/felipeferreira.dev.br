@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Navbar, Avatar, Menu } from './styles.js'
+import { NavBar, Avatar, Menu } from './styles.js'
 
 export default function Header() {
     return (
-    <Navbar>
+    <NavBar>
         <Avatar>
             <Image 
                 src={"/foto-de-perfil.png"} 
@@ -38,6 +38,6 @@ export default function Header() {
                 </li>
             </ul>
         </Menu>
-    </Navbar>
+    </NavBar>
     )
 }

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Navbar = styled.div`
+export const NavBar = styled.div`
   display: flex;
   justify-content: space-between;
   width: 1200px;
