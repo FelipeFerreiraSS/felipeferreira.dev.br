@@ -1,6 +1,8 @@
 import GlobalStyle from '../styles/globals.js'
 import { ThemeProvider } from 'styled-components'
 
+import Header from '../components/Header/index.js'
+
 const theme = {
   colors: {
     background: '#121212',
@@ -20,6 +22,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
+        <Header />
         <Component {...pageProps} />
       </ThemeProvider>
     </>
