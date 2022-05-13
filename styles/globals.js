@@ -3,6 +3,8 @@ import { createGlobalStyle } from 'styled-components'
 export default createGlobalStyle`
 	html,
 	body {
+		background-color: ${({theme}) => theme.colors.background};
+		color: ${({theme}) => theme.colors.text};
 	  	padding: 0;
 	  	margin: 0;
 	  	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
