@@ -1,9 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import styles from '../styles/Home.module.css'
 
 import emailjs from 'emailjs-com'
+
+import { Main, Cover, Description, Img } from '../styles/home'
 
 export default function Home() {
 
@@ -23,27 +24,65 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Felipe Ferreira</title>
         <meta name="description" content="Desenvolvedor Front-End Jr" />
         <link rel="icon" href="/Component.svg" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Home page
-        </h1>
+      <Main>
+        <Cover>
+          <Description>
+            <div>
+              <h3>Olá, eu sou</h3>
+              <h1>Felipe Ferreira</h1>
+              <h3>Desenvolvedor Front-End</h3>
+            </div>
+            <div>
+              <a href='https://www.linkedin.com/in/felipeferreiradev/'>
+                <button>Linkedin</button>
+              </a>
+              <a href='https://github.com/FelipeFerreiraSS'>
+                <button>GitHub</button>
+              </a>
+            </div>
+          </Description>
+          <Img>
+            <Image 
+              src={"/img_developer.svg"} 
+              alt={"img developer"}
+              width={"500px"}
+              height={"500px"}
+            />
+          </Img>
+        </Cover>
 
-        <p className={styles.description}>
-          Página inicial do site
-        </p>
+        <section>
+          <h2>
+            Sobre
+          </h2>
+        </section>
 
-        <Link href={"/blog"}>
-          <button>Blog</button>        
-        </Link>
+        <section>
+          <h2>
+            Projetos
+          </h2>
+        </section>
 
-        <div id="contato">
+        <section>
+          <h2>
+            Ultimos posts no blog
+          </h2>
+        </section>
+
+        <section>
+          <h2>
+            Contato
+          </h2>
+
+          {/*
+          <div id="contato">
             <div>
               <h2>Contato</h2>
               <form onSubmit={sendEmail}>
@@ -66,13 +105,15 @@ export default function Home() {
                 </div>
               </form>
             </div>
-        </div>
+          </div>
+          */}
+        </section>
 
-      </main>
+      </Main>
 
-      <footer className={styles.footer}>
+      <footer>
         Blog desenvolvido por Felipe Ferreira
       </footer>
-    </div>
+    </>
   )
 }
