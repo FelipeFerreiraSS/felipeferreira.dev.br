@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 import emailjs from 'emailjs-com'
 
-import { Main, Cover, Description, Img } from '../styles/home'
+import { Main, Cover, Description, Button, Img, About, AboutMe, SocialIcons, Knowledge, Technology, TechnologyGrid } from '../styles/home'
 
 export default function Home() {
 
@@ -39,14 +39,14 @@ export default function Home() {
               <h1>Felipe Ferreira</h1>
               <h3>Desenvolvedor Front-End</h3>
             </div>
-            <div>
-              <a href='https://www.linkedin.com/in/felipeferreiradev/'>
+            <Button>
+              <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank">
                 <button>Linkedin</button>
               </a>
-              <a href='https://github.com/FelipeFerreiraSS'>
+              <a href='https://github.com/FelipeFerreiraSS' target="_blank">
                 <button>GitHub</button>
               </a>
-            </div>
+            </Button>
           </Description>
           <Img>
             <Image 
@@ -58,11 +58,94 @@ export default function Home() {
           </Img>
         </Cover>
 
-        <section>
-          <h2>
-            Sobre
-          </h2>
-        </section>
+        <About>
+          <AboutMe>
+            <h2>Sobre mim</h2>
+            <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <SocialIcons>
+              <ul>
+                <li>
+                  <a href='https://github.com/FelipeFerreiraSS' target="_blank">
+                    <img src='/socialIcons/github-icon.svg'/>
+                  </a>
+                </li>
+                <li>
+                  <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank">
+                    <img src='/socialIcons/linkedin-icon.svg'/>
+                  </a>
+                </li>
+                <li>
+                  <a href='mailto:felipeferreirasilva.dev@gmail.com' target="_blank">
+                    <img src='/socialIcons/email-icon.svg'/>
+                  </a>
+                </li>
+                <li>
+                  <a href='https://codepen.io/FelipeFerreira_ss' target="_blank">
+                    <img src='/socialIcons/codepen-icon.svg'/>
+                  </a>
+                </li>
+              </ul>
+            </SocialIcons>
+            <Button>
+              <a href=''>
+                <button>Currículo</button>
+              </a>
+              <a href=''>
+                <button>Contato</button>
+              </a>
+            </Button>
+          </AboutMe>
+          <Knowledge>
+            <h2>Conhecimentos</h2>
+            <Technology>
+              <TechnologyGrid>
+                <div>
+                  <img src='/techIcons/reactjs_icon.svg'/>
+                  <p>React JS</p>
+                </div>
+                <div>
+                  <img src='/techIcons/nextjs_icon.svg'/>
+                  <p>Next JS</p>
+                </div>
+                <div>
+                  <img src='/techIcons/git_icon.svg'/>
+                  <p>Git</p>
+                </div>
+              </TechnologyGrid>
+              <TechnologyGrid>
+                <div>
+                  <img src='/techIcons/html5_icon.svg'/>
+                  <p>HTML 5</p>
+                </div>
+                <div>
+                  <img src='/techIcons/css3_icon.svg'/>
+                  <p>CSS 3</p>
+                </div>
+                <div>
+                  <img src='/techIcons/javascript_icon.svg'/>
+                  <p>Java Script</p>
+                </div>
+              </TechnologyGrid>
+              <TechnologyGrid>
+                <div>
+                  <img src='/techIcons/figma_icon.svg'/>
+                  <p>Figma</p>
+                </div>
+                <div>
+                  <img src='/techIcons/styled_icon.svg'/>
+                  <p>Styled Components</p>
+                </div>
+                <div>
+                  
+                </div>
+              </TechnologyGrid>
+            </Technology>
+          </Knowledge>
+        </About>
 
         <section>
           <h2>
