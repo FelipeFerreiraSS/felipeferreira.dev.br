@@ -150,3 +150,32 @@ export const TechnologyGrid = styled.div`
     text-align: center;
   }
 `
+
+// Projects
+
+export const Projects = styled.section`
+  height: 550px;
+
+  h2 {
+    text-align: center;
+    font-size: 45px;
+  }
+  
+`
+
+export const AllProjects = styled.div`
+  display: flex;
+
+  div {
+    width: 50%;
+  }
+
+  p {
+    width: 400px;
+  }
+
+  img {
+    width: 450px;
+    height: 218px;
+  }
+`

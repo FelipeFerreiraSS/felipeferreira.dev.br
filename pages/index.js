@@ -4,7 +4,21 @@ import Link from 'next/link'
 
 import emailjs from 'emailjs-com'
 
-import { Main, Cover, Description, Button, Img, About, AboutMe, SocialIcons, Knowledge, Technology, TechnologyGrid } from '../styles/home'
+import { 
+  Main, 
+  Cover, 
+  Description, 
+  Button, 
+  Img, 
+  About, 
+  AboutMe, 
+  SocialIcons, 
+  Knowledge, 
+  Technology, 
+  TechnologyGrid, 
+  Projects, 
+  AllProjects 
+} from '../styles/home'
 
 export default function Home() {
 
@@ -147,11 +161,35 @@ export default function Home() {
           </Knowledge>
         </About>
 
-        <section>
-          <h2>
-            Projetos
-          </h2>
-        </section>
+        <Projects>
+          <h2>Projetos</h2>
+          <AllProjects>
+            <div>
+              <img src='/mysite.png'/>
+              <h3>Meu blog/site</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore
+              </p>
+              <Button>
+                <a href=''>
+                  <button>Veja o projeto</button>
+                </a>
+              </Button>
+            </div>
+            <div>
+              <img src='/programming.svg'/>
+              <h3>Em desenvolvimento</h3>
+              <p>Em desenvolvimento, entre no github
+                para ver outros projetos
+              </p>
+              <Button>
+                <a href=''>
+                  <button>GitHub</button>
+                </a>
+              </Button>
+            </div>
+          </AllProjects>
+        </Projects>
 
         <section>
           <h2>
