@@ -26,7 +26,8 @@ import {
   DisplayingPosts,
   Tags,
   DescriptionPost,
-  AllPosts
+  AllPosts,
+  AllTagsGrid
 } from '../styles/home'
 
 export default function Home({latestPosts}) {
@@ -234,7 +235,34 @@ export default function Home({latestPosts}) {
 
             <Tags>
               <h2>Tags</h2>
-
+              <div>
+                <AllTagsGrid>
+                  <div>
+                    <Link href={'/tags/react'} passHref>
+                      <p>#React</p>
+                    </Link>
+                  </div>
+                  <div>
+                    <p>#JS</p>
+                  </div>
+                </AllTagsGrid>
+                <AllTagsGrid>
+                  <div>
+                    <p>#NextJs</p>
+                  </div>
+                  <div>
+                    <p>#HTML</p>
+                  </div>
+                </AllTagsGrid>
+                <AllTagsGrid>
+                  <div>
+                    <p>#CSS</p>
+                  </div>
+                  <div>
+                    <p>#MDX</p>
+                  </div>
+                </AllTagsGrid>
+              </div>
             </Tags>
           </LatestPosts>
         </Posts>
@@ -285,7 +313,7 @@ export async function getStaticProps() {
   const allPostsData = getSortedPostsData()
 
   var latestPosts = []
-  for (var i = 0; i < 2; i++) {
+  for (var i = 0; i < 3; i++) {
     latestPosts.push(allPostsData[i])
   }
 

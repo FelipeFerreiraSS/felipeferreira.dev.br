@@ -183,7 +183,7 @@ export const AllProjects = styled.div`
 // LatestPosts
 
 export const Posts = styled.section`
-  height: 750px;
+  height: 840px;
 
   h2 {
     font-size: 45px;
@@ -197,7 +197,7 @@ export const LatestPosts = styled.div`
 `
 
 export const DisplayingPosts = styled.div`
-  width: 80%;
+  width: 70%;
 
   div {
     display: flex;
@@ -205,8 +205,8 @@ export const DisplayingPosts = styled.div`
   }
 
   img {
-    width: 380px;
-    height: 218px;
+    width: 300px;
+    height: 169px;
     margin-right: 20px;
   }
 
@@ -221,6 +221,7 @@ export const DescriptionPost = styled.div`
   h3 {
     font-size: 30px;
     width: 500px;
+    cursor: pointer;
     margin-bottom: 5px;
     margin-top: 5px;
   }
@@ -229,13 +230,17 @@ export const DescriptionPost = styled.div`
     width: 500px;
   }
 
+  time {
+    margin-right: 10px;
+  }
+
   div {
-    width: 380px;
+    width: 160px;
     height: 30px;
     margin-bottom: 0px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
   }
 `
 export const AllPosts = styled.div`
@@ -245,5 +250,33 @@ export const AllPosts = styled.div`
 `
 
 export const Tags = styled.div`
-  width: 20%;
+  width: 30%;
+  text-align: center;
+`
+
+export const AllTagsGrid = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+
+  div {
+    display: flex;
+    width: 110px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: ${({theme}) => theme.colors.blue};
+    margin: 10px;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    width: 100px;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
 `
