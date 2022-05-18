@@ -2,7 +2,7 @@
 title: Segundo post
 date: '2022-05-04'
 description: Learn how to create and use functions
-thumbnailUrl: '/javascript-functions-thumbnail.jpeg'
+thumbnailUrl: '/testeThumbnail.svg'
 tags: 'react'
 ---
 
@@ -12,6 +12,25 @@ tags: 'react'
 </div>
 
 <br/>
+
+<Code 
+nameLanguage={"texte.js"}
+code={
+`const pluckDeep = key => obj => key.split('.').reduce((accum, key) => accum[key], obj)
+
+const compose = (...fns) => res => fns.reduce((accum, next) => next(accum), res)
+
+const unfold = (f, seed) => {
+  const go = (f, seed, acc) => {
+    const res = f(seed)
+    return res ? go(f, res[1], acc.concat([res[0]])) : acc
+  }
+  return go(f, seed, [])
+}
+
+const pluckDeep = key => obj => key.split('.').reduce((accum, key) => accum[key], obj)
+
+`} language="js" />
 
 ### This is a Markdown subheading
 We just used a `###` subheading in our blog post.
