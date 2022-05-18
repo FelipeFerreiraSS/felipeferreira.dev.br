@@ -4,6 +4,9 @@ import Link from 'next/link'
 
 import emailjs from 'emailjs-com'
 
+import Date from '../components/Date'
+import { getSortedPostsData } from '../lib/posts'
+
 import { 
   Main, 
   Cover, 
@@ -17,10 +20,16 @@ import {
   Technology, 
   TechnologyGrid, 
   Projects, 
-  AllProjects 
+  AllProjects,
+  Posts,
+  LatestPosts,
+  DisplayingPosts,
+  Tags,
+  DescriptionPost,
+  AllPosts
 } from '../styles/home'
 
-export default function Home() {
+export default function Home({latestPosts}) {
 
   function sendEmail(e) {
     e.preventDefault();
@@ -191,11 +200,44 @@ export default function Home() {
           </AllProjects>
         </Projects>
 
-        <section>
+        <Posts>
           <h2>
-            Ultimos posts no blog
+            Últimos posts no blog
           </h2>
-        </section>
+          <LatestPosts>
+            <DisplayingPosts>
+              {latestPosts.map((post, index) => (
+                <div key={index}>
+                  <div>
+                    <img src={post.thumbnailUrl}/>
+                  </div>
+                  <DescriptionPost>
+                    <Link href={'/blog/' + post.slug} passHref key={index}>
+                      <h3>{post.title}</h3>
+                    </Link>
+                    <div>
+                      <Date dateString={post.date} /> 
+                      <p>10 min</p>
+                    </div>
+                    <p>{post.description}</p>
+                  </DescriptionPost>
+                </div>
+              ))}
+              <AllPosts>
+                <Button>
+                  <Link href={'/blog'} passHref>
+                    <button>Todos os posts</button>
+                  </Link>
+                </Button>
+              </AllPosts>
+            </DisplayingPosts>
+
+            <Tags>
+              <h2>Tags</h2>
+
+            </Tags>
+          </LatestPosts>
+        </Posts>
 
         <section>
           <h2>
@@ -237,4 +279,19 @@ export default function Home() {
       </footer>
     </>
   )
+}
+
+export async function getStaticProps() {
+  const allPostsData = getSortedPostsData()
+
+  var latestPosts = []
+  for (var i = 0; i < 2; i++) {
+    latestPosts.push(allPostsData[i])
+  }
+
+  return {
+    props: {
+      latestPosts
+    }
+  }
 }

@@ -179,3 +179,71 @@ export const AllProjects = styled.div`
     height: 218px;
   }
 `
+
+// LatestPosts
+
+export const Posts = styled.section`
+  height: 750px;
+
+  h2 {
+    font-size: 45px;
+  }
+  
+`
+
+export const LatestPosts = styled.div`
+  display: flex;
+  
+`
+
+export const DisplayingPosts = styled.div`
+  width: 80%;
+
+  div {
+    display: flex;
+    margin-bottom: 20px;
+  }
+
+  img {
+    width: 380px;
+    height: 218px;
+    margin-right: 20px;
+  }
+
+  
+`
+
+export const DescriptionPost = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0px;
+
+  h3 {
+    font-size: 30px;
+    width: 500px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  p {
+    width: 500px;
+  }
+
+  div {
+    width: 380px;
+    height: 30px;
+    margin-bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`
+export const AllPosts = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+export const Tags = styled.div`
+  width: 20%;
+`
