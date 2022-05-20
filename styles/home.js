@@ -208,6 +208,7 @@ export const DisplayingPosts = styled.div`
     width: 300px;
     height: 169px;
     margin-right: 20px;
+    border-radius: 15px;
   }
 
   
@@ -330,11 +331,9 @@ export const Menssages = styled.div`
   textarea{
     width: 100%;
     height: 270px;
-    font-size: 20px;
     border-radius: 20px;
     border: solid ${({theme}) => theme.colors.text} 1px;
     background-color: ${({theme}) => theme.colors.background};
-    color: ${({theme}) => theme.colors.text};
     padding-left: 20px;
     padding-top: 10px;
     resize: none;

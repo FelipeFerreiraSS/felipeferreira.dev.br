@@ -304,10 +304,6 @@ export default function Home({latestPosts}) {
         </Contact>
 
       </Main>
-
-      <footer>
-        Blog desenvolvido por Felipe Ferreira
-      </footer>
     </>
   )
 }

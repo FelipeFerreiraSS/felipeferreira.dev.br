@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components'
 import App from 'next/app'
 
 import Header from '../components/Header/index.js'
+import Footer from '../components/Footer/index.js'
 
 
 const theme = {
@@ -29,6 +30,7 @@ export default class MyApp extends App {
         <GlobalStyle />
         <Header />
         <Component {...pageProps} />
+        <Footer />
       </ThemeProvider>
       </>
     )
