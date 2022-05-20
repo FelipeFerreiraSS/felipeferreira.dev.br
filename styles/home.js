@@ -280,3 +280,84 @@ export const AllTagsGrid = styled.div`
     text-align: center;
   }
 `
+
+// Contact 
+export const Contact = styled.section`
+  height: 670px;
+
+  h2 {
+    font-size: 45px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
+  }
+  
+`
+
+export const BoxMenssages = styled.div`
+  display: flex;
+  margin-top: 50px;
+`
+
+export const Menssages = styled.div`
+  width: 50%;
+  margin-left: 70px;
+
+  div {
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 100%;
+    height: 45px;
+    font-size: 20px;
+    border-radius: 20px;
+    border: solid ${({theme}) => theme.colors.text} 1px;
+    background-color: ${({theme}) => theme.colors.background};
+    color: ${({theme}) => theme.colors.text};
+    padding-left: 20px;
+    ::placeholder {
+      color: ${({theme}) => theme.colors.text};
+      font-size: 20px;
+    }
+  }
+
+
+
+  textarea{
+    width: 100%;
+    height: 270px;
+    font-size: 20px;
+    border-radius: 20px;
+    border: solid ${({theme}) => theme.colors.text} 1px;
+    background-color: ${({theme}) => theme.colors.background};
+    color: ${({theme}) => theme.colors.text};
+    padding-left: 20px;
+    padding-top: 10px;
+    resize: none;
+    ::placeholder {
+      color: ${({theme}) => theme.colors.text};
+      font-size: 20px;
+    }
+  }
+
+  button {
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: ${({theme}) => theme.colors.blue};
+    color: ${({theme}) => theme.colors.text};
+    border: none;
+    border-radius: 10px;
+    transition: 0.6s;
+    &:hover,
+    &:focus{
+      background-color: ${({theme}) => theme.colors.blueHover};
+      transform: translateY(-0.25em);
+    }
+  }
+`

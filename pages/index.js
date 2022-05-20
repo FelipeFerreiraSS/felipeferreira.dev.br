@@ -27,7 +27,10 @@ import {
   Tags,
   DescriptionPost,
   AllPosts,
-  AllTagsGrid
+  AllTagsGrid,
+  Contact,
+  BoxMenssages,
+  Menssages,
 } from '../styles/home'
 
 export default function Home({latestPosts}) {
@@ -267,38 +270,38 @@ export default function Home({latestPosts}) {
           </LatestPosts>
         </Posts>
 
-        <section>
-          <h2>
-            Contato
-          </h2>
+        <Contact>
+          <div>
+            <h2>Vamos trabalhar juntos?</h2>
+            <p>Mande uma mensagem que responderei em breve</p>
+          </div>
 
-          {/*
-          <div id="contato">
+          <BoxMenssages>
             <div>
-              <h2>Contato</h2>
+              <img src='/messages.svg'/>
+            </div>
+          
+            <Menssages id="contato">
               <form onSubmit={sendEmail}>
                 <div>
                   <div>
-                    <label>Nome</label>
+                    {/*<label>Nome</label>*/}
                     <input type="text" autoFocus required placeholder="Nome" name="name"/>
                   </div>
                   <div>
-                  <label>Email</label>
                     <input type="email" required placeholder="Seu email" name="email"/>
                   </div>
                   <div>
-                  <label>Mensagem</label>
-                    <textarea id="" cols="30" rows="8" required placeholder="Sua mensagem" name="message"></textarea>
+                    <textarea id="" cols="30" rows="8" required placeholder="Digite sua mensagem" name="message"></textarea>
                   </div>
                   <div>
-                    <input type="submit" value="Enviar mensagem"></input>
+                    <button type="submit" value="Enviar mensagem">Enviar mensagem</button>
                   </div>
                 </div>
               </form>
-            </div>
-          </div>
-          */}
-        </section>
+            </Menssages>
+          </BoxMenssages>
+        </Contact>
 
       </Main>
 
