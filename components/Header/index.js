@@ -6,19 +6,23 @@ export default function Header() {
     return (
     <NavBar>
         <Avatar>
-            <Image 
-                src={"/foto-de-perfil.png"} 
-                alt={"avatar img"}
-                width={"80px"}
-                height={"80px"}
-            />
-            <h2>Felipe Ferreira</h2>
+            <Link href={'/'}>
+                <Image 
+                    src={"/foto-de-perfil.png"} 
+                    alt={"avatar img"}
+                    width={"80px"}
+                    height={"80px"}
+                />  
+            </Link>
+            <Link href={'/'}>
+                    <h2>Felipe Ferreira</h2>
+                </Link>
         </Avatar>
         <Menu>
             <ul>
                 <li>
-                    <Link href={'#'}>
-                        Home
+                    <Link href={'#about'}>
+                        Sobre
                     </Link>
                 </li>
                 <li>
@@ -27,12 +31,12 @@ export default function Header() {
                     </Link>
                 </li>
                 <li>
-                    <Link href={'#'}>
+                    <Link href={'#projects'}>
                         Projetos
                     </Link>
                 </li>
                 <li>
-                    <Link href={'#'}>
+                    <Link href={'#contact'}>
                         Contato
                     </Link>
                 </li>

@@ -85,7 +85,7 @@ export default function Home({latestPosts}) {
           </Img>
         </Cover>
 
-        <About>
+        <About id="about">
           <AboutMe>
             <h2>Sobre mim</h2>
             <p>
@@ -174,7 +174,7 @@ export default function Home({latestPosts}) {
           </Knowledge>
         </About>
 
-        <Projects>
+        <Projects id="projects">
           <h2>Projetos</h2>
           <AllProjects>
             <div>
@@ -270,7 +270,7 @@ export default function Home({latestPosts}) {
           </LatestPosts>
         </Posts>
 
-        <Contact>
+        <Contact id="contact">
           <div>
             <h2>Vamos trabalhar juntos?</h2>
             <p>Mande uma mensagem que responderei em breve</p>
@@ -281,7 +281,7 @@ export default function Home({latestPosts}) {
               <img src='/messages.svg'/>
             </div>
           
-            <Menssages id="contato">
+            <Menssages>
               <form onSubmit={sendEmail}>
                 <div>
                   <div>
