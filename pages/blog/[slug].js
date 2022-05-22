@@ -6,12 +6,13 @@ import matter from 'gray-matter'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import styles from '../../styles/Home.module.css'
+import { MainPost, PostData, Post, Thumbnail } from './styles.js'
 
-import YouTube from '../../components/YouTube'
+import Youtube from '../../components/Youtube'
 import Date from '../../components/Date'
 import TextStyle from '../../components/TextStyle'
 import Code from '../../components/Code'
+import ImagePost from '../../components/ImagePost'
 
 export const getStaticProps = async ({ params: { slug } }) => {
   const markdownWithMeta = fs.readFileSync(path.join('posts',
@@ -46,28 +47,22 @@ export const getStaticPaths = async () => {
 
 const PostPage = ({ frontMatter, mdxSource }) => {
   return (
-    <div className={styles.container}>
+    <MainPost>
       <div>
-        <Link href="/">
-          <button>
-            Home
-          </button>
-        </Link>
+        <Thumbnail>
+          <img src={frontMatter.thumbnailUrl} alt="thumbnail"/>
+        </Thumbnail>
+        <h1>{frontMatter.title}</h1>
+        <PostData>
+          <Date dateString={frontMatter.date} />
+          <span>🕐{frontMatter.min}</span>
+          <span>📌{frontMatter.tags}</span>
+        </PostData>
+        <Post>
+          <MDXRemote {...mdxSource} components={{ Youtube, TextStyle, Code, ImagePost}}/>
+        </Post>
       </div>
-      <img src={frontMatter.thumbnailUrl} alt="thumbnail" className={styles.thumbnail}></img>
-      {/* <Image
-        src={frontMatter.thumbnailUrl}
-        alt="thumbnail"
-        width={800}
-        height={400}
-      /> */}
-      <h1>{frontMatter.title}</h1>
-      <Date dateString={frontMatter.date} />
-      <span>{frontMatter.tags}</span>
-      <main className={styles.mainPost}>
-        <MDXRemote {...mdxSource} components={{ YouTube, TextStyle, Code}}/>
-      </main>
-    </div>
+    </MainPost>
   )
 }
 
