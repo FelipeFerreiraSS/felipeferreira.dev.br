@@ -1,6 +1,8 @@
+import { Youtube } from './styles.js'
+
 export default function YouTube({ id }) {
   return (
-    <div>
+    <Youtube>
       <iframe 
         width="660" 
         height="350" 
@@ -11,6 +13,6 @@ export default function YouTube({ id }) {
         allowFullScreen={true}
         >
         </iframe>
-    </div>
+    </Youtube>
   );
 }
