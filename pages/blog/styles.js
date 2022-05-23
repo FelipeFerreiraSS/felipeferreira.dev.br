@@ -5,7 +5,7 @@ export const MainPost = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  margin-bottom: 50px;
   div {
     width: 800px;
   }
