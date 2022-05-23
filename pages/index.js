@@ -221,7 +221,7 @@ export default function Home({latestPosts}) {
                     </Link>
                     <div>
                       <Date dateString={post.date} /> 
-                      <p>10 min</p>
+                      <span>🕐{post.min}</span>
                     </div>
                     <p>{post.description}</p>
                   </DescriptionPost>
@@ -286,7 +286,7 @@ export default function Home({latestPosts}) {
                 <div>
                   <div>
                     {/*<label>Nome</label>*/}
-                    <input type="text" autoFocus required placeholder="Nome" name="name"/>
+                    <input type="text" required placeholder="Nome" name="name"/>
                   </div>
                   <div>
                     <input type="email" required placeholder="Seu email" name="email"/>

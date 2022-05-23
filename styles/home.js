@@ -221,10 +221,14 @@ export const DescriptionPost = styled.div`
 
   h3 {
     font-size: 30px;
-    width: 500px;
+    max-width: 500px;
     cursor: pointer;
     margin-bottom: 5px;
     margin-top: 5px;
+  }
+
+  span {
+    width: 700px;
   }
 
   p {
@@ -232,11 +236,12 @@ export const DescriptionPost = styled.div`
   }
 
   time {
+    width: 420px;
     margin-right: 10px;
   }
 
   div {
-    width: 160px;
+    width: 330px;
     height: 30px;
     margin-bottom: 0px;
     display: flex;
@@ -274,7 +279,7 @@ export const AllTagsGrid = styled.div`
 
   p {
     width: 100px;
-    font-size: 25px;
+    font-size: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
