@@ -15,6 +15,19 @@ export default createGlobalStyle`
 		align-items: center;
 
 	}
+
+	body::-webkit-scrollbar {
+		width: 8px; 
+	}
+
+	body::-webkit-scrollbar-track {
+		background: ${({theme}) => theme.colors.background}; 
+	}
+
+	body::-webkit-scrollbar-thumb {
+		background-color: ${({theme}) => theme.colors.gray}; 
+		border-radius: 20px; 
+	}
 	
 	a {
 	  	color: inherit;
