@@ -9,6 +9,7 @@ export const SiteFooter = styled.div`
     font-size: 35px;
     margin-bottom: -5px;
     margin-top: 10px;
+    cursor: pointer;
   }
 `;
 

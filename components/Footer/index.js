@@ -8,7 +8,9 @@ export default function Footer() {
         <footer>
             <SiteFooter>
                 <div>
-                    <h2>Felipe Ferreira</h2>
+                    <Link href={'/'}>
+                        <h2>Felipe Ferreira</h2>
+                    </Link>
                     <p>Obrigado por ler!</p>
                 </div>
 
@@ -17,8 +19,8 @@ export default function Footer() {
                     <h4>Links</h4>
                     <ul>
                         <li>
-                            <Link href={'#'}>
-                                Home
+                            <Link href={'/#about'}>
+                                Sobre
                             </Link>
                         </li>
                         <li>
@@ -27,12 +29,12 @@ export default function Footer() {
                             </Link>
                         </li>
                         <li>
-                            <Link href={'#'}>
+                            <Link href={'/#projects'}>
                                 Projetos
                             </Link>
                         </li>
                         <li>
-                            <Link href={'#'}>
+                            <Link href={'/#contact'}>
                                 Contato
                             </Link>
                         </li>
