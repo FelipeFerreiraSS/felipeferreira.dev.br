@@ -21,7 +21,7 @@ export default function Header() {
         <Menu>
             <ul>
                 <li>
-                    <Link href={'#about'}>
+                    <Link href={'/#about'}>
                         Sobre
                     </Link>
                 </li>
@@ -31,12 +31,12 @@ export default function Header() {
                     </Link>
                 </li>
                 <li>
-                    <Link href={'#projects'}>
+                    <Link href={'/#projects'}>
                         Projetos
                     </Link>
                 </li>
                 <li>
-                    <Link href={'#contact'}>
+                    <Link href={'/#contact'}>
                         Contato
                     </Link>
                 </li>
