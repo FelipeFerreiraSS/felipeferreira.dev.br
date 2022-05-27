@@ -14,12 +14,30 @@ export const MainPost = styled.main`
     text-align: center;
     font-size: 45px;
   }
+
+  @media(max-width: 770px) {
+    width: 800px;
+
+    div {
+        width: 600px;
+    }
+  }
+
+  @media(max-width: 430px) {
+    width: 600px;
+    margin-left: 200px;
+
+    div {
+        width: 520px;
+    }
+  }
 `;
 
 export const Thumbnail = styled.div`
     img {
         border-radius: 20px;
         width: 100%;
+        margin-top: 30px;
     }
 `;
 
