@@ -11,6 +11,20 @@ export const SiteFooter = styled.div`
     margin-top: 10px;
     cursor: pointer;
   }
+
+  @media(max-width: 770px) {
+    width: 700px;
+    margin-left: 70px;
+  }
+
+  @media(max-width: 430px) {
+    width: 560px;
+    margin-left: 220px;
+
+    h2 {
+      width: 140px;
+    }
+  }
 `;
 
 export const Links = styled.div`
@@ -30,8 +44,22 @@ export const Links = styled.div`
     margin-left: -40px;
     list-style-type: none;
   }
+
+  @media(max-width: 430px) {
+    div {
+      width: 130px;
+      margin-right: 0px;
+    }
+  }
 `;
 
 export const Copyright = styled.div`
   text-align: center;
+
+  @media(max-width: 430px) {
+    p {
+      width: 550px;
+      margin-left: 220px;
+    }
+  }
 `;
