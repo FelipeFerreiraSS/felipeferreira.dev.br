@@ -6,6 +6,12 @@ export const PostImg = styled.div`
   align-items: center;
 
   img {
-      border-radius: 10px;
+    border-radius: 10px;
+  }
+
+  @media(max-width: 430px) {
+    img {
+      max-width: 500px;
+    }
   }
 `;
