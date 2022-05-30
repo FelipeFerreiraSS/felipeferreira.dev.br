@@ -90,11 +90,6 @@ export const SocialIcons = styled.div`
     align-items: center;
 
   }
-
-  img {
-    width: 40px;
-    height: 40px;
-  }
 `
 
 export const Resume = styled.div`

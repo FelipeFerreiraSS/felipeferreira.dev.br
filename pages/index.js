@@ -7,6 +7,10 @@ import emailjs from 'emailjs-com'
 import Date from '../components/Date'
 import { getSortedPostsData } from '../lib/posts'
 
+import { MdEmail } from 'react-icons/Md';
+import { BsGithub, BsLinkedin } from 'react-icons/Bs';
+import { AiFillCodepenSquare } from 'react-icons/Ai';
+
 import { 
   Main, 
   Cover, 
@@ -97,22 +101,22 @@ export default function Home({latestPosts}) {
               <ul>
                 <li>
                   <a href='https://github.com/FelipeFerreiraSS' target="_blank">
-                    <img src='/socialIcons/github-icon.svg'/>
+                    <BsGithub size={40}/>
                   </a>
                 </li>
                 <li>
                   <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank">
-                    <img src='/socialIcons/linkedin-icon.svg'/>
+                    <BsLinkedin size={40}/>
                   </a>
                 </li>
                 <li>
                   <a href='mailto:felipeferreirasilva.dev@gmail.com' target="_blank">
-                    <img src='/socialIcons/email-icon.svg'/>
+                    <MdEmail size={55}/>
                   </a>
                 </li>
                 <li>
                   <a href='https://codepen.io/FelipeFerreira_ss' target="_blank">
-                    <img src='/socialIcons/codepen-icon.svg'/>
+                    <AiFillCodepenSquare size={50}/>
                   </a>
                 </li>
               </ul>
