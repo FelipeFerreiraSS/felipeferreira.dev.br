@@ -3,7 +3,12 @@ import styled from 'styled-components'
 export const NavBar = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 1200px;
+
+  svg {
+    display: none;
+  }
 
   @media(max-width: 1030px) {
     width: 900px;
@@ -15,6 +20,12 @@ export const NavBar = styled.div`
 
   @media(max-width: 430px) {
     width: 600px;
+    margin-left: 200px;
+
+    svg {
+      display: initial;
+      margin-right: 10px;
+    }
   }
 `;
 
@@ -39,7 +50,7 @@ export const Avatar = styled.div`
 
   @media(max-width: 430px) {
     width: 70%;
-    margin-left: 180px;
+    margin-left: -40px;
   }
 `
 
@@ -58,7 +69,6 @@ export const Menu = styled.div`
 
   @media(max-width: 430px) {
     display: none;
-    width: 30%;
   }
     
 `

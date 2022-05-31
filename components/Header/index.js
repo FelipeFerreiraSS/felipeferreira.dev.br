@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { NavBar, Avatar, Menu } from './styles.js'
+import { HiMenu } from 'react-icons/hi';
 
 export default function Header() {
     return (
@@ -42,6 +43,7 @@ export default function Header() {
                 </li>
             </ul>
         </Menu>
+        <HiMenu size={50} onClick={() => setMenuVisible(true)}/>
     </NavBar>
     )
 }
