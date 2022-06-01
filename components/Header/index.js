@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { NavBar, Avatar, MenuBig } from './styles.js'
-import { HiMenu } from 'react-icons/hi';
 
 import MenuMobile from '../MenuMobile/index.js'
 
@@ -18,8 +17,8 @@ export default function Header() {
                 />  
             </Link>
             <Link href={'/'}>
-                    <h2>Felipe Ferreira</h2>
-                </Link>
+                <h2>Felipe Ferreira</h2>
+            </Link>
         </Avatar>
         <MenuBig>
             <ul>
@@ -45,7 +44,6 @@ export default function Header() {
                 </li>
             </ul>
         </MenuBig>
-        {/*<HiMenu size={50}/>*/}
         <MenuMobile pageWrapId={"page-wrap"} outerContainerId={"outer-container"}/>
     </NavBar>
     )

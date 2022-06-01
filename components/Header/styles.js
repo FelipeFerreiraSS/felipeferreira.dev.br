@@ -34,14 +34,15 @@ export const Avatar = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  cursor: pointer;
   
   img {
     border-radius: 100%;
+    cursor: pointer;
   }
   h2 {
     padding-left: 20px;
     font-size: 30px;
+    cursor: pointer;
   }
 
   @media(max-width: 770px) {
