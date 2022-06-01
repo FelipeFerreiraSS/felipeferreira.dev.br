@@ -54,7 +54,7 @@ export const Avatar = styled.div`
   }
 `
 
-export const Menu = styled.div`
+export const MenuBig = styled.div`
   width: 50%;
   ul {
     display: flex;
