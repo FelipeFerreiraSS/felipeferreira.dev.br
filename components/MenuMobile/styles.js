@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const MenuMobile = styled.div`
+export const Conteiner = styled.div`
   display: none;
 
   li {

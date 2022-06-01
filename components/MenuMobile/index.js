@@ -3,11 +3,11 @@ import { slide as Menu } from "react-burger-menu";
 import { HiMenu } from 'react-icons/hi';
 import { AiFillCloseCircle } from 'react-icons/ai';
 
-import { MenuMobile } from './styles.js'
+import { Conteiner } from './styles.js'
 
 export default function MenuMobile() {
   return (
-    <MenuMobile>
+    <Conteiner>
       <Menu 
         right 
         customBurgerIcon={ <HiMenu size={50}/>}
@@ -36,6 +36,6 @@ export default function MenuMobile() {
             </li>
         </ul>
       </Menu>
-    </MenuMobile>
+    </Conteiner>
   );
 };
