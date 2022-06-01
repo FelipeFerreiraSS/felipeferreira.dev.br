@@ -1,7 +1,7 @@
 import React from "react";
 import { slide as Menu } from "react-burger-menu";
 import { HiMenu } from 'react-icons/hi';
-import { AiFillCloseCircle } from 'react-icons/ai';
+import { AiOutlineClose } from 'react-icons/ai';
 
 import { Conteiner } from './styles.js'
 
@@ -11,7 +11,7 @@ export default function MenuMobile() {
       <Menu 
         right 
         customBurgerIcon={ <HiMenu size={50}/>}
-        customCrossIcon={ <AiFillCloseCircle size={50}/> } 
+        customCrossIcon={ <AiOutlineClose size={50}/> } 
     >
         <ul>
             <li>

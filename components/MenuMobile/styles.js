@@ -28,10 +28,10 @@ export const Conteiner = styled.div`
   }
 
   .bm-cross-button {
-    width: 70px;
-    height: 60px;
-    top: 50px;
-    right: 50px;
+    width: 40px !important;
+    height: 40px !important;
+    top: 20px !important;
+    right: 20px !important;
   }
 
   .bm-burger-button {
@@ -44,6 +44,12 @@ export const Conteiner = styled.div`
   .bm-cross {
     top: 50px;
     right: 50px;
+  }
+
+  .bm-overlay {
+    top: 0px;
+    left: -50px;
+    background: rgba(0, 0, 0, 0.6) !important;
   }
 
   @media(max-width: 430px) {
