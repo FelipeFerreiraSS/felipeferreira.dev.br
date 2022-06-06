@@ -18,14 +18,19 @@ export const NavBar = styled.div`
     width: 800px;
   }
 
-  @media(max-width: 430px) {
-    width: 600px;
-    margin-left: 200px;
+  @media(max-width: 400px) {
+    max-width: 380px;
+    margin: auto;
+    margin-top: 10px;
 
     svg {
       display: initial;
       margin-right: 10px;
     }
+  }
+
+  @media(max-width: 330px) {
+    max-width: 310px;
   }
 `;
 
@@ -49,9 +54,20 @@ export const Avatar = styled.div`
     padding-left: 40px;
   }
 
-  @media(max-width: 430px) {
-    width: 70%;
-    margin-left: -40px;
+  @media(max-width: 400px) {
+    width: 90%;
+    margin-left: -30px;
+
+    h2 {
+      width: 300px;
+      font-size: 23px;
+    }
+  }
+
+  @media(max-width: 330px) {
+    h2 {
+      font-size: 19px;
+    }
   }
 `
 
