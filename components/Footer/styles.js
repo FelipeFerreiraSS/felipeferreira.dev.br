@@ -5,6 +5,7 @@ export const SiteFooter = styled.div`
   justify-content: space-between;
   height: 200px;
   border-top: solid #4D4D4D 1px;
+  margin-top: 20px;
   h2 {
     font-size: 35px;
     margin-bottom: -5px;
@@ -17,12 +18,27 @@ export const SiteFooter = styled.div`
     margin-left: 70px;
   }
 
-  @media(max-width: 430px) {
-    width: 560px;
-    margin-left: 220px;
+  @media(max-width: 400px) {
+    width: 360px;
+    height: 300px;
+    margin-top: 20px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     h2 {
-      width: 140px;
+      width: 240px;
+    }
+  }
+
+  @media(max-width: 330px) {
+    width: 310px;
+    margin-top: 20px;
+
+    h2 {
+      width: 250px;
+      
     }
   }
 `;
@@ -45,7 +61,7 @@ export const Links = styled.div`
     list-style-type: none;
   }
 
-  @media(max-width: 430px) {
+  @media(max-width: 400px) {
     div {
       width: 130px;
       margin-right: 0px;
@@ -56,10 +72,17 @@ export const Links = styled.div`
 export const Copyright = styled.div`
   text-align: center;
 
-  @media(max-width: 430px) {
+  @media(max-width: 400px) {
     p {
-      width: 550px;
-      margin-left: 220px;
+      width: 380px;
+      margin: auto;
+      margin-top: 30px;
+    }
+  }
+
+  @media(max-width: 330px) {
+    p {
+      width: 260px;
     }
   }
 `;
