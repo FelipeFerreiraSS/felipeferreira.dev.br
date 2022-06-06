@@ -23,12 +23,29 @@ export const MainPost = styled.main`
     }
   }
 
-  @media(max-width: 430px) {
-    width: 600px;
-    margin-left: 200px;
+  @media(max-width: 400px) {
+    width: 380px;
+    margin: auto;
 
     div {
-        width: 520px;
+        width: 350px;
+    }
+
+    h1 {
+        font-size: 39px;
+    }
+  }
+
+  @media(max-width: 330px) {
+    width: 320px;
+    margin: auto;
+
+    div {
+        width: 290px;
+    }
+
+    h1 {
+        font-size: 29px;
     }
   }
 `;
@@ -53,6 +70,10 @@ export const PostData = styled.div`
 
     span {
         margin-right: 20px;
+    }
+
+    @media(max-width: 330px) {
+        flex-direction: column;
     }
 `;
 
