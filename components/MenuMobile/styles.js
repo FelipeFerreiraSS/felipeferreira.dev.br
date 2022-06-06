@@ -5,7 +5,7 @@ export const Conteiner = styled.div`
 
   li {
     list-style-type: none;
-    font-size: 30px;
+    font-size: 25px;
     margin-bottom: 20px;
   }
 
@@ -36,9 +36,9 @@ export const Conteiner = styled.div`
 
   .bm-burger-button {
     position: relative;
-    width: 70px;
-    height: 60px;
-    left: -30px;
+    width: 50px;
+    height: 40px;
+    left: -10px;
   }
 
   .bm-cross {
@@ -54,5 +54,21 @@ export const Conteiner = styled.div`
 
   @media(max-width: 430px) {
     display: initial;
+  }
+
+  @media(max-width: 330px) {
+    .bm-burger-button {
+      width: 45px;
+      height: 35px;
+    }
+
+    .bm-cross-button {
+      width: 30px !important;
+      height: 30px !important;
+    }
+
+    li {
+      font-size: 20px;
+    }
   }
 `
