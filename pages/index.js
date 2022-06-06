@@ -125,9 +125,9 @@ export default function Home({latestPosts}) {
               <a href=''>
                 <button>Currículo</button>
               </a>
-              <a href=''>
+              <Link href='/#contact'>
                 <button>Contato</button>
-              </a>
+              </Link>
             </Button>
           </AboutMe>
           <Knowledge>
