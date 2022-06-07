@@ -21,23 +21,25 @@ export const DisplaysPosts = styled.div`
         }
     }
 
-    @media(max-width: 430px) {
-        width: 500px;
-        margin-left: 230px;
+    @media(max-width: 400px) {
+        width: 380px;
+        margin: auto;
+        padding-left: 10px;
+        margin-top: 30px;
         display: flex;
         flex-direction: column;
 
         img {
-            width: 500px;
+            width: 350px;
         }
     }
 
-    @media(max-width: 380px) {
-        width: 480px;
-        margin-left: 250px;
+    @media(max-width: 330px) {
+        width: 290px;
+        margin: auto;
 
         img {
-            width: 480px;
+            width: 280px;
         }
     }
 
@@ -69,5 +71,47 @@ export const DisplaysDescription = styled.div`
 
     p {
         max-width: 700px;
+    }
+
+    @media(max-width: 400px) {
+        p {
+            max-width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 35px;
+            width: 350px;
+            text-align: center;
+        }
+
+        div {
+            width: 360px;
+        }
+    }
+
+    @media(max-width: 330px) {
+        h2 {
+            font-size: 32px;
+            max-width: 280px;
+            text-align: center;
+        }
+
+        p {
+            width: 280px;
+        }
+
+        div {
+            width: 280px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                width: auto;
+                margin-bottom: 0px;
+                margin-top: 5px;
+            }
+        }
     }
 `
