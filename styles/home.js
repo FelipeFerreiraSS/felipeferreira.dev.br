@@ -17,7 +17,7 @@ export const Main = styled.main`
   }
 
   @media(max-width: 330px) {
-    
+    width: 300px;
   }
 `;
 
@@ -78,6 +78,25 @@ export const Description = styled.div`
 
     h3 {
       font-size: 27px;
+      width: 100%;
+    }
+
+    div {
+      button {
+        margin: 10px;
+        margin-top: 20px;
+      }
+    }
+  }
+
+  @media(max-width: 330px) {
+    h1 {
+      font-size: 44px;
+      width: 300px;
+    }
+
+    h3 {
+      font-size: 22px;
       width: 100%;
     }
 
@@ -177,6 +196,21 @@ export const AboutMe = styled.div`
       }
     }
   }
+
+  @media(max-width: 330px) {
+    p {
+      width: 300px;
+    }
+
+    div {
+      button {
+        margin: auto;
+        margin-top: 20px;
+        display: block;
+      }
+    }
+  }
+  
 `
 
 export const SocialIcons = styled.div`
@@ -214,6 +248,13 @@ export const Knowledge = styled.div`
       text-align: center;
     }
   }  
+
+  @media(max-width: 330px) {
+    h2 {
+      font-size: 38px;
+      width: 300px;
+    }
+  }
 `
 export const Technology = styled.div`
   width: 500px;
@@ -230,6 +271,10 @@ export const Technology = styled.div`
   @media(max-width: 400px) {
     width: 350px;
     margin: auto;
+  }
+
+  @media(max-width: 330px) {
+    width: 300px;
   }
 `
 export const TechnologyGrid = styled.div`
@@ -274,6 +319,12 @@ export const Projects = styled.section`
     h2 {
       width: 350px;
       text-align: center;
+    }
+  }
+
+  @media(max-width: 330px) {
+    h2 {
+      width: 300px;
     }
   }
 `
@@ -331,6 +382,16 @@ export const AllProjects = styled.div`
       justify-content: center;
       align-items: center;
       margin-bottom: 30px;
+    }
+  }
+
+  @media(max-width: 330px) {
+    img {
+      margin-left: 3px;
+    }
+
+    p {
+      width: 300px;
     }
   }
 `
@@ -465,6 +526,22 @@ export const DescriptionPost = styled.div`
         width: 150px;
       }
     }
+
+    @media(max-width: 330px) {
+      div {
+        width: 300px;
+      }
+    }
+  }
+
+  @media(max-width: 330px) {
+    h3 {
+      width: 300px;
+    }
+
+    p {
+      width: 300px;
+    }
   }
 
 `
@@ -489,6 +566,10 @@ export const AllPosts = styled.div`
         margin-top: -10px;
       }
     }
+  }
+
+  @media(max-width: 330px) {
+    width: 300px;
   }
 `
 
@@ -552,11 +633,13 @@ export const Contact = styled.section`
 
   @media(max-width: 400px) {
     height: 700px;
-    
+  }
 
-    p {
-      
-    } 
+  @media(max-width: 330px) {
+    h2 {
+      font-size: 37px;
+      margin-top: 70px;
+    }
   }
   
 `
