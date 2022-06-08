@@ -70,5 +70,9 @@ export const Conteiner = styled.div`
     li {
       font-size: 20px;
     }
+
+    .bm-menu-wrap {
+      width: 220px !important;
+    }
   }
 `
