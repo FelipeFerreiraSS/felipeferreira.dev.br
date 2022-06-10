@@ -14,6 +14,8 @@ export default createGlobalStyle`
 		justify-content: center;
 		align-items: center;
 
+		scroll-behavior: smooth;
+
 	}
 
 	body::-webkit-scrollbar {
