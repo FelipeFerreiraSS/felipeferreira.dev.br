@@ -175,6 +175,10 @@ export const About = styled.section`
 export const AboutMe = styled.div`
   width: 50%;
 
+  p {
+    margin-top: -13px;
+  }
+
   @media(max-width: 770px) {
     p {
       width: 300px;
