@@ -93,10 +93,14 @@ export default function Home({latestPosts}) {
           <AboutMe>
             <h2>Sobre mim</h2>
             <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              Olá, eu sou Felipe Ferreira, desenvolvedor Front-End com 
+              foco em criação de aplicações web.
             </p>
+            <p>
+            Tenho conhecimentos nas principais tecnologias do mercado no 
+            quesito desenvolvimento de software e design de interfaces.
+            </p>
+            
             <SocialIcons>
               <ul>
                 <li>
@@ -277,7 +281,7 @@ export default function Home({latestPosts}) {
         <Contact id="contact">
           <div>
             <h2>Vamos trabalhar juntos?</h2>
-            <p>Mande uma mensagem que responderei em breve</p>
+            <p>Envie sua mensagem que respondei o mais breve possível.</p>
           </div>
 
           <BoxMenssages>
