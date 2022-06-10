@@ -1,6 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
-
 import { SiteFooter, Links, Copyright } from './styles.js'
 
 export default function Footer() {
@@ -11,7 +9,7 @@ export default function Footer() {
                     <Link href={'/'}>
                         <h2>Felipe Ferreira</h2>
                     </Link>
-                    <p>Obrigado por ler!</p>
+                    <p>Desenvolvedor Front-End</p>
                 </div>
 
                 <Links>
