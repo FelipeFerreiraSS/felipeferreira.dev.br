@@ -13,6 +13,7 @@ import Date from '../../components/Date'
 import TextStyle from '../../components/TextStyle'
 import Code from '../../components/Code'
 import ImagePost from '../../components/ImagePost'
+import QuoteCode from '../../components/QuoteCode'
 
 export const getStaticProps = async ({ params: { slug } }) => {
   const markdownWithMeta = fs.readFileSync(path.join('posts',
@@ -46,6 +47,7 @@ export const getStaticPaths = async () => {
 }
 
 const PostPage = ({ frontMatter, mdxSource }) => {
+  console.log(frontMatter)
   return (
     <MainPost>
       <div>
@@ -59,7 +61,7 @@ const PostPage = ({ frontMatter, mdxSource }) => {
           <span>📌{frontMatter.tags}</span>
         </PostData>
         <Post>
-          <MDXRemote {...mdxSource} components={{ Youtube, TextStyle, Code, ImagePost}}/>
+          <MDXRemote {...mdxSource} components={{ Youtube, TextStyle, Code, ImagePost, QuoteCode}}/>
         </Post>
       </div>
     </MainPost>
