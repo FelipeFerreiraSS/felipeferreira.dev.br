@@ -47,7 +47,6 @@ export const getStaticPaths = async () => {
 }
 
 const PostPage = ({ frontMatter, mdxSource }) => {
-  console.log(frontMatter)
   return (
     <MainPost>
       <div>
