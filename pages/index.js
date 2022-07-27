@@ -186,7 +186,7 @@ export default function Home({latestPosts}) {
           <h2>Projetos</h2>
           <AllProjects>
             <div>
-              <img src='/Slice 4.svg'/>
+              <img src='/projectsImg.svg'/>
               <h3>Meu blog/site</h3>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                 sed do eiusmod tempor incididunt ut labore et dolore
