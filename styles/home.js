@@ -411,7 +411,7 @@ export const Posts = styled.section`
   }
 
   @media(max-width: 400px) {
-    height: 1400px;
+    height: 1500px;
 
     h2 {
       text-align: center;
