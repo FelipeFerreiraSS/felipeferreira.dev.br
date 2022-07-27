@@ -347,6 +347,7 @@ export const AllProjects = styled.div`
   img {
     width: 450px;
     height: 218px;
+    border-radius: 10px;
   }
 
   @media(max-width: 770px) {
