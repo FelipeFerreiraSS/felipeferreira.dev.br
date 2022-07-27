@@ -192,7 +192,7 @@ export default function Home({latestPosts}) {
                 sed do eiusmod tempor incididunt ut labore et dolore
               </p>
               <Button>
-                <a href=''>
+                <a href='/projects/site-blog'>
                   <button>Veja o projeto</button>
                 </a>
               </Button>
@@ -204,7 +204,7 @@ export default function Home({latestPosts}) {
                 para ver outros projetos
               </p>
               <Button>
-                <a href=''>
+                <a href='https://github.com/FelipeFerreiraSS' target="_blank">
                   <button>GitHub</button>
                 </a>
               </Button>
