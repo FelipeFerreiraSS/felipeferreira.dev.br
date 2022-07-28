@@ -7,13 +7,13 @@ export default function Tags() {
     return (
         <ListTags>
             <Button>
-                <Link href={"/tags/react"}>
+                <Link href={"/blog/tags/react"}>
                     <button>react</button>   
                 </Link>
-                <Link href={"/tags/javascript"}>
+                <Link href={"/blog/tags/javascript"}>
                     <button>javascript</button>        
                 </Link>
-                <Link href={"/tags/css"}>
+                <Link href={"/blog/tags/css"}>
                     <button>css</button>        
                 </Link>
             </Button>
