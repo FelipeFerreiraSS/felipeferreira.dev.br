@@ -89,4 +89,14 @@ export const Post = styled.article`
     p {
         font-size: 20;
     }
+
+    a {
+        color: ${({theme}) => theme.colors.link};
+        text-decoration: underline ${({theme}) => theme.colors.link} 2px;
+    }
+
+    a:hover {
+        color: ${({theme}) => theme.colors.blue};
+        text-decoration: underline ${({theme}) => theme.colors.blue} 2px;
+    }
 `;
