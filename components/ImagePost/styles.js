@@ -11,7 +11,7 @@ export const PostImg = styled.div`
 
   @media(max-width: 430px) {
     img {
-      max-width: 500px;
+      max-width: 100%;
     }
   }
 `;
