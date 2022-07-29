@@ -57,8 +57,10 @@ const PostPage = ({ frontMatter, mdxSource }) => {
         <h1>{frontMatter.title}</h1>
         <PostData>
           <Date dateString={frontMatter.date} />
-          <span>🕐{frontMatter.min}</span>
-          <span>📌{frontMatter.tags}</span>
+          
+          <Link href={`/blog/tags/${frontMatter.tags}`}>
+            <span>📌{frontMatter.tags}</span>
+          </Link>
         </PostData>
         <Post>
           <MDXRemote {...mdxSource} components={{ Youtube, TextStyle, Code, ImagePost, QuoteCode, LinkExternal}}/>

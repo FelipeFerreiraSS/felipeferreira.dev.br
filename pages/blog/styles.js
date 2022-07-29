@@ -70,6 +70,7 @@ export const PostData = styled.div`
 
     span {
         margin-right: 20px;
+        cursor: pointer;
     }
 
     @media(max-width: 330px) {

@@ -35,8 +35,9 @@ export default function Blog({ allPostsData }) {
                 </Link>
                   <div>
                     <Date dateString={post.date} />
-                    <p>🕐{post.min}</p>
-                    <p>📌{post.tags}</p>
+                    <Link href={`/blog/tags/${post.tags}`}>
+                      <p>📌{post.tags}</p>
+                    </Link>
                   </div>
                   <p>{post.description}</p>
               </DisplaysDescription>

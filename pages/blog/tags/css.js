@@ -36,7 +36,6 @@ export default function TagsCSS({ tags }) {
                 </Link>
                   <div>
                     <Date dateString={post.date} />
-                    <p>🕐{post.min}</p>
                     <p>📌{post.tags}</p>
                   </div>
                   <p>{post.description}</p>
