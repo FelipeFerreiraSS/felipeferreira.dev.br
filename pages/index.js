@@ -229,7 +229,7 @@ export default function Home({latestPosts}) {
                     </Link>
                     <div>
                       <Date dateString={post.date} /> 
-                      <span>🕐{post.min}</span>
+                      <span>📌{post.tags}</span>
                     </div>
                     <p>{post.description}</p>
                   </DescriptionPost>
@@ -249,30 +249,34 @@ export default function Home({latestPosts}) {
               <div>
                 <AllTagsGrid>
                   <div>
-                    <Link href={'/tags/react'} passHref>
-                      <p>#React</p>
+                    <Link href={'/blog/tags/css'} passHref>
+                      <p>CSS</p>
                     </Link>
                   </div>
                   <div>
-                    <p>#JS</p>
+                    <Link href={'/blog/tags/nextJs'} passHref>
+                      <p>Next JS</p>
+                    </Link>
                   </div>
                 </AllTagsGrid>
                 <AllTagsGrid>
                   <div>
-                    <p>#NextJs</p>
+                    <Link href={'/blog/tags/styledComponents'} passHref>
+                      <p>Styled Components</p>
+                    </Link>
                   </div>
-                  <div>
+                  { /*<div>
                     <p>#HTML</p>
-                  </div>
+                  </div>*/}
                 </AllTagsGrid>
-                <AllTagsGrid>
-                  <div>
+                { /*<AllTagsGrid>
+                  <div> 
                     <p>#CSS</p>
                   </div>
                   <div>
                     <p>#MDX</p>
                   </div>
-                </AllTagsGrid>
+                </AllTagsGrid> */ }
               </div>
             </Tags>
           </LatestPosts>

@@ -66,6 +66,7 @@ export const DisplaysDescription = styled.div`
 
         p {
             margin-right: 10px;
+            cursor: pointer;
         }
     }
 
@@ -74,6 +75,12 @@ export const DisplaysDescription = styled.div`
     }
 
     @media(max-width: 400px) {
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         p {
             max-width: 350px;
             text-align: center;

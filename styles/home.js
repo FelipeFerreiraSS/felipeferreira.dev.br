@@ -589,13 +589,14 @@ export const Tags = styled.div`
 
 export const AllTagsGrid = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
 
   div {
     display: flex;
-    width: 110px;
-    height: 40px;
-    border-radius: 20px;
+    width: 100px;
+    height: 45px;
+    border-radius: 10px;
     background-color: ${({theme}) => theme.colors.blue};
     margin: 10px;
     cursor: pointer;
@@ -606,7 +607,7 @@ export const AllTagsGrid = styled.div`
 
   p {
     width: 100px;
-    font-size: 20px;
+    font-size: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
