@@ -9,7 +9,7 @@ import { getSortedPostsData } from '../../../lib/posts'
 
 import { DisplaysPosts, DisplaysDescription} from '../../../styles/blog'
 
-export default function TagsReact({ tags }) {
+export default function tagsStyledComponents({ tags }) {
   return (
     <div>
       <Head>
@@ -19,7 +19,7 @@ export default function TagsReact({ tags }) {
       </Head>
 
       <main>
-        <Tags />
+        <Tags/>
 
         <div>
           {tags.map((post, index) => (
@@ -51,7 +51,7 @@ export default function TagsReact({ tags }) {
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData()
-  const tags = allPostsData.filter(i => i.tags === 'react')
+  const tags = allPostsData.filter(i => i.tags === 'styledComponents')
   return {
     props: {
       tags
