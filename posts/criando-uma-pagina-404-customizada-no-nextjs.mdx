@@ -1,0 +1,72 @@
+---
+title: Customizando uma página 404 no Next Js
+date: '2022-07-29'
+description: "Nesse artigo ensinarei como é simples criar uma página de erro 404 personalizada para seu site."
+thumbnailUrl: '/imgPosts/404-customizada.svg'
+tags: 'nextJs'
+min: ''
+---
+
+Todo site na internet conta com uma página 404 e se você desenvolveu o seu utilizando Next.js, provavelmente tem uma página genérica, já programado pelo framework. Nesse artigo ensinarei como é simples criar uma página de erro 404 personalizada para seu site.
+
+Criar uma página 404 no Next.Js é super simples, basta adicionar um arquivo com o nome <QuoteCode code={`404.js`}/> na pasta <QuoteCode code={`pages`}/> do seu projeto. 
+
+Este é um exemplo de como pode ser feita a sua página 404:
+
+<Code
+code={
+`import Link from  'next/link'  
+  
+export  default  function  Error404()  {  
+	return(  
+		<main>
+			<h1>404</h1>
+			<div>
+				<h2>Ooops!</h2>
+				<h2>Página não encontrada</h2>
+			</div>
+				
+			<p>Esta página não existe ou foi removida!</p>
+			<p>Recomendo que volte para a Home</p>
+				
+			<Link  href={"/"}>
+				<button>Home</button>
+			</Link>
+		</main> 
+	)  
+}
+`}  language="js"  />
+
+Está pagina é como qualquer outra no Next.js. Então você pode estilizar como quiser, colocando imagens, animações e o que mais fazer sentido para seu site.
+
+## Exemplos de páginas 404
+
+Alguns exemplos de páginas 404 para se espirar e criar nos seus projetos:
+
+- <LinkExternal link="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/404"  text="mdn web docs"/>
+
+- <LinkExternal link="https://medium.com/error404"  text="medium"/>
+
+- <LinkExternal link="https://www.amazon.com.br/error404"  text="amazon"/>
+
+- <LinkExternal link="https://www.ebay.com/n/error"  text="ebay"/>
+
+- <LinkExternal link="https://getbootstrap.com/error404"  text="bootstrap"/>
+
+- <LinkExternal link="https://mailchimp.com/error404/"  text="mailchimp"/>
+
+- <LinkExternal link="https://github.com/404"  text="github"/>
+
+## Ilustrações para página 404 
+
+Existem sites que contem várias imagens bem interessantes para serem usadas na sua página 404, separei alguns para você:
+
+- <LinkExternal link="https://error404.fun/"  text="error404.fun"/>
+
+- <LinkExternal link="https://iconscout.com/illustrations/error-404-page"  text="iconscout"/>
+
+- <LinkExternal link="https://storyset.com/404"  text="storyset"/>
+
+## Conclusão
+
+Criar uma página de Erro 404 é super simples, mas se você quiser se aprofundar mais no assunto, pode consultar a <LinkExternal link="https://nextjs.org/docs/advanced-features/custom-error-page"  text="documentação oficial do Next.js"/>. 
