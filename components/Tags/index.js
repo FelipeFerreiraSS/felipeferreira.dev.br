@@ -1,22 +1,21 @@
 import Link from "next/link";
 
 import { ListTags } from './styles.js'
-import { Button } from "../../styles/home.js";
 
 export default function Tags() {
     return (
         <ListTags>
-            <Button>
-                <Link href={"/blog/tags/react"}>
-                    <button>react</button>   
-                </Link>
-                <Link href={"/blog/tags/javascript"}>
-                    <button>javascript</button>        
-                </Link>
+            <div>
                 <Link href={"/blog/tags/css"}>
-                    <button>css</button>        
+                    <button>CSS</button>   
                 </Link>
-            </Button>
+                <Link href={"/blog/tags/nextJs"}>
+                    <button>Next Js</button>        
+                </Link>
+                <Link href={"/blog/tags/styledComponents"}>
+                    <button>Styled Components</button>        
+                </Link>
+            </div>
         </ListTags>
     )
 }
