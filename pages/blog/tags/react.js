@@ -2,14 +2,14 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import Date from '../../components/Date'
-import Tags from '../../components/Tags'
+import Date from '../../../components/Date'
+import Tags from '../../../components/Tags'
 
-import { getSortedPostsData } from '../../lib/posts'
+import { getSortedPostsData } from '../../../lib/posts'
 
-import { DisplaysPosts, DisplaysDescription} from '../../styles/blog'
+import { DisplaysPosts, DisplaysDescription} from '../../../styles/blog'
 
-export default function TagsCSS({ tags }) {
+export default function TagsReact({ tags }) {
   return (
     <div>
       <Head>
@@ -51,7 +51,7 @@ export default function TagsCSS({ tags }) {
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData()
-  const tags = allPostsData.filter(i => i.tags === 'css')
+  const tags = allPostsData.filter(i => i.tags === 'react')
   return {
     props: {
       tags
