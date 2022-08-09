@@ -23,11 +23,6 @@ export default function Header() {
         <MenuBig>
             <ul>
                 <li>
-                    <Link href={'/#about'}>
-                        Sobre
-                    </Link>
-                </li>
-                <li>
                     <Link href={'/blog'}>
                         Blog
                     </Link>
@@ -35,6 +30,11 @@ export default function Header() {
                 <li>
                     <Link href={'/#projects'}>
                         Projetos
+                    </Link>
+                </li>
+                <li>
+                    <Link href={'/#about'}>
+                        Sobre
                     </Link>
                 </li>
                 <li>
