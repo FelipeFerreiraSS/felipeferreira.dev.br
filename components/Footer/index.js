@@ -17,11 +17,6 @@ export default function Footer() {
                     <h4>Links</h4>
                     <ul>
                         <li>
-                            <Link href={'/#about'}>
-                                Sobre
-                            </Link>
-                        </li>
-                        <li>
                             <Link href={'/blog'}>
                                 Blog
                             </Link>
@@ -29,6 +24,11 @@ export default function Footer() {
                         <li>
                             <Link href={'/#projects'}>
                                 Projetos
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href={'/#about'}>
+                                Sobre
                             </Link>
                         </li>
                         <li>
