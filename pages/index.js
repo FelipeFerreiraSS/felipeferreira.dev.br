@@ -41,11 +41,10 @@ export default function Home({latestPosts}) {
 
   function sendEmail(e) {
     e.preventDefault();
-
-    emailjs.sendForm('service_evzb4es', 'template_f86utpv', e.target, 'zzy0NGXS0nnf-dlsP')
+    emailjs.sendForm(process.env.NEXT_PUBLIC_SERVICE_ID, process.env.NEXT_PUBLIC_TEMPLETE_ID, e.target, process.env.NEXT_PUBLIC_USER_ID)
 
     .then((result) => {
-        alert("Mensagem enviada com sucesso! 👍");
+        alert("Mensagem enviada com sucesso!👍 Responderei o mais breve possível.");
       
     }, (error) => {
         alert(error.message)
@@ -285,7 +284,7 @@ export default function Home({latestPosts}) {
         <Contact id="contact">
           <div>
             <h2>Vamos trabalhar juntos?</h2>
-            <p>Envie sua mensagem que respondei o mais breve possível.</p>
+            <p>Envie sua mensagem que responderei o mais breve possível.</p>
           </div>
 
           <BoxMenssages>
