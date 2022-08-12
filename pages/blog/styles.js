@@ -84,7 +84,7 @@ export const Post = styled.article`
     }
 
     h2 {
-        font-size: 28px;
+        font-size: 30px;
     }
 
     p {
@@ -101,3 +101,10 @@ export const Post = styled.article`
         text-decoration: underline ${({theme}) => theme.colors.blue} 2px;
     }
 `;
+
+export const Technologies = styled.div`
+    img {
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+`

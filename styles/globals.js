@@ -35,6 +35,10 @@ export default createGlobalStyle`
 	  	color: inherit;
 	  	text-decoration: none;
 	}
+
+	p {
+		font-size: 18px;
+	}
 	
 	* {
 	  	box-sizing: border-box;
