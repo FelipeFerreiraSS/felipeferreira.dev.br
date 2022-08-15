@@ -15,6 +15,7 @@ import Code from '../../components/Code'
 import ImagePost from '../../components/ImagePost'
 import QuoteCode from '../../components/QuoteCode'
 import LinkExternal from '../../components/LinkExternal'
+import HeadTag from '../../components/HeadTag/index.js'
 
 export const getStaticProps = async ({ params: { slug } }) => {
   const markdownWithMeta = fs.readFileSync(path.join('posts',
@@ -50,6 +51,11 @@ export const getStaticPaths = async () => {
 const PostPage = ({ frontMatter, mdxSource }) => {
   return (
     <MainPost>
+      <HeadTag
+        title={frontMatter.title}
+        description={frontMatter.description}
+      />
+
       <div>
         <Thumbnail>
           <img src={frontMatter.thumbnailUrl} alt="thumbnail"/>

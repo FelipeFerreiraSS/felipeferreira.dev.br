@@ -2,10 +2,15 @@ import { Content, Menssagem, Imagem } from './styles.js'
 
 import { Button } from '../../styles/home.js';
 import Link from 'next/link.js';
+import HeadTag from '../../components/HeadTag/index.js';
 
 export default function Error404() {
   return (
     <Content>
+      <HeadTag
+        title={"Felipe Ferreira | Dev Front-End"}
+        description={"Desenvolvedor Front-End Jr"}
+      />
       <Menssagem>
         <h1>404</h1>
         <div>

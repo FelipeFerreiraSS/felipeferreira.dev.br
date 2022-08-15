@@ -36,6 +36,7 @@ import {
   BoxMenssages,
   Menssages,
 } from '../styles/home'
+import HeadTag from '../components/HeadTag'
 
 export default function Home({latestPosts}) {
 
@@ -55,11 +56,10 @@ export default function Home({latestPosts}) {
 
   return (
     <>
-      <Head>
-        <title>Felipe Ferreira</title>
-        <meta name="description" content="Desenvolvedor Front-End Jr" />
-        <link rel="icon" href="/Component.svg" />
-      </Head>
+      <HeadTag
+        title={"Felipe Ferreira | Dev Front-End"}
+        description={"Desenvolvedor Front-End Jr"}
+      />
 
       <Main>
         <Cover>
