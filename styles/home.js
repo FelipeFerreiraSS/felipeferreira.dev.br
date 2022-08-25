@@ -318,7 +318,7 @@ export const Projects = styled.section`
   }
 
   @media(max-width: 400px) {
-    height: 850px;
+    height: 900px;
 
     h2 {
       width: 350px;
@@ -404,14 +404,18 @@ export const AllProjects = styled.div`
 // LatestPosts
 
 export const Posts = styled.section`
-  height: 840px;
+  height: 870px;
 
   h2 {
     font-size: 45px;
   }
 
+  @media(max-width: 770px) {
+    height: 920px;
+  }
+
   @media(max-width: 400px) {
-    height: 1500px;
+    height: 1580px;
 
     h2 {
       text-align: center;
@@ -460,6 +464,7 @@ export const DescriptionPost = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 0px;
+  margin-top: -12px;
 
   h3 {
     font-size: 30px;
