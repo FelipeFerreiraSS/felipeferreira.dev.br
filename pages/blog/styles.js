@@ -107,4 +107,13 @@ export const Technologies = styled.div`
         margin-right: 10px;
         margin-bottom: 10px;
     }
+
+    p {
+        display: flex;
+        align-items: center;
+
+        svg {
+            margin-right: 10px;
+        }
+    }
 `
