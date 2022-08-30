@@ -71,7 +71,7 @@ export default function Home({latestPosts}) {
             </div>
             <Button>
               <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank">
-                <button>Linkedin</button>
+                <button>LinkedIn</button>
               </a>
               <a href='https://github.com/FelipeFerreiraSS' target="_blank">
                 <button>GitHub</button>
@@ -125,7 +125,7 @@ export default function Home({latestPosts}) {
               </ul>
             </SocialIcons>
             <Button>
-              <a href=''>
+              <a href='https://drive.google.com/file/d/11oSezzbTnuvGIgWOSN3hl3uTmH8ccXn1/view' target="_blank">
                 <button>Currículo</button>
               </a>
               <Link href='/#contact'>
@@ -187,8 +187,8 @@ export default function Home({latestPosts}) {
             <div>
               <img src='/projectsImg.svg'/>
               <h3>Meu blog/site</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore
+              <p>Projeto desenvolvido como o intuito de criar um blog para meu site, 
+                para que eu possa escrever posts e compartilhar meus estudos.
               </p>
               <Button>
                 <a href='/projects/site-blog'>
@@ -199,7 +199,7 @@ export default function Home({latestPosts}) {
             <div>
               <img src='/programming.svg'/>
               <h3>Em desenvolvimento</h3>
-              <p>Em desenvolvimento, entre no github
+              <p>Em desenvolvimento, entre no meu GitHub
                 para ver outros projetos
               </p>
               <Button>
@@ -300,7 +300,7 @@ export default function Home({latestPosts}) {
                     <input type="text" required placeholder="Nome" name="name"/>
                   </div>
                   <div>
-                    <input type="email" required placeholder="Seu email" name="email"/>
+                    <input type="email" required placeholder="E-mail" name="email"/>
                   </div>
                   <div>
                     <textarea id="" cols="30" rows="8" required placeholder="Digite sua mensagem" name="message"></textarea>
