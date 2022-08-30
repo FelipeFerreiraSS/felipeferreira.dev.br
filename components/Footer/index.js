@@ -49,12 +49,12 @@ export default function Footer() {
                         </li>
                         <li>
                             <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank">
-                                Linkedin
+                                LinkedIn
                             </a>
                         </li>
                         <li>
                             <a href="mailto:felipeferreirasilva.dev@gmail.com" target="_blank">
-                                Email
+                                E-mail
                             </a>
                         </li>
                         <li>
