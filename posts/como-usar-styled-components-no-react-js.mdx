@@ -1,0 +1,118 @@
+---
+title: Como usar Styled Components no React Js
+date: '2022-07-28'
+description: "Styled Components é uma biblioteca (lib) que permite escrever código CSS dentro do Java Script também conhecido como CSS-in-JS"
+thumbnailUrl: '/imgPosts/styled-components-no-react-js.svg'
+tags: 'styledComponents'
+min: ''
+---
+
+## O que é Styled Components ?
+
+Styled Components é uma biblioteca (lib) que permite escrever código CSS dentro do Java Script também conhecido como CSS-in-JS, ganhando mais agilidade na criação de aplicações web e mobile.
+
+## Configurando projeto React JS
+
+Primeiro criaremos um projeto com React JS usando o <QuoteCode code={`create-react-app`}/>. Execute esse comando no seu terminal, dentro da pasta de sua escolha.
+
+<Code
+code={
+`   npx create-react-app my-app
+`}  language="json"  />
+
+Após terminar o processo, teremos um projeto com uma estrutura de pastas parecida com essa:
+
+<ImagePost  id="/assets/todos-os-arquivos.png"  alt="teste de imagem"/>
+
+Vamos apagar alguns arquivos que não precisamos mais como: <QuoteCode code={`App.css`}/>, <QuoteCode code={`App.teste.js`}/>, <QuoteCode code={`index.css`}/>, <QuoteCode code={`logo.svg`}/>, <QuoteCode code={`serviceWorker.js`}/> e <QuoteCode code={`setupTests.js`}/> no final o seu projeto terá uma estrutura parecida com essa:
+
+<ImagePost  id="/assets/arquivos-removidos.png"  alt="teste de imagem"/>
+
+Apos apagar os arquivos começaremos o projeto, no seu arquivo <QuoteCode code={`App.js`}/> apague algumas linhas de código até ficar assim:
+
+<Code
+code={
+`function  App() {
+	return (
+		<div>
+			<h1>Hello world</h1>
+		</div>
+	);
+}
+export  default  App;
+`}  language="js"  />
+
+Faça a mesma coisa no seu <QuoteCode code={`index.js`}/>, apague algumas linhas até ficar assim:
+
+<Code
+code={
+`import  React  from  'react';
+import  ReactDOM  from  'react-dom/client';
+import  App  from  './App';
+
+const  root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+	<React.StrictMode>
+		<App  />
+	</React.StrictMode>
+);
+`}  language="js"  />
+
+Depois disso podemos instalar o Styled Components, executando este comando no terminal do seu projeto. 
+
+<Code
+code={
+`   npm install --save styled-components
+`}  language="json"  />
+
+Após terminar a instalação podemos abrir o projeto com o comando:
+
+<Code
+code={
+`   npm run dev
+`}  language="json"  />
+
+Que abrirá o projeto no seu navegador no endereço <QuoteCode code={`http://localhost:3000`}/>
+
+## Utilizando Styled Components exemplo
+
+Para usar o styled components vamos primeiro criar um arquivo <QuoteCode code={`styles.js`}/> na pasta <QuoteCode code={`src`}/>. Após criar o arquivo adicione o seguinte código: 
+
+```js
+import  styled  from  'styled-components'
+
+export  const  Title = styled.h1`
+	color: #0000FF;
+`
+```
+
+Esse código importa o styled-components e cria um componente com o nome <QuoteCode code={`Title`}/>, que sera usado para estilizar um título, como podemos ver na tag HTLM escrita depois de styled: <QuoteCode code={`styled.h1`}/>. Depois  adicione o código CSS,  que nesse casso só alteraremos a cor do título. 
+
+Vá para o <QuoteCode code={`App.js`}/> e importe o <QuoteCode code={`Title`}/> do arquivo <QuoteCode code={`styles`}/>, depois adicione como se fosse uma tag HTML
+
+```js
+import { Title } from  './styles'
+ 
+function  App() {
+	return (
+		<div>
+			<Title>Hello world</Title>
+		</div>
+	);
+}
+
+export  default  App;
+```
+Salve o arquivo e volte para o navegador e você perceberá que o texto mudou de cor para azul. 
+
+Veja o exemplo abaixo:
+
+<iframe src="https://codesandbox.io/embed/determined-mendeleev-vpqljo?fontsize=14&hidenavigation=1&theme=dark"
+     style={{width: '100%', height: '500px', border: '0', borderRadius: '4px', overflow: 'hidden'}}
+     title="determined-mendeleev-vpqljo"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+  
+## Conclusão
+Depois de um pouco de prática usando styled-components você vera que vai ficar mais fácil aproveitar código CSS nos seus projetos. Recomendo consultar a <LinkExternal link="https://styled-components.com/"  text="documentação oficial"/> para aprender mais.
