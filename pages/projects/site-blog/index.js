@@ -15,7 +15,9 @@ const SiteBlog = () => {
       />
       <div>
         <Thumbnail>
-          <img src="/projectsImg.svg" alt="thumbnail"/>
+          <picture>
+            <img src="/projectsImg.svg" alt="thumbnail"/>
+          </picture>
         </Thumbnail>
         <h1>Meu site/blog</h1>
         <PostData>
@@ -72,7 +74,7 @@ const SiteBlog = () => {
             width="100%" 
             height="450" 
             src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FKMaiyKxKH76P8R4D5R4tZg%2FPersonal-website%3Fnode-id%3D0%253A1" 
-            allowfullscreen>
+            allowFullScreen>
           </iframe>
           
         </Post>

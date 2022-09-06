@@ -70,10 +70,10 @@ export default function Home({latestPosts}) {
               <h3>Desenvolvedor Front-End</h3>
             </div>
             <Button>
-              <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank">
+              <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank" rel="noopener noreferrer">
                 <button>LinkedIn</button>
               </a>
-              <a href='https://github.com/FelipeFerreiraSS' target="_blank">
+              <a href='https://github.com/FelipeFerreiraSS' target="_blank" rel="noopener noreferrer">
                 <button>GitHub</button>
               </a>
             </Button>
@@ -103,29 +103,29 @@ export default function Home({latestPosts}) {
             <SocialIcons>
               <ul>
                 <li>
-                  <a href='https://github.com/FelipeFerreiraSS' target="_blank">
+                  <a href='https://github.com/FelipeFerreiraSS' target="_blank" rel="noopener noreferrer">
                     <BsGithub size={40}/>
                   </a>
                 </li>
                 <li>
-                  <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank">
+                  <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank" rel="noopener noreferrer">
                     <BsLinkedin size={40}/>
                   </a>
                 </li>
                 <li>
-                  <a href='mailto:felipeferreirasilva.dev@gmail.com' target="_blank">
+                  <a href='mailto:felipeferreirasilva.dev@gmail.com' target="_blank" rel="noopener noreferrer">
                     <MdEmail size={55}/>
                   </a>
                 </li>
                 <li>
-                  <a href='https://codepen.io/FelipeFerreira_ss' target="_blank">
+                  <a href='https://codepen.io/FelipeFerreira_ss' target="_blank" rel="noopener noreferrer">
                     <AiFillCodepenSquare size={50}/>
                   </a>
                 </li>
               </ul>
             </SocialIcons>
             <Button>
-              <a href='https://drive.google.com/file/d/11oSezzbTnuvGIgWOSN3hl3uTmH8ccXn1/view' target="_blank">
+              <a href='https://drive.google.com/file/d/11oSezzbTnuvGIgWOSN3hl3uTmH8ccXn1/view' target="_blank" rel="noopener noreferrer">
                 <button>Currículo</button>
               </a>
               <Link href='/#contact'>
@@ -138,39 +138,55 @@ export default function Home({latestPosts}) {
             <Technology>
               <TechnologyGrid>
                 <div>
-                  <img src='/techIcons/reactjs_icon.svg'/>
+                  <picture>
+                    <img src='/techIcons/reactjs_icon.svg' alt="reactjs"/>
+                  </picture>
                   <p>React JS</p>
                 </div>
                 <div>
-                  <img src='/techIcons/nextjs_icon.svg'/>
+                  <picture>
+                    <img src='/techIcons/nextjs_icon.svg' alt="nextjs"/>
+                  </picture>
                   <p>Next JS</p>
                 </div>
                 <div>
-                  <img src='/techIcons/git_icon.svg'/>
+                  <picture>
+                    <img src='/techIcons/git_icon.svg' alt="git"/>
+                  </picture>
                   <p>Git</p>
                 </div>
               </TechnologyGrid>
               <TechnologyGrid>
                 <div>
-                  <img src='/techIcons/html5_icon.svg'/>
+                  <picture>
+                    <img src='/techIcons/html5_icon.svg' alt="html"/>
+                  </picture>
                   <p>HTML 5</p>
                 </div>
                 <div>
-                  <img src='/techIcons/css3_icon.svg'/>
+                  <picture>
+                    <img src='/techIcons/css3_icon.svg' alt="css"/>
+                  </picture>
                   <p>CSS 3</p>
                 </div>
                 <div>
-                  <img src='/techIcons/javascript_icon.svg'/>
+                  <picture>
+                    <img src='/techIcons/javascript_icon.svg' alt="javascript"/>
+                  </picture>
                   <p>Java Script</p>
                 </div>
               </TechnologyGrid>
               <TechnologyGrid>
                 <div>
-                  <img src='/techIcons/figma_icon.svg'/>
+                  <picture>
+                    <img src='/techIcons/figma_icon.svg' alt="figma"/>
+                  </picture>
                   <p>Figma</p>
                 </div>
                 <div>
-                  <img src='/techIcons/styled_icon.svg'/>
+                  <picture>
+                    <img src='/techIcons/styled_icon.svg' alt="styled_icon"/>
+                  </picture>
                   <p>Styled Components</p>
                 </div>
                 <div>
@@ -191,19 +207,23 @@ export default function Home({latestPosts}) {
                 para que eu possa escrever posts e compartilhar meus estudos.
               </p>
               <Button>
-                <a href='/projects/site-blog'>
-                  <button>Veja o projeto</button>
-                </a>
+                <Link href='/projects/site-blog'>
+                  <a>
+                    <button>Veja o projeto</button>
+                  </a>
+                </Link>
               </Button>
             </div>
             <div>
-              <img src='/programming.svg'/>
+              <picture>
+                <img src='/programming.svg' alt="programming"/>
+              </picture>
               <h3>Em desenvolvimento</h3>
               <p>Em desenvolvimento, entre no meu GitHub
                 para ver outros projetos
               </p>
               <Button>
-                <a href='https://github.com/FelipeFerreiraSS' target="_blank">
+                <a href='https://github.com/FelipeFerreiraSS' target="_blank" rel="noopener noreferrer">
                   <button>GitHub</button>
                 </a>
               </Button>
@@ -220,7 +240,9 @@ export default function Home({latestPosts}) {
               {latestPosts.map((post, index) => (
                 <div key={index}>
                   <div>
-                    <img src={post.thumbnailUrl}/>
+                    <picture>
+                      <img src={post.thumbnailUrl} alt="thumbnail"/>
+                    </picture>
                   </div>
                   <DescriptionPost>
                     <Link href={'/blog/' + post.slug} passHref key={index}>
@@ -289,7 +311,9 @@ export default function Home({latestPosts}) {
 
           <BoxMenssages>
             <div>
-              <img src='/messages.svg'/>
+              <picture>
+                <img src='/messages.svg' alt="messages"/>
+              </picture>
             </div>
           
             <Menssages>

@@ -25,10 +25,9 @@ export default function TagsCSS({ tags }) {
           {tags.map((post, index) => (
             <DisplaysPosts key={index}>
               <div>
-                <img
-                  src={post.thumbnailUrl}
-                  alt="thumbnail"
-                />
+                <picture>
+                  <img src={post.thumbnailUrl} alt="thumbnail"/>
+                </picture>
               </div>
               <DisplaysDescription>
                 <Link href={'/blog/' + post.slug}>

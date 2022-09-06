@@ -26,8 +26,10 @@ export default function Error404() {
         </Button>
       </Menssagem>
       <Imagem>
-        <img src='/404-error.svg'/>        
-        <a href="https://storyset.com/web">Web illustrations by Storyset</a>
+        <picture>
+          <img src='/404-error.svg'/>        
+        </picture>
+        <a href="https://storyset.com/web" target="_blank" rel="noopener noreferrer">Web illustrations by Storyset</a>
       </Imagem>
       
     </Content>

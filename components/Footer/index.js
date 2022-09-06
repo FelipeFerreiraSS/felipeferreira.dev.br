@@ -43,22 +43,22 @@ export default function Footer() {
                     <h4>Redes sociais</h4>
                     <ul>
                         <li>
-                            <a href='https://github.com/FelipeFerreiraSS' target="_blank">
+                            <a href='https://github.com/FelipeFerreiraSS' target="_blank" rel="noopener noreferrer">
                                 GitHub
                             </a>
                         </li>
                         <li>
-                            <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank">
+                            <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank" rel="noopener noreferrer">
                                 LinkedIn
                             </a>
                         </li>
                         <li>
-                            <a href="mailto:felipeferreirasilva.dev@gmail.com" target="_blank">
+                            <a href="mailto:felipeferreirasilva.dev@gmail.com" target="_blank" rel="noopener noreferrer">
                                 E-mail
                             </a>
                         </li>
                         <li>
-                            <a href='https://codepen.io/FelipeFerreira_ss' target="_blank">
+                            <a href='https://codepen.io/FelipeFerreira_ss' target="_blank" rel="noopener noreferrer">
                                 CodePen
                             </a>
                         </li>

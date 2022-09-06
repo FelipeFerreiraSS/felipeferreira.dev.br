@@ -58,7 +58,9 @@ const PostPage = ({ frontMatter, mdxSource }) => {
 
       <div>
         <Thumbnail>
-          <img src={frontMatter.thumbnailUrl} alt="thumbnail"/>
+          <picture>
+            <img src={frontMatter.thumbnailUrl} alt="thumbnail"/>
+          </picture>
         </Thumbnail>
         <h1>{frontMatter.title}</h1>
         <PostData>
