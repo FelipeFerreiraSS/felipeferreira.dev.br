@@ -33,7 +33,7 @@ export default function Post({ post }) {
         
         
         <div 
-          className="mt-8 prose prose-img:rounded-xl prose-slate mx-auto lg:prose-lg dark:prose-invert" 
+          className="mt-8 prose dark:prose-invert prose-img:rounded-xl prose-img:mx-auto mx-auto lg:prose-lg" 
           dangerouslySetInnerHTML={{ __html: post.contentHtml.html }} 
         />
         </div>
