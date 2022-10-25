@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl">
         <div className="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:w-full lg:max-w-2xl lg:pb-28 xl:pb-32">
           <main className="mx-auto mt-10 max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-            <div className="sm:text-center lg:text-left">
+            <div className="text-center sm:text-center lg:text-left">
               <h1 className="text-5xl font-bold tracking-tight text-gray-900 sm:text-6xl md:text-7xl mb-5">
                 <span className="block text-white xl:inline">404</span>
               </h1>
@@ -23,15 +23,13 @@ export default function Footer() {
                 Recomendo que volte para a Home
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                <div className="rounded-md shadow">
+                <button className="inline-block rounded border border-transparent bg-indigo-600 px-8 py-2 text-lg font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring active:text-indigo-500">
                   <Link
                     href="/"
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
                   >
                     Home
                   </Link>
-                </div>
-                
+                </button>              
               </div>
             </div>
           </main>
