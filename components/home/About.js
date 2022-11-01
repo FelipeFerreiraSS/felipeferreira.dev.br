@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function About() {
     return (
     <section class="bg-gray-800 text-gray-300">
@@ -49,12 +51,12 @@ export default function About() {
           <span class="text-lg">Currículo</span>
           </a>
 
-          <a
+          <Link
           href="/#contact"
           class="w-28 mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
           >
           <span class="text-lg">Contato</span>
-          </a>
+          </Link>
         </div>
       </div>
 
