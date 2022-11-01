@@ -25,6 +25,9 @@ export default function Posts({ posts }) {
                     <h1 className="mt-2 text-3xl text-gray-100">
                       {post.title}
                     </h1>
+                    <p class="text-gray-100 text-xs tracking-widest font-semibold">
+                      {new Date(post.date).toDateString()}
+                    </p>
                     <p className="text-sm font-semibold text-gray-300 mb-8 mt-2">{post.description}</p>
                   </div>
                 </Link>
