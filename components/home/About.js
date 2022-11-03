@@ -53,9 +53,8 @@ export default function About() {
 
           <Link
           href="/#contact"
-          class="w-28 mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
           >
-          <span class="text-lg">Contato</span>
+          <span class="text-lg w-28 mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500">Contato</span>
           </Link>
         </div>
       </div>
