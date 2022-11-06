@@ -5,8 +5,8 @@ import Link from 'next/link'
 
 const navigation = [
   { name: 'Blog', href: '/blog'},
-  { name: 'Projetos', href: '/'},
-  { name: 'Contato', href: '/'},
+  { name: 'Projetos', href: '/#projetos'},
+  { name: 'Contato', href: '/#contato'},
 ]
 
 function classNames(...classes) {
