@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Projects() {
     return (
       <section className='bg-gray-800 text-gray-300'>
-        <div class="mx-auto max-w-screen-xl px-4 py-4 sm:py-16 sm:px-6 lg:px-8">
+        <div id="projetos" class="mx-auto max-w-screen-xl px-4 py-4 sm:py-16 sm:px-6 lg:px-8">
           <h2 class="text-3xl text-center font-bold sm:text-4xl">Projetos</h2>
 
           <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
@@ -22,7 +22,7 @@ export default function Projects() {
                 Projeto desenvolvido como o intuito de criar um blog para meu site, 
                 para que eu possa escrever posts e compartilhar meus estudos.
               </p>
-              <Link href="/blog/">
+              <Link href="/projetos/meu-blog">
                 <button
                   class="mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                 >
@@ -32,11 +32,11 @@ export default function Projects() {
             </div>
 
             <div className="group relative">
-              <div className="overflow-hidden rounded-lg">
+              <div className="w-2/3 flex justify-center items-center rounded-lg">
                 <img
-                  src="/projectsImg.svg"
+                  src="/programming.svg"
                   alt="teste"
-                  className="h-full w-full object-cover object-center"
+                  className="object-cover object-center"
                 />
               </div>
               <h1 className="mt-2 text-3xl text-gray-100">
