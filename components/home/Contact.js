@@ -18,7 +18,7 @@ export default function Contact() {
 
   return(
     <section className='bg-gray-800 text-gray-300' id="contact">
-        <div class="mx-auto max-w-screen-xl px-4 py-4 sm:py-16 sm:px-6 lg:px-8">
+        <div id="contato" class="mx-auto max-w-screen-xl px-4 py-4 sm:py-16 sm:px-6 lg:px-8">
 
           <h2 class="text-3xl font-bold text-center sm:text-4xl">Vamos trabalhar juntos?</h2> 
           <p class="mt-2 text-center">Mande uma mensagem que responderei em breve</p>
