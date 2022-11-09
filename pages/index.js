@@ -13,7 +13,7 @@ export default function Home({ posts }) {
       <Presentation />
       <About />
       <Projects/>
-      <LatestPosts teste={posts}/>
+      <LatestPosts latestPosts={posts}/>
       <Contact />
     </>
   );
@@ -30,6 +30,8 @@ export async function getStaticProps() {
           tags
           title
           slug
+          readingTime
+          tags
           coverImage {
             url(transformation: {image: {resize: {width: 800, height: 400, fit: crop}}})
           }
