@@ -15,10 +15,10 @@ export default function Projects() {
                   className="h-full w-full object-cover object-center"
                 />
               </div>
-              <h1 className="mt-2 text-3xl text-gray-100">
+              <h1 className="mt-2 text-3xl text-gray-100 font-semibold">
                 Meu blog/site
               </h1>
-              <p class="text-gray-100 text-xs tracking-widest font-semibold">
+              <p class="text-sm text-gray-300 mt-2">
                 Projeto desenvolvido como o intuito de criar um blog para meu site, 
                 para que eu possa escrever posts e compartilhar meus estudos.
               </p>
@@ -39,10 +39,10 @@ export default function Projects() {
                   className="object-cover object-center"
                 />
               </div>
-              <h1 className="mt-2 text-3xl text-gray-100">
+              <h1 className="mt-2 text-3xl text-gray-100 font-semibold">
                 Em desenvolvimento
               </h1>
-              <p class="text-gray-100 text-xs tracking-widest font-semibold">
+              <p class="text-sm text-gray-300 mt-2">
                 Em desenvolvimento, entre no meu GitHub
                 para ver outros projetos
               </p>
