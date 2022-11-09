@@ -1,5 +1,19 @@
 import Link from "next/link";
 
+const links = [
+    { name: 'Blog', href: '/blog'},
+    { name: 'Projetos', href: '/#projetos'},
+    { name: 'Sobre', href: '/#sobre'},
+    { name: 'Contato', href: '/#contato'},
+]
+
+const socialLinks = [
+    { name: 'GitHub', href: 'https://github.com/FelipeFerreiraSS'},
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/in/felipeferreiradev/'},
+    { name: 'E-mail', href: 'mailto:felipeferreirasilva.dev@gmail.com'},
+    { name: 'CodePen', href: 'https://codepen.io/FelipeFerreira_ss'},
+]
+
 export default function Footer() {
     return (
         <div className='w-full bg-gray-800 text-gray-300 py-y px-2'>
@@ -12,53 +26,27 @@ export default function Footer() {
             <div className='flex mx-auto sm:mx-0'>
                 <div className='mr-20'>
                     <h6 className='font-bold uppercase pt-2'>Links</h6>
-                    <ul>
-                        <li className='py-1'>
-                            <Link href={'/blog'}>
-                                Blog
-                            </Link>
-                        </li>
-                        <li className='py-1'>
-                            <Link href={'/#projects'}>
-                                Projetos
-                            </Link>
-                        </li>
-                        <li className='py-1'>
-                            <Link href={'/#about'}>
-                                Sobre
-                            </Link>
-                        </li>
-                        <li className='py-1'>
-                            <Link href={'/#contact'}>
-                                Contato
-                            </Link>
-                        </li>
-                    </ul>
+                    {links.map((link) => (
+                        <ul>
+                            <li className='py-1'>
+                                <Link href={link.href}>
+                                    {link.name}
+                                </Link>
+                            </li>
+                        </ul>
+                    ))}
                 </div>
                 <div>
                     <h6 className='font-bold uppercase pt-2'>Redes sociais</h6>
-                    <ul>
-                        <li className='py-1'>
-                            <a href='https://github.com/FelipeFerreiraSS' target="_blank" rel="noopener noreferrer">
-                                GitHub
-                            </a>
-                        </li>
-                        <li className='py-1'>
-                            <a href='https://www.linkedin.com/in/felipeferreiradev/' target="_blank" rel="noopener noreferrer">
-                                LinkedIn
-                            </a>
-                        </li>
-                        <li className='py-1'>
-                            <a href="mailto:felipeferreirasilva.dev@gmail.com" target="_blank" rel="noopener noreferrer">
-                                E-mail
-                            </a>
-                        </li>
-                        <li className='py-1'>
-                            <a href='https://codepen.io/FelipeFerreira_ss' target="_blank" rel="noopener noreferrer">
-                                CodePen
-                            </a>
-                        </li>
-                    </ul>
+                    {socialLinks.map((link) => (
+                        <ul>
+                            <li className='py-1'>
+                                <a href={link.href} target="_blank" rel="noopener noreferrer">
+                                    {link.name}
+                                </a>
+                            </li>
+                        </ul>
+                    ))}
                 </div>
             </div>
             
