@@ -12,15 +12,17 @@ export default function Presentation() {
               
               <div class="text-center sm:text-start">
                 <a
-                href="#"
-                class="w-28 mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                href="https://www.linkedin.com/in/felipeferreiradev/"
+                target="_blank" rel="noopener noreferrer"
+                class="mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                 >
                 <span class="text-lg">Linkedin</span>
                 </a>
 
                 <a
-                href="#"
-                class="w-28 mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                href="https://github.com/FelipeFerreiraSS"
+                target="_blank" rel="noopener noreferrer"
+                class="mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                 >
                 <span class="text-lg">GitHub</span>
                 </a>
