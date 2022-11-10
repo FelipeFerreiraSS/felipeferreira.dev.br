@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function About() {
     return (
-    <section class="bg-gray-800 text-gray-300">
+    <section id="sobre" class="bg-gray-800 text-gray-300">
   <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 bg-gray-800 text-gray-300">
     <div class="grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:items-center sm:gap-x-16">
       <div class="mx-auto max-w-lg text-center lg:mx-0 sm:text-left">
@@ -140,7 +140,7 @@ export default function About() {
               />
             </span>
 
-            <p class="mt-2 text-2xl font-bold text-center">Tailwind Css</p>
+            <p class="mt-2 text-2xl font-bold text-center">Tailwind CSS</p>
           </div>
 
         </div>
