@@ -1,17 +1,17 @@
 import Link from "next/link";
 
 const links = [
-    { name: 'Blog', href: '/blog'},
-    { name: 'Projetos', href: '/#projetos'},
-    { name: 'Sobre', href: '/#sobre'},
-    { name: 'Contato', href: '/#contato'},
+    { id:"01", name: 'Blog', href: '/blog'},
+    { id:"02", name: 'Projetos', href: '/#projetos'},
+    { id:"03", name: 'Sobre', href: '/#sobre'},
+    { id:"04", name: 'Contato', href: '/#contato'},
 ]
 
 const socialLinks = [
-    { name: 'GitHub', href: 'https://github.com/FelipeFerreiraSS'},
-    { name: 'LinkedIn', href: 'https://www.linkedin.com/in/felipeferreiradev/'},
-    { name: 'E-mail', href: 'mailto:felipeferreirasilva.dev@gmail.com'},
-    { name: 'CodePen', href: 'https://codepen.io/FelipeFerreira_ss'},
+    { id:"01", name: 'GitHub', href: 'https://github.com/FelipeFerreiraSS'},
+    { id:"02", name: 'LinkedIn', href: 'https://www.linkedin.com/in/felipeferreiradev/'},
+    { id:"03", name: 'E-mail', href: 'mailto:felipeferreirasilva.dev@gmail.com'},
+    { id:"04", name: 'CodePen', href: 'https://codepen.io/FelipeFerreira_ss'},
 ]
 
 export default function Footer() {
@@ -28,7 +28,7 @@ export default function Footer() {
                     <h6 className='font-bold uppercase pt-2'>Links</h6>
                     {links.map((link) => (
                         <ul>
-                            <li className='py-1'>
+                            <li key={link.id} className='py-1'>
                                 <Link href={link.href}>
                                     {link.name}
                                 </Link>
@@ -40,7 +40,7 @@ export default function Footer() {
                     <h6 className='font-bold uppercase pt-2'>Redes sociais</h6>
                     {socialLinks.map((link) => (
                         <ul>
-                            <li className='py-1'>
+                            <li key={link.id} className='py-1'>
                                 <a href={link.href} target="_blank" rel="noopener noreferrer">
                                     {link.name}
                                 </a>
