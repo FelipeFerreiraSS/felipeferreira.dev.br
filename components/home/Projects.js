@@ -15,44 +15,48 @@ export default function Projects() {
                   className="h-full w-full object-cover object-center"
                 />
               </div>
-              <h1 className="mt-2 text-3xl text-gray-100 font-semibold">
+              <h1 className="mt-2 text-3xl text-gray-100 font-semibold text-center lg:text-start">
                 Meu blog/site
               </h1>
-              <p class="text-sm text-gray-300 mt-2">
+              <p class="text-sm text-gray-300 mt-2 text-center lg:text-start">
                 Projeto desenvolvido como o intuito de criar um blog para meu site, 
                 para que eu possa escrever posts e compartilhar meus estudos.
               </p>
-              <Link href="/projetos/meu-blog">
-                <button
-                  class="mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-                >
-                  <span class="text-lg">Veja o projeto</span>
-                </button>
-              </Link>
+              <div class="flex justify-center lg:justify-start">
+                <Link href="/projetos/meu-blog">
+                  <button
+                    class="mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                  >
+                    <span class="text-lg">Veja o projeto</span>
+                  </button>
+                </Link>
+              </div>
             </div>
 
             <div className="group relative">
-              <div className="w-2/3 flex justify-center items-center rounded-lg">
+              <div className="w-2/3 mx-auto rounded-lg">
                 <img
                   src="/programming.svg"
                   alt="teste"
                   className="object-cover object-center"
                 />
               </div>
-              <h1 className="mt-2 text-3xl text-gray-100 font-semibold">
+              <h1 className="mt-2 text-3xl text-gray-100 font-semibold text-center lg:text-start">
                 Em desenvolvimento
               </h1>
-              <p class="text-sm text-gray-300 mt-2">
+              <p class="text-sm text-gray-300 mt-2 text-center lg:text-start">
                 Em desenvolvimento, entre no meu GitHub
                 para ver outros projetos
               </p>
-              <a href="https://github.com/FelipeFerreiraSS" target="_blank" rel="noopener noreferrer">
-                <button
-                  class="mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-                >
-                  <span class="text-lg">GitHub</span>
-                </button>
-              </a>
+              <div class="flex justify-center lg:justify-start">
+                <a href="https://github.com/FelipeFerreiraSS" target="_blank" rel="noopener noreferrer">
+                  <button
+                    class="mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                    >
+                    <span class="text-lg">GitHub</span>
+                  </button>
+                </a>
+              </div>
             </div>
             
           </div>
