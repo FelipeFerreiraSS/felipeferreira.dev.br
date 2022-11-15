@@ -2,12 +2,11 @@ import { GraphQLClient } from 'graphql-request';
 import Image from 'next/image';
 import Link from 'next/link';
 
-//import styles from '../blog/Blog.module.css'
+import Date from '../../components/Date';
 
 export default function Post({ post }) {
 
   return (
-
     <div className="relative pb-16 overflow-hidden bg-gray-800">
       
         {/*<Image
@@ -24,13 +23,23 @@ export default function Post({ post }) {
       </figure>
       <div className="relative px-4 pt-5 sm:px-6 lg:px-8">
         <div className="text-lg max-w-prose mx-auto">
-          <h1>
-            <span className="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-100 sm:text-5xl">
-              {post.title}
-            </span>
+          <h1 className="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-100 sm:text-5xl">
+            {post.title}
           </h1>
+          <div class="flex items-center justify-center mt-5">
+            <p class="text-gray-100 text-base tracking-widest mr-3">
+              <Date dateString={post.date}/>
+            </p>
+            <Link href={`/blog/tags/${post.tags}`}>
+              <p class="cursor-pointer text-gray-100 text-base tracking-widest mr-3">
+                📌{post.tags}
+              </p>
+            </Link>
+            <p class="text-gray-100 text-base tracking-widest">
+              🕐{post.readingTime}
+            </p>
+          </div>
         </div>
-        
         
         <div 
           className="mt-8 prose dark:prose-invert prose-img:rounded-xl prose-img:mx-auto mx-auto lg:prose-lg" 
@@ -50,6 +59,9 @@ export async function getStaticProps({ params }) {
     query Post($slug: String!) {
       post(where: { slug: $slug }) {
         title
+        readingTime
+        tags
+        date
         contentHtml {
           html
         }
