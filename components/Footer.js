@@ -26,27 +26,27 @@ export default function Footer() {
             <div className='flex mx-auto sm:mx-0'>
                 <div className='mr-20'>
                     <h6 className='font-bold uppercase pt-2'>Links</h6>
-                    {links.map((link) => (
-                        <ul>
+                    <ul>
+                        {links.map((link) => (
                             <li key={link.id} className='py-1'>
                                 <Link href={link.href}>
                                     {link.name}
                                 </Link>
                             </li>
-                        </ul>
-                    ))}
+                        ))}
+                    </ul>
                 </div>
                 <div>
                     <h6 className='font-bold uppercase pt-2'>Redes sociais</h6>
-                    {socialLinks.map((link) => (
-                        <ul>
+                    <ul>
+                        {socialLinks.map((link) => (
                             <li key={link.id} className='py-1'>
                                 <a href={link.href} target="_blank" rel="noopener noreferrer">
                                     {link.name}
                                 </a>
                             </li>
-                        </ul>
-                    ))}
+                        ))}
+                    </ul>
                 </div>
             </div>
             
