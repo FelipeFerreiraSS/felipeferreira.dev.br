@@ -1,13 +1,25 @@
 import emailjs from '@emailjs/browser';
+import { useState } from 'react';
+
+function PopUp() {
+  return (
+    <div class="flex justify-center">
+      <span class="rounded-lg bg-green-500 px-3 py-3 text-black font-bold">
+        Mensagem enviada com sucesso!!!
+      </span>
+    </div>
+  );
+}
 
 export default function Contact() {
+  const [enviado, setEnviado] = useState(false);
 
   function sendEmail(e) {
     e.preventDefault();
     emailjs.sendForm(process.env.NEXT_PUBLIC_SERVICE_ID, process.env.NEXT_PUBLIC_TEMPLETE_ID, e.target, process.env.NEXT_PUBLIC_USER_ID)
 
     .then((result) => {
-        alert("Mensagem enviada com sucesso!👍 Responderei o mais breve possível.");
+      setEnviado(true)
       
     }, (error) => {
         alert(error.message)
@@ -22,7 +34,6 @@ export default function Contact() {
 
           <h2 class="text-3xl font-bold text-center sm:text-4xl">Vamos trabalhar juntos?</h2> 
           <p class="mt-2 text-center">Mande uma mensagem que responderei em breve</p>
-
           <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-16">
             
             <div class="mt-8 relative h-1/2 hidden rounded-lg sm:block">
@@ -70,13 +81,14 @@ export default function Contact() {
                 </div>
 
                 <div class="flex items-center justify-center">
-                  <button
+                <button
                     type="submit"
                     class="mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                   >
                     <span class="text-lg">Enviar</span>
-                  </button>
+                </button>
                 </div>
+                {enviado && <PopUp/>}
               </form>
               
             </div>
