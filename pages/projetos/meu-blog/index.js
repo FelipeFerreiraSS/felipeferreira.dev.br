@@ -1,11 +1,36 @@
 import { GraphQLClient } from 'graphql-request';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function MeuBlog({ project }) {
 
   return (
+    <>
+      <Head>
+        <meta charset="utf-8"/>
+        <meta name="language" content="pt-BR"/>
+        <title>{project.title}</title>
+        <meta name="description" content={project.description}/>
+        <meta name="robots" content="all"/>
+        <meta name="author" content="Felipe Ferreira"/>
+        <meta name="keywords" content="HTML, CSS, JavaScript ReactJs, NextJS"/>
+        <link rel="icon" type="image/x-icon" href="https://avatars.githubusercontent.com/u/65501165?v=4"></link>
 
+        <meta property="og:type" content="page"/>
+        <meta property="og:url" content="felipeferreira.dev.br"/>
+        <meta property="og:title" content={project.title}/>
+        <meta property="og:image" content="/projectsImg.svg"/>
+        <meta property="og:description" content={project.description}></meta>
+
+        <meta property="article:author" content="Felipe Ferreira"></meta>
+
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:site" content="@"/>
+        <meta name="twitter:title" content={project.title}/>
+        <meta name="twitter:creator" content="@"/>
+        <meta name="twitter:description" content={project.description}></meta>
+      </Head>
     <div className="relative pb-16 overflow-hidden bg-gray-800">
       
         {/*<Image
@@ -36,6 +61,7 @@ export default function MeuBlog({ project }) {
       </div>
         
     </div>
+    </>
   )
 }
 

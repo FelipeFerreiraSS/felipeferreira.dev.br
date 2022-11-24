@@ -1,4 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -7,6 +8,31 @@ import Date from '../../components/Date';
 export default function Post({ post }) {
 
   return (
+    <>
+      <Head>
+        <meta charset="utf-8"/>
+        <meta name="language" content="pt-BR"/>
+        <title>{post.title}</title>
+        <meta name="description" content={post.description}/>
+        <meta name="robots" content="all"/>
+        <meta name="author" content="Felipe Ferreira"/>
+        <meta name="keywords" content="HTML, CSS, JavaScript ReactJs, NextJS"/>
+        <link rel="icon" type="image/x-icon" href="https://avatars.githubusercontent.com/u/65501165?v=4"></link>
+
+        <meta property="og:type" content="page"/>
+        <meta property="og:url" content="felipeferreira.dev.br"/>
+        <meta property="og:title" content={post.title}/>
+        <meta property="og:image" content={post.coverImage.url}/>
+        <meta property="og:description" content={post.description}></meta>
+
+        <meta property="article:author" content="Felipe Ferreira"></meta>
+
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:site" content="@"/>
+        <meta name="twitter:title" content={post.title}/>
+        <meta name="twitter:creator" content="@"/>
+        <meta name="twitter:description" content={post.description}></meta>
+      </Head>
     <div className="relative pb-16 overflow-hidden bg-gray-800">
       
         {/*<Image
@@ -48,6 +74,7 @@ export default function Post({ post }) {
         </div>
         
     </div>
+    </>
   )
 }
 

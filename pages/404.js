@@ -2,6 +2,31 @@ import Link from "next/link";
 
 export default function Footer() {
     return (
+      <>
+        <Head>
+          <meta charset="utf-8"/>
+          <meta name="language" content="pt-BR"/>
+          <title>Felipe Ferreira Dev | Blog</title>
+          <meta name="description" content="Blog sobre desenvolvimento web e Front-End. Falo sobre HTML, CSS, JavaScript, ReactJS, NextJS"/>
+          <meta name="robots" content="all"/>
+          <meta name="author" content="Felipe Ferreira"/>
+          <meta name="keywords" content="HTML, CSS, JavaScript ReactJs, NextJS"/>
+          <link rel="icon" type="image/x-icon" href="https://avatars.githubusercontent.com/u/65501165?v=4"></link>
+
+          <meta property="og:type" content="page"/>
+          <meta property="og:url" content="felipeferreira.dev.br"/>
+          <meta property="og:title" content="Felipe Ferreira Dev | Blog"/>
+          <meta property="og:image" content=""/>
+          <meta property="og:description" content="Blog sobre desenvolvimento web e Front-End. Falo sobre HTML, CSS, JavaScript, ReactJS, NextJS"></meta>
+
+          <meta property="article:author" content="Felipe Ferreira"></meta>
+
+          <meta name="twitter:card" content="summary"/>
+          <meta name="twitter:site" content="@"/>
+          <meta name="twitter:title" content="Felipe Ferreira Dev | Blog"/>
+          <meta name="twitter:creator" content="@"/>
+          <meta name="twitter:description" content="Blog sobre desenvolvimento web e Front-End. Falo sobre HTML, CSS, JavaScript, ReactJS, NextJS"></meta>
+        </Head>
         <div className="relative overflow-hidden bg-gray-800">
       <div className="mx-auto max-w-7xl">
         <div className="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:w-full lg:max-w-2xl lg:pb-28 xl:pb-32">
@@ -51,5 +76,6 @@ export default function Footer() {
         </a>
       </div>
     </div>
+    </>
     )
   }
