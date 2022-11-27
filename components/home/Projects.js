@@ -11,13 +11,13 @@ export default function Projects() {
               <div className="overflow-hidden rounded-lg">
                 <img
                   src="/projectsImg.svg"
-                  alt="teste"
+                  alt="print de projeto de uma página de blog"
                   className="h-full w-full object-cover object-center"
                 />
               </div>
-              <h1 className="mt-2 text-3xl text-gray-100 font-semibold text-center lg:text-start">
+              <h3 className="mt-2 text-3xl text-gray-100 font-semibold text-center lg:text-start">
                 Meu blog/site
-              </h1>
+              </h3>
               <p class="text-sm text-gray-300 mt-2 text-center lg:text-start">
                 Projeto desenvolvido como o intuito de criar um blog para meu site, 
                 para que eu possa escrever posts e compartilhar meus estudos.
@@ -37,13 +37,13 @@ export default function Projects() {
               <div className="w-2/3 mx-auto rounded-lg">
                 <img
                   src="/programming.svg"
-                  alt="teste"
+                  alt="imagem de um programador trabalhando em um projeto"
                   className="object-cover object-center"
                 />
               </div>
-              <h1 className="mt-2 text-3xl text-gray-100 font-semibold text-center lg:text-start">
+              <h3 className="mt-2 text-3xl text-gray-100 font-semibold text-center lg:text-start">
                 Em desenvolvimento
-              </h1>
+              </h3>
               <p class="text-sm text-gray-300 mt-2 text-center lg:text-start">
                 Em desenvolvimento, entre no meu GitHub
                 para ver outros projetos

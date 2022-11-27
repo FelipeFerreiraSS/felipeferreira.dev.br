@@ -5,9 +5,9 @@ import Date from '../components/Date';
 
 export default function AllPosts({ allPosts }) {
   return (
-    <div>
+    <main>
       <LinksTags/>
-      <div className="bg-gray-800">
+      <section className="bg-gray-800">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl py-10 sm:py-10 lg:max-w-none lg:py-10">
             <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
@@ -17,13 +17,13 @@ export default function AllPosts({ allPosts }) {
                     <div className="overflow-hidden rounded-lg bg-white group-hover:opacity-75 ">
                       <img
                         src={post.coverImage.url}
-                        alt="teste"
+                        alt={post.altImage}
                         className="h-full w-full object-cover object-center"
                       />
                     </div>
-                    <h1 className="mt-2 text-3xl text-gray-100 font-semibold text-center lg:text-start">
+                    <h2 className="mt-2 text-3xl text-gray-100 font-semibold text-center lg:text-start">
                       {post.title}
-                    </h1>
+                    </h2>
                     <div class="flex items-center justify-center lg:justify-start mt-2 mb-2">
                       <p class="text-gray-100 text-xs tracking-widest mr-3">
                         <Date dateString={post.date}/>
@@ -42,7 +42,7 @@ export default function AllPosts({ allPosts }) {
             </div>
           </div>
         </div>
-      </div>   
-    </div>
+      </section>   
+    </main>
   );
 }

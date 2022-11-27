@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 
-export default function Footer() {
+export default function Error404() {
     return (
       <>
         <Head>
@@ -65,7 +65,7 @@ export default function Footer() {
         <img
           className="h-72 w-full object-cover sm:h-80 md:h-auto lg:h-full lg:w-full"
           src='/404-error.svg'
-          alt=""
+          alt="imagem de error 404"
         />
         <a 
             className="text-base text-center text-white mt-0 md:-mt-24 text-opacity-50"

@@ -36,11 +36,13 @@ export default function Home({ posts }) {
         <meta name="twitter:creator" content="@"/>
         <meta name="twitter:description" content="Desenvolvedor Front-End com foco em criação de aplicações web."></meta>
       </Head>
-      <Presentation />
-      <About />
-      <Projects/>
-      <LatestPosts latestPosts={posts}/>
-      <Contact />
+      <main>
+        <Presentation />
+        <About />
+        <Projects/>
+        <LatestPosts latestPosts={posts}/>
+        <Contact />
+      </main>
     </>
   );
 }
@@ -61,6 +63,7 @@ export async function getStaticProps() {
           coverImage {
             url(transformation: {image: {resize: {width: 800, height: 400, fit: crop}}})
           }
+          altImage
           date
           authors {
             name

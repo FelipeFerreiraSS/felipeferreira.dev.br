@@ -49,6 +49,7 @@ export async function getStaticProps() {
           coverImage {
             url(transformation: {image: {resize: {width: 800, height: 400, fit: crop}}})
           }
+          altImage
           date
           authors {
             name

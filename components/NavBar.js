@@ -15,9 +15,9 @@ function classNames(...classes) {
 
 export default function NavBar() {
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure className="bg-gray-800">
       {({ open }) => (
-        <>
+        <header>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
@@ -37,24 +37,24 @@ export default function NavBar() {
                     <img
                       className="block h-10 w-auto rounded-full lg:hidden cursor-pointer"
                       src="https://avatars.githubusercontent.com/u/65501165?v=4"
-                      alt="Your Company"
+                      alt="felipe ferreira dev foto de perfil"
                     />
                   </Link>
                   <Link href="/">
                     <img
                       className="hidden h-12 w-auto rounded-full lg:block cursor-pointer"
                       src="https://avatars.githubusercontent.com/u/65501165?v=4"
-                      alt="Your Company"
+                      alt="felipe ferreira dev foto de perfil"
                     />
                   </Link>
                   <Link href="/">
-                    <h1 className="text-white px-3 py-2 font-bold text-1xl sm:text-2xl cursor-pointer">Felipe Ferreira</h1>
+                    <p className="text-white px-3 py-2 font-bold text-1xl sm:text-2xl cursor-pointer">Felipe Ferreira</p>
                   </Link>
                 </div>
               </div>
               <div className="flex flex-1 items-center sm:items-stretch sm:justify-end">
                 <div className="hidden sm:ml-6 sm:block">
-                    <div className="flex space-x-4">
+                    <nav className="flex space-x-4">
                       {navigation.map((item) => (
                         <Link href={item.href} key={item.name}>
                           <a
@@ -68,14 +68,14 @@ export default function NavBar() {
                           </a>
                         </Link>
                       ))}
-                    </div>
+                    </nav>
                   </div>
               </div>
             </div>
           </div>
 
           <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 px-2 pt-2 pb-3">
+            <nav className="space-y-1 px-2 pt-2 pb-3">
               {navigation.map((item) => (
                 <Link href={item.href} key={item.name}>
                   <Disclosure.Button
@@ -90,9 +90,9 @@ export default function NavBar() {
                   </Disclosure.Button>
                 </Link>
               ))}
-            </div>
+            </nav>
           </Disclosure.Panel>
-        </>
+        </header>
       )}
     </Disclosure>
   )

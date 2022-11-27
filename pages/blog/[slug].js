@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Date from '../../components/Date';
 
 export default function Post({ post }) {
-
   return (
     <>
       <Head>
@@ -33,47 +32,38 @@ export default function Post({ post }) {
         <meta name="twitter:creator" content="@"/>
         <meta name="twitter:description" content={post.description}></meta>
       </Head>
-    <div className="relative pb-16 overflow-hidden bg-gray-800">
-      
-        {/*<Image
-          className="w-3/4 h-auto mx-auto rounded-xl object-cover"
-          src={post.coverImage.url}
-          alt="Picture of the author"
-          width={100}
-          height={75}
-        />*/}
-      
-
-      <figure>
-        <img className="w-3/4 sm:w-1/2 h-auto mx-auto rounded-xl object-cover" src={post.coverImage.url} />
-      </figure>
-      <div className="relative px-4 pt-5 sm:px-6 lg:px-8">
-        <div className="text-lg max-w-prose mx-auto">
-          <h1 className="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-100 sm:text-5xl">
-            {post.title}
-          </h1>
-          <div class="flex items-center justify-center mt-5">
-            <p class="text-gray-100 text-base tracking-widest mr-3">
-              <Date dateString={post.date}/>
-            </p>
-            <Link href={`/blog/tags/${post.tags}`}>
-              <p class="cursor-pointer text-gray-100 text-base tracking-widest mr-3">
-                📌{post.tags}
+      <main className="relative pb-16 overflow-hidden bg-gray-800">
+        <header>
+          <figure>
+            <img className="w-3/4 sm:w-1/2 h-auto mx-auto rounded-xl object-cover" src={post.coverImage.url} alt={post.altImage} />
+          </figure>
+        </header>
+        <section className="relative px-4 pt-5 sm:px-6 lg:px-8">
+          <div className="text-lg max-w-prose mx-auto">
+            <h1 className="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-100 sm:text-5xl">
+              {post.title}
+            </h1>
+            <div class="flex items-center justify-center mt-5">
+              <span class="text-gray-100 text-base tracking-widest mr-3">
+                <Date dateString={post.date}/>
+              </span>
+              <Link href={`/blog/tags/${post.tags}`}>
+                <span class="cursor-pointer text-gray-100 text-base tracking-widest mr-3">
+                  📌{post.tags}
+                </span>
+              </Link>
+              <p class="text-gray-100 text-base tracking-widest">
+                🕐{post.readingTime}
               </p>
-            </Link>
-            <p class="text-gray-100 text-base tracking-widest">
-              🕐{post.readingTime}
-            </p>
+            </div>
           </div>
-        </div>
-        
-        <div 
-          className="mt-8 prose dark:prose-invert prose-img:rounded-xl prose-img:mx-auto mx-auto lg:prose-lg" 
-          dangerouslySetInnerHTML={{ __html: post.contentHtml.html }} 
-        />
-        </div>
-        
-    </div>
+          
+          <article 
+            className="mt-8 prose dark:prose-invert prose-img:rounded-xl prose-img:mx-auto mx-auto lg:prose-lg" 
+            dangerouslySetInnerHTML={{ __html: post.contentHtml.html }} 
+          />
+        </section>
+      </main>
     </>
   )
 }
@@ -95,6 +85,7 @@ export async function getStaticProps({ params }) {
         coverImage {
           url(transformation: {image: {resize: {width: 800, height: 400, fit: crop}}})
         }
+        altImage
       }
     }
   `,

@@ -14,13 +14,13 @@ export default function LatestPosts({ latestPosts }) {
                 <div className="overflow-hidden rounded-lg bg-white group-hover:opacity-75 ">
                   <img
                     src={post.coverImage.url}
-                    alt="teste"
+                    alt={post.altImage}
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
-                <h1 className="mt-2 text-3xl text-gray-100 font-semibold text-center lg:text-start">
+                <h2 className="mt-2 text-3xl text-gray-100 font-semibold text-center lg:text-start">
                   {post.title}
-                </h1>
+                </h2>
                 <div class="flex items-center justify-center lg:justify-start mt-2 mb-2">
                   <p class="text-gray-100 text-xs tracking-widest mr-3">
                     <Date dateString={post.date}/>
