@@ -9,11 +9,14 @@ export default function About() {
         <h2 class="text-3xl font-bold sm:text-4xl">Sobre mim</h2>
 
         <p class="mt-4 max-w-[400px]">
-          Olá, eu sou Felipe Ferreira, desenvolvedor Front-End com foco em criação de aplicações web.
+          Ola, eu sou o Felipe Ferreira, desenvolvedor front-end com foco em desenvolvimento
+          Web e estudante de análise e desenvolvimento de sistemas.
         </p>
 
         <p class="mt-4 max-w-[400px]">
-          Tenho conhecimentos nas principais tecnologias do mercado no quesito desenvolvimento de software e design de interfaces.
+          Possuo conhecimento nas principais tecnologias de desenvolvimento web, criação de
+          interfaces, desenvolvimento de layout responsivo, deploy de aplicações, SEO e
+          versionamento de código.
         </p>
 
         <div class="w-full mt-3 flex items-center justify-center sm:max-w-[200px]">
@@ -45,7 +48,7 @@ export default function About() {
 
         <div class="text-center sm:text-start">
           <a
-          href="#"
+          href="https://drive.google.com/file/d/19TO_iJRghUgcJqdFXBGHAfP0_PWsMpVy/view?usp=share_link" target="_blank" rel="noopener noreferrer"
           class="mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
           >
           <span class="text-lg">Currículo</span>
@@ -54,7 +57,8 @@ export default function About() {
           <Link
           href="/#contact"
           >
-          <span class="text-lg mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500">Contato</span>
+            <span class="cursor-pointer text-lg mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500">
+            Contato</span>
           </Link>
         </div>
       </div>
