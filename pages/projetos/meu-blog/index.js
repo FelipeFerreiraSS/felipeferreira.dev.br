@@ -20,7 +20,7 @@ export default function MeuBlog({ project }) {
         <meta property="og:type" content="page"/>
         <meta property="og:url" content="felipeferreira.dev.br"/>
         <meta property="og:title" content={project.title}/>
-        <meta property="og:image" content="/projectsImg.svg"/>
+        <meta property="og:image" content="/capa-blog.png"/>
         <meta property="og:description" content={project.description}></meta>
 
         <meta property="article:author" content="Felipe Ferreira"></meta>

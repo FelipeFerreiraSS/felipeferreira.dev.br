@@ -25,7 +25,7 @@ export default function Home({ posts }) {
         <meta property="og:type" content="page"/>
         <meta property="og:url" content="felipeferreira.dev.br"/>
         <meta property="og:title" content="Felipe Ferreira Dev | Desenvolvimento Front-End"/>
-        <meta property="og:image" content=""/>
+        <meta property="og:image" content="/capa-blog.png"/>
         <meta property="og:description" content="Desenvolvedor Front-End com foco em criação de aplicações web."></meta>
 
         <meta property="article:author" content="Felipe Ferreira"></meta>

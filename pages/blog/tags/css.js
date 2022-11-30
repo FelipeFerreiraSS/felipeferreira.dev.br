@@ -19,7 +19,7 @@ export default function Css({ posts }) {
         <meta property="og:type" content="page"/>
         <meta property="og:url" content="felipeferreira.dev.br"/>
         <meta property="og:title" content="Felipe Ferreira Dev | Blog"/>
-        <meta property="og:image" content=""/>
+        <meta property="og:image" content="/capa-blog.png"/>
         <meta property="og:description" content="Blog sobre desenvolvimento web e Front-End. Falo sobre HTML, CSS, JavaScript, ReactJS, NextJS"></meta>
 
         <meta property="article:author" content="Felipe Ferreira"></meta>
