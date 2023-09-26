@@ -36,26 +36,26 @@ export default function Projects() {
             <div className="group relative">
               <div className="w-2/3 mx-auto rounded-lg">
                 <img
-                  src="/programming.svg"
+                  src="/relembra-ai-img.png"
                   alt="imagem de um programador trabalhando em um projeto"
                   className="object-cover object-center"
                 />
               </div>
               <h3 className="mt-2 text-3xl text-gray-100 font-semibold text-center lg:text-start">
-                Em desenvolvimento
+                Relembra.AI
               </h3>
               <p class="text-sm text-gray-300 mt-2 text-center lg:text-start">
-                Em desenvolvimento, entre no meu GitHub
-                para ver outros projetos
+                App de memorização espaçada com foco em aprendizado de idiomas.
+                Com games e atividades geradas por inteligência artificial
               </p>
               <div class="flex justify-center lg:justify-start">
-                <a href="https://github.com/FelipeFerreiraSS" target="_blank" rel="noopener noreferrer">
+                <Link href="/projetos/relembra-ai">
                   <button
                     class="mt-4 mr-3 inline-flex items-center rounded border border-indigo-600 bg-indigo-600 px-6 py-2 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                     >
-                    <span class="text-lg">GitHub</span>
+                    <span class="text-lg">Veja o projeto</span>
                   </button>
-                </a>
+                </Link>
               </div>
             </div>
             
