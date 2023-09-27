@@ -4,6 +4,9 @@ const allTags = [
   { id:"01", name: 'CSS', href: 'css'},
   { id:"02", name: 'NextJs', href: 'nextJs'},
   { id:"03", name: 'StyledComponents', href: 'styledComponents'},
+  { id:"04", name: 'ReactJs', href: 'reactjs'},
+  { id:"05", name: 'Git', href: 'git'},
+  { id:"06", name: 'IA', href: 'ia'},
 ]
 
 export default function LinksTags() {
