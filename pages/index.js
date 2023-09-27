@@ -53,7 +53,7 @@ export async function getStaticProps() {
   const { posts } = await hygraph.request(
     `
       {
-        posts(orderBy: date_DESC) {
+        posts(orderBy: date_DESC, first: 3) {
           id
           tags
           title
