@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/http/server.ts",
     "vercel-build": "tsc && npx prisma migrate deploy",
+    "build": "tsc",
     "start": "node dist/http/server.js"
   },
   "keywords": [],
