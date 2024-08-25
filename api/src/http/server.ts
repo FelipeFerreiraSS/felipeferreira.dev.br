@@ -11,6 +11,10 @@ const port = 3333
 
 dotenv.config();
 
+app.get('/', async (request, reply) => {
+  return reply.status(200).send({ message: 'Servidor rodando!!! 🚀🚀🚀🚀' });
+});
+
 app.register(authRoutes);
 app.register(userRoutes);
 
