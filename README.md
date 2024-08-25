@@ -4,6 +4,9 @@
 
 ![App Screenshot](https://felipeferreira.dev.br/projectsImg.svg)
 
+## Status do Projeto
+
+🚧 **Atualizações em Andamento** 🚧
 
 ## 🚀 Sobre o projeto
 
