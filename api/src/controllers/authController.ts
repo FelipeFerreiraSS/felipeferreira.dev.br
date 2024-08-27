@@ -27,7 +27,7 @@ export const loginHandler = async (request: FastifyRequest, reply: FastifyReply)
 
     const secretKey = process.env.SECRET_KEY_JWT as string;
 
-    const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.id, type: user.type }, secretKey, { expiresIn: '1h' });
 
     // Removendo a senha do objeto user antes de enviar na resposta
     const { password: _, ...userWithoutPassword } = user;
