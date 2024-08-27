@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 
 export const createPostHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   const createPostBody = z.object({
-    authorId: z.number(),
     title: z.string(),
     slug: z.string().min(1).max(255),
     published: z.boolean().optional(),
@@ -16,7 +15,9 @@ export const createPostHandler = async (request: FastifyRequest, reply: FastifyR
     tags: z.array(z.string()).optional(),
   });
 
-  const { authorId, title, slug, published = false, headerImageId, summary, content, tags } = createPostBody.parse(request.body);
+  const { title, slug, published = false, headerImageId, summary, content, tags } = createPostBody.parse(request.body);
+
+  const user = request.user as { userId: number };
 
   try {
     const newPost = await prisma.post.create({
@@ -33,7 +34,7 @@ export const createPostHandler = async (request: FastifyRequest, reply: FastifyR
             create: { name: tag },
           })) || [],
         },
-        authorId,
+        authorId: user.userId,
       },
     });
 
