@@ -1,9 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
+import { deletePost, findPostById } from '../models/postModel';
 
 const prisma = new PrismaClient();
 
+// Handler para criar um post
 export const createPostHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   const createPostBody = z.object({
     title: z.string(),
@@ -44,3 +46,36 @@ export const createPostHandler = async (request: FastifyRequest, reply: FastifyR
     return reply.status(500).send({ error: 'Erro interno do servidor' });
   }
 };
+
+// Handler para obter todos os posts
+export const getAllPostsHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const posts = await prisma.post.findMany()
+
+    return reply.status(200).send({ allPosts: posts })
+  } catch (error) {
+    console.error('Erro ao obter posts:', error);
+    return reply.status(500).send({ error: 'Erro interno do servidor' });
+  }
+}
+
+export const deletePostHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { id } = request.params as { id: string }
+
+  try {
+    const postId = Number(id);
+
+    const existingPost = findPostById(postId)
+
+    if (!existingPost) {
+      return reply.status(404).send({ error: 'Post não encontrado' });
+    }
+
+    await deletePost(postId)
+
+    return reply.status(200).send({ message: 'Post deletado com sucesso' });
+  } catch (error) {
+    console.error('Erro ao deletar post:', error);
+    return reply.status(500).send({ error: 'Erro interno do servidor' });
+  }
+}
