@@ -165,7 +165,11 @@ export const getPostsByTagHandler = async (request: FastifyRequest, reply: Fasti
       return reply.status(404).send({ error: 'Não existe nem um post vinculado a essa tag' });
     }
 
-    return reply.status(200).send({ postsByTag: posts })
+    const tagDetails = await prisma.tag.findUnique({
+      where: { id: tagId },
+    });
+
+    return reply.status(200).send({ tagDetails: tagDetails, postsByTag: posts })
   } catch (error) {
     console.error('Erro ao obter posts:', error);
     return reply.status(500).send({ error: 'Erro interno do servidor' });
