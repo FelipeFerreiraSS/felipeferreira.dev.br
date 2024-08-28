@@ -64,7 +64,7 @@ export const getTagHandler = async (request: FastifyRequest, reply: FastifyReply
   }
 };
 
-// Handler para atualizar um usuário
+// Handler para atualizar uma tag
 export const updateTagHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id } = request.params as { id: string };
 
