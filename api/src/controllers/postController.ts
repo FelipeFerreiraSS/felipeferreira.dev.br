@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 import { deletePost, findPostById, findPostBySlug, updatePost } from '../models/postModel';
 import { findImageById } from '../models/imageModel';
+import { findTagById } from '../models/tagModel';
 
 const prisma = new PrismaClient();
 
@@ -23,7 +24,7 @@ export const createPostHandler = async (request: FastifyRequest, reply: FastifyR
   const existingPost = await findPostBySlug(slug);
   
   if (existingPost) {
-    return reply.status(404).send({ error: 'Um post com esse slug já existe.' });
+    return reply.status(409).send({ error: 'Um post com esse slug já existe.' });
   }
 
   const user = request.user as { userId: number };
@@ -120,7 +121,7 @@ export const getUserPostHandler = async (request: FastifyRequest, reply: Fastify
   }
 }
 
-// Handler para obter apenas um posts publicado
+// Handler para obter apenas os posts publicados
 export const getPublishedPostHandler = async (request: FastifyRequest, reply: FastifyReply) => {
 
   try {
@@ -139,7 +140,39 @@ export const getPublishedPostHandler = async (request: FastifyRequest, reply: Fa
   }
 }
 
-// Handler para atualizar um usuário
+// Handler para obter todos os posts de uma tag
+export const getPostsByTagHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { id } = request.params as { id: string };
+
+  try {
+    const tagId = Number(id);
+
+    const existingTag = await findTagById(tagId);
+
+    if (!existingTag) {
+      return reply.status(404).send({ error: 'Tag não encontrada' });
+    }
+
+    const posts = await prisma.post.findMany({
+      where: { tags: { some: { id: tagId } } },
+      include: {
+        headerImage: true,
+        tags: true,
+      },
+    })
+
+    if (posts.length === 0) {
+      return reply.status(404).send({ error: 'Não existe nem um post vinculado a essa tag' });
+    }
+
+    return reply.status(200).send({ postsByTag: posts })
+  } catch (error) {
+    console.error('Erro ao obter posts:', error);
+    return reply.status(500).send({ error: 'Erro interno do servidor' });
+  }
+}
+
+// Handler para atualizar um post
 export const updatePostHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id } = request.params as { id: string };
 
