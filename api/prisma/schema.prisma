@@ -52,7 +52,7 @@ model Tag {
 
 model Image {
   id        Int      @id @default(autoincrement())
-  image     String
+  imageUrl  String
   posts     Post[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

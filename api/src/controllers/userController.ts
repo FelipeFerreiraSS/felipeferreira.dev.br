@@ -88,7 +88,7 @@ export const getUserHandler = async (request: FastifyRequest, reply: FastifyRepl
     // Removendo as senhas antes de enviar na resposta
     const usersWithoutPasswords = users.map(({ password, ...user }) => user);
 
-    return reply.status(200).send({ allUsers: usersWithoutPasswords });
+    return reply.status(200).send({ user: usersWithoutPasswords });
   } catch (error) {
     console.error('Erro ao obter usuários:', error);
     return reply.status(500).send({ error: 'Erro interno do servidor' });
