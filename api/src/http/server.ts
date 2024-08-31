@@ -4,6 +4,9 @@ require('dotenv').config();
 
 import { authRoutes } from '../routes/authRoutes';
 import { userRoutes } from '../routes/userRoutes';
+import { postRoutes } from '../routes/postRoutes';
+import { imageRoutes } from '../routes/imageRoutes';
+import { tagRoutes } from '../routes/tagRoutes';
 
 const app = fastify()
 
@@ -17,6 +20,9 @@ app.get('/', async (request, reply) => {
 
 app.register(authRoutes);
 app.register(userRoutes);
+app.register(postRoutes);
+app.register(imageRoutes);
+app.register(tagRoutes);
 
 app.listen({ port }).then(() => {
   console.log(`Server rodando na porta: ${port}`)

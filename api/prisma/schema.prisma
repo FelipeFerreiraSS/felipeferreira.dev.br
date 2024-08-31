@@ -20,6 +20,40 @@ model User {
   email     String   @unique
   password  String
   type      String
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id            Int      @id @default(autoincrement())
+  authorId      Int
+  slug          String   @unique
+  published     Boolean  @default(false)
+  title         String
+  headerImage   Image?   @relation(fields: [headerImageId], references: [id])
+  headerImageId Int?
+  summary       String
+  tags          Tag[]    @relation("PostTags")
+  content       String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  author User @relation(fields: [authorId], references: [id])
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  posts     Post[]   @relation("PostTags")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String
+  posts     Post[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

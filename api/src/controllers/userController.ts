@@ -68,6 +68,33 @@ export const getAllUsersHandler = async (request: FastifyRequest, reply: Fastify
   }
 };
 
+// Handler para obter apenas um usuários
+export const getUserHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { id } = request.params as { id: string };
+
+  try {
+    const userId = Number(id);
+
+    const existingUser = await findUserById(userId);
+
+    if (!existingUser) {
+      return reply.status(409).send({ error: 'Usuário não encontrado' });
+    }
+
+    const users = await prisma.user.findMany({
+      where: { id: userId }
+    });
+
+    // Removendo as senhas antes de enviar na resposta
+    const usersWithoutPasswords = users.map(({ password, ...user }) => user);
+
+    return reply.status(200).send({ user: usersWithoutPasswords });
+  } catch (error) {
+    console.error('Erro ao obter usuários:', error);
+    return reply.status(500).send({ error: 'Erro interno do servidor' });
+  }
+};
+
 // Handler para atualizar um usuário
 export const updateUserHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id } = request.params as { id: string };
