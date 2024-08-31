@@ -18,11 +18,11 @@ app.get('/', async (request, reply) => {
   return reply.status(200).send({ message: 'Servidor rodando!!! 🚀🚀🚀🚀' });
 });
 
-app.register(authRoutes);
-app.register(userRoutes);
-app.register(postRoutes);
-app.register(imageRoutes);
-app.register(tagRoutes);
+// app.register(authRoutes);
+// app.register(userRoutes);
+// app.register(postRoutes);
+// app.register(imageRoutes);
+// app.register(tagRoutes);
 
 app.listen({ port }).then(() => {
   console.log(`Server rodando na porta: ${port}`)
