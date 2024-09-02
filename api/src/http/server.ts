@@ -1,5 +1,6 @@
 import fastify from 'fastify'
 import dotenv from 'dotenv';
+import cors from '@fastify/cors';
 require('dotenv').config();
 
 import { authRoutes } from '../routes/authRoutes';
@@ -13,6 +14,11 @@ const app = fastify()
 const port = 3333
 
 dotenv.config();
+
+app.register(cors, {
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+});
 
 app.get('/', async (request, reply) => {
   return reply.status(200).send({ message: 'Servidor rodando!!! 🚀🚀🚀🚀' });

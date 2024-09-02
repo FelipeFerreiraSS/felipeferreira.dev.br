@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
+import jwt from 'jsonwebtoken';
 import {
   createUser,
   deleteUser as deleteUserModel,
@@ -92,6 +93,36 @@ export const getUserHandler = async (request: FastifyRequest, reply: FastifyRepl
   } catch (error) {
     console.error('Erro ao obter usuários:', error);
     return reply.status(500).send({ error: 'Erro interno do servidor' });
+  }
+};
+
+// Handler para a rota que retorna informações do usuário com base no token
+export const getUserInfoHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+  const authHeader = request.headers.authorization;
+  
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return reply.status(401).send({ error: 'Token não fornecido ou formato inválido' });
+  }
+
+  const token = authHeader.substring(7); // Remove o "Bearer " do início
+
+  try {
+    const secretKey = process.env.SECRET_KEY_JWT as string;
+    const decodedToken = jwt.verify(token, secretKey) as { userId: number };
+
+    const user = await findUserById(decodedToken.userId);
+
+    if (!user) {
+      return reply.status(404).send({ error: 'Usuário não encontrado' });
+    }
+
+    // Removendo a senha do objeto user antes de enviar na resposta
+    const { password: _, ...userWithoutPassword } = user;
+
+    return reply.status(200).send({ user: userWithoutPassword });
+  } catch (error) {
+    console.error('Erro ao obter informações do usuário:', error);
+    return reply.status(401).send({ error: 'Token inválido ou expirado' });
   }
 };
 
