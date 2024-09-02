@@ -1,8 +1,30 @@
+'use client'
+
+import { useForm } from "react-hook-form"
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useContext } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
+
+type Login = {
+  email: string
+  password: string
+}
 
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Login>()
+  const { signIn } = useContext(AuthContext);
+
+  async function handleSignIn(data: Login) {
+    await signIn(data)
+  }
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -12,10 +34,17 @@ export default function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit(handleSignIn)}>
             <div>
               <Label htmlFor="email">Email</Label>
-              <Input type="email" id="email" placeholder="Email" autoComplete="email" name="email" />
+              <Input 
+                {...register('email')}
+                type="email" 
+                id="email" 
+                placeholder="Email" 
+                autoComplete="email" 
+                name="email"
+              />
             </div>
 
             <div>
@@ -28,7 +57,14 @@ export default function Login() {
                 </div>
               </div>
               
-              <Input type="password" id="password" placeholder="Senha" autoComplete="current-password" name="password" />
+              <Input 
+                {...register('password')}
+                type="password" 
+                id="password" 
+                placeholder="Senha" 
+                autoComplete="current-password" 
+                name="password"
+              />
             </div>
 
             <div>

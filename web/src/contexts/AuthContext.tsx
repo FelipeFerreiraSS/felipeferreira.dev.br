@@ -1,0 +1,114 @@
+'use client'
+
+import { useToast } from '@/hooks/use-toast';
+import { createContext, ReactNode, useEffect, useState } from 'react'
+import { setCookie, parseCookies, destroyCookie } from 'nookies'
+import { useRouter } from 'next/navigation';
+import { api } from '@/services/api';
+
+type AuthProviderProps = {
+  children: ReactNode;
+};
+
+type Login = {
+  email: string;
+  password: string;
+};
+
+type User = {
+  id: number,
+  firstName: string,
+  lastName: string,
+  email: string,
+  type: string,
+  createdAt: Date,
+  updatedAt: Date
+}
+
+type AuthenticatedType = {
+  isAuthenticated: boolean
+  signIn: (data: Login) => Promise<void>;
+  user: User | null
+  signOut: () => Promise<void>;
+}
+
+export const AuthContext = createContext({} as AuthenticatedType)
+
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [ user, setUser ] = useState<User | null>(null)
+  const { toast } = useToast()
+  const router = useRouter()
+
+  const isAuthenticated = !!user
+
+  async function signIn(data: Login) {
+    try {
+      const response = await api.post('/login', data);
+      if (response.status === 200) {
+        toast({
+          title: "Sucesso",
+          description: "Login bem-sucedido.",
+        });
+
+        setCookie(undefined, 'felipeferreirablog.token', response.data.token, {
+          maxAge: 60 * 60 * 1 // 1 hour
+        })
+
+        api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
+
+        setUser(response.data.user)
+
+        router.push('/dashboard');
+      }
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+      toast({
+        variant: "destructive",
+        title: "Erro",
+        description: "Falha ao fazer login. Verifique suas credenciais e tente novamente.",
+      });
+    }
+  }
+
+  async function signOut() {
+    try {
+      setUser(null);
+      destroyCookie(undefined, 'felipeferreirablog.token');
+      api.defaults.headers['Authorization'] = '';
+      router.push('/login');
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+      toast({
+        variant: "destructive",
+        title: "Erro",
+        description: "Falha ao fazer logout. Tente novamente.",
+      });
+    }
+  }
+
+  useEffect(() => {
+    const { 'felipeferreirablog.token': token } = parseCookies()
+
+    if (token) {
+      api.get(`/user-info`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        setUser(response.data.user);
+      })
+      .catch(error => {
+        console.error('Erro ao obter dados do usuário:', error);
+        // Opcional: limpar o token se ocorrer um erro
+        // destroyCookie(undefined, 'felipeferreirablog.token');
+      });
+    }
+  }, [])
+
+  return (
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
