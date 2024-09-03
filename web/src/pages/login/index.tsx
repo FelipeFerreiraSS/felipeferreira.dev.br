@@ -9,11 +9,7 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { parseCookies } from "nookies";
 import { useRouter } from "next/navigation";
-
-type Login = {
-  email: string
-  password: string
-}
+import type { Login } from "@/types/Login";
 
 export default function Login() {
   const {

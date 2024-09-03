@@ -5,25 +5,12 @@ import { createContext, ReactNode, useEffect, useState } from 'react'
 import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import { useRouter } from 'next/navigation';
 import { api } from '@/services/api';
+import { User } from '@/types/User';
+import { Login } from '@/types/Login';
 
 type AuthProviderProps = {
   children: ReactNode;
 };
-
-type Login = {
-  email: string;
-  password: string;
-};
-
-type User = {
-  id: number,
-  firstName: string,
-  lastName: string,
-  email: string,
-  type: string,
-  createdAt: Date,
-  updatedAt: Date
-}
 
 type AuthenticatedType = {
   isAuthenticated: boolean

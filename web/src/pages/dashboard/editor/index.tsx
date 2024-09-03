@@ -6,16 +6,6 @@ import { GetServerSideProps } from "next";
 import { Button } from "@/components/ui/button";
 import { authenticateUser } from "@/services/auth";
 
-type User = {
-    id: number,
-    firstName: string,
-    lastName: string,
-    email: string,
-    type: string,
-    createdAt: Date,
-    updatedAt: Date
-}
-
 export default function DashboardEditor() {
   const { user, signOut } = useContext(AuthContext)
   //const [ users, setUsers ] = useState<User[]>([])

@@ -1,37 +1,29 @@
 'use client'
 
 import { AuthContext } from "@/contexts/AuthContext"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { GetServerSideProps } from "next";
 import { Button } from "@/components/ui/button";
 import { authenticateUser } from "@/services/auth";
-
-type User = {
-    id: number,
-    firstName: string,
-    lastName: string,
-    email: string,
-    type: string,
-    createdAt: Date,
-    updatedAt: Date
-}
+import { api } from "@/services/api";
+import { User } from "@/types/User";
 
 export default function DashboardAdmin() {
   const { user, signOut } = useContext(AuthContext)
-  //const [ users, setUsers ] = useState<User[]>([])
+  const [ users, setUsers ] = useState<User[]>([])
 
-  // useEffect(() => {
-  //   async function fetchUsers() {
-  //     try {
-  //       const response = await api.get<{allUsers: User[] }>('/users');
-  //       setUsers(response.data.allUsers);
-  //     } catch (error) {
-  //       console.error('Erro ao buscar usuários:', error);
-  //     }
-  //   }
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const response = await api.get<{allUsers: User[] }>('/users');
+        setUsers(response.data.allUsers);
+      } catch (error) {
+        console.error('Erro ao buscar usuários:', error);
+      }
+    }
 
-  //   fetchUsers();
-  // }, []);
+    fetchUsers();
+  }, []);
   
   return (
     <>
@@ -45,11 +37,11 @@ export default function DashboardAdmin() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
           <h2>Lista de Usuários</h2>
           <ul>
-            {/* {users.map((user) => (
+            {users.map((user) => (
               <li key={user.id}>
                 {user.firstName} {user.lastName} - {user.email} ({user.type})
               </li>
-            ))} */}
+            ))}
           </ul>
         </div>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
