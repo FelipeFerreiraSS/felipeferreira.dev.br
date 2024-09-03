@@ -51,14 +51,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
 
         setCookie(undefined, 'felipeferreirablog.token', response.data.token, {
-          maxAge: 60 * 60 * 1 // 1 hour
+          maxAge: 60 * 60 * 1, // 1 hour
+          path: '/'
         })
 
         api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
 
         setUser(response.data.user)
 
-        router.push('/dashboard');
+        if (response.data.user.type === 'admin') {
+          router.push('/dashboard/admin');
+        } else if (response.data.user.type === 'editor') {
+          router.push('/dashboard/editor');
+        } else {
+          router.push('/login');
+        }
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
@@ -73,7 +80,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   async function signOut() {
     try {
       setUser(null);
-      destroyCookie(undefined, 'felipeferreirablog.token');
+      destroyCookie(undefined, 'felipeferreirablog.token', {
+        path: '/'
+      });
       api.defaults.headers['Authorization'] = '';
       router.push('/login');
     } catch (error) {

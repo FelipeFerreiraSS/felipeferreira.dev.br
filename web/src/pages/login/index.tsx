@@ -5,8 +5,10 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
+import { parseCookies } from "nookies";
+import { useRouter } from "next/navigation";
 
 type Login = {
   email: string
@@ -19,11 +21,30 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<Login>()
-  const { signIn } = useContext(AuthContext);
+
+  const { signIn, user } = useContext(AuthContext);
+  const router = useRouter();
 
   async function handleSignIn(data: Login) {
     await signIn(data)
   }
+
+  useEffect(() => {
+    const cookies = parseCookies();
+    const token = cookies['felipeferreirablog.token'];
+
+    if (token) {
+      if (user) {
+        if (user.type === 'admin') {
+          router.push('/dashboard/admin');
+        } else if (user.type === 'editor') {
+          router.push('/dashboard/editor');
+        }
+      } else {
+        router.push('/login');
+      }
+    }
+  }, [user, router]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
