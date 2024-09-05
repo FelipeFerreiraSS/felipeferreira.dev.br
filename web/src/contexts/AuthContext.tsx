@@ -47,11 +47,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setUser(response.data.user)
 
         if (response.data.user.type === 'admin') {
-          router.push('/dashboard/admin');
+          router.replace('/dashboard/admin');
         } else if (response.data.user.type === 'editor') {
-          router.push('/dashboard/editor');
+          router.replace('/dashboard/editor');
         } else {
-          router.push('/login');
+          router.replace('/login');
         }
       }
     } catch (error) {

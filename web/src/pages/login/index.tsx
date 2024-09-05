@@ -25,22 +25,22 @@ export default function Login() {
     await signIn(data)
   }
 
-  useEffect(() => {
-    const cookies = parseCookies();
-    const token = cookies['felipeferreirablog.token'];
+  // useEffect(() => {
+  //   const cookies = parseCookies();
+  //   const token = cookies['felipeferreirablog.token'];
 
-    if (token) {
-      if (user) {
-        if (user.type === 'admin') {
-          router.push('/dashboard/admin');
-        } else if (user.type === 'editor') {
-          router.push('/dashboard/editor');
-        }
-      } else {
-        router.push('/login');
-      }
-    }
-  }, [user, router]);
+  //   if (token) {
+  //     if (user) {
+  //       if (user.type === 'admin') {
+  //         router.replace('/dashboard/admin');
+  //       } else if (user.type === 'editor') {
+  //         router.replace('/dashboard/editor');
+  //       }
+  //     } else {
+  //       router.push('/login');
+  //     }
+  //   }
+  // }, [user, router]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
