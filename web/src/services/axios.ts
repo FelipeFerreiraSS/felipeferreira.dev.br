@@ -6,7 +6,7 @@ export function getAPIClient(ctx?: any) {
   const { 'felipeferreirablog.token': token } = parseCookies(ctx)
 
   const api = axios.create({
-    baseURL: 'http://localhost:3333'
+    baseURL: 'https://felipeferreiradevbr-api.vercel.app'
   })
 
   if (token) {
