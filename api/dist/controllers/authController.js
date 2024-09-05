@@ -24,7 +24,7 @@ const loginHandler = async (request, reply) => {
             return reply.status(401).send({ error: 'Email ou senha estão incorretos' });
         }
         const secretKey = process.env.SECRET_KEY_JWT;
-        const token = jsonwebtoken_1.default.sign({ userId: user.id, type: user.type }, secretKey, { expiresIn: '1h' });
+        const token = jsonwebtoken_1.default.sign({ userId: user.id }, secretKey, { expiresIn: '1h' });
         // Removendo a senha do objeto user antes de enviar na resposta
         const { password: _, ...userWithoutPassword } = user;
         return reply.status(200).send({

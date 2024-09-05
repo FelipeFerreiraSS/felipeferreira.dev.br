@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUserHandler = exports.updateUserHandler = exports.getUserHandler = exports.getAllUsersHandler = exports.createUserHandler = void 0;
+exports.deleteUserHandler = exports.updateUserHandler = exports.getAllUsersHandler = exports.createUserHandler = void 0;
 const client_1 = require("@prisma/client");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const zod_1 = require("zod");
@@ -57,28 +57,6 @@ const getAllUsersHandler = async (request, reply) => {
     }
 };
 exports.getAllUsersHandler = getAllUsersHandler;
-// Handler para obter apenas um usuários
-const getUserHandler = async (request, reply) => {
-    const { id } = request.params;
-    try {
-        const userId = Number(id);
-        const existingUser = await (0, userModel_1.findUserById)(userId);
-        if (!existingUser) {
-            return reply.status(409).send({ error: 'Usuário não encontrado' });
-        }
-        const users = await prisma.user.findMany({
-            where: { id: userId }
-        });
-        // Removendo as senhas antes de enviar na resposta
-        const usersWithoutPasswords = users.map(({ password, ...user }) => user);
-        return reply.status(200).send({ user: usersWithoutPasswords });
-    }
-    catch (error) {
-        console.error('Erro ao obter usuários:', error);
-        return reply.status(500).send({ error: 'Erro interno do servidor' });
-    }
-};
-exports.getUserHandler = getUserHandler;
 // Handler para atualizar um usuário
 const updateUserHandler = async (request, reply) => {
     const { id } = request.params;
