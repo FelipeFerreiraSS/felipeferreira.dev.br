@@ -5,32 +5,21 @@ import { useContext } from "react"
 import { GetServerSideProps } from "next";
 import { Button } from "@/components/ui/button";
 import { authenticateUser } from "@/services/auth";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 
 export default function DashboardEditor() {
-  const { user, signOut } = useContext(AuthContext)
-  //const [ users, setUsers ] = useState<User[]>([])
-
-  // useEffect(() => {
-  //   async function fetchUsers() {
-  //     try {
-  //       const response = await api.get<{allUsers: User[] }>('/users');
-  //       setUsers(response.data.allUsers);
-  //     } catch (error) {
-  //       console.error('Erro ao buscar usuários:', error);
-  //     }
-  //   }
-
-  //   fetchUsers();
-  // }, []);
+  const { signOut } = useContext(AuthContext)
+  const userState = useSelector((state: RootState) => state.user);
   
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
           <h1>Dashboard</h1>
-          <p>Bem vindo Editor: {user?.firstName} {user?.lastName}</p>
-          <p>email: {user?.email}</p>
-          <p>tipo: {user?.type}</p>
+          <p>Bem vindo Editor: {userState.user?.firstName} {userState.user?.lastName}</p>
+          <p>email: {userState.user?.email}</p>
+          <p>tipo: {userState.user?.type}</p>
         </div>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
           <h2>Lista de Usuários</h2>
