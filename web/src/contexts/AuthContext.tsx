@@ -1,12 +1,15 @@
 'use client'
 
 import { useToast } from '@/hooks/use-toast';
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import { createContext, ReactNode, useEffect } from 'react'
 import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import { useRouter } from 'next/navigation';
 import { api } from '@/services/api';
-import { User } from '@/types/User';
 import { Login } from '@/types/Login';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/store/store';
+import { clearUser, setUser } from '@/store/features/user/userSlice';
+import { fetchUserInfo } from '@/store/features/user/truckFunctions';
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -15,18 +18,17 @@ type AuthProviderProps = {
 type AuthenticatedType = {
   isAuthenticated: boolean
   signIn: (data: Login) => Promise<void>;
-  user: User | null
   signOut: () => Promise<void>;
 }
 
 export const AuthContext = createContext({} as AuthenticatedType)
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [ user, setUser ] = useState<User | null>(null)
   const { toast } = useToast()
   const router = useRouter()
-
-  const isAuthenticated = !!user
+  const dispatch: AppDispatch = useDispatch()
+  const userState = useSelector((state: RootState) => state.user);
+  const isAuthenticated = !!userState
 
   async function signIn(data: Login) {
     try {
@@ -43,8 +45,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         })
 
         api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
-
-        setUser(response.data.user)
+        dispatch(setUser(response.data.user));
 
         if (response.data.user.type === 'admin') {
           router.replace('/dashboard/admin');
@@ -66,7 +67,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function signOut() {
     try {
-      setUser(null);
+      clearUser();
       destroyCookie(undefined, 'felipeferreirablog.token', {
         path: '/'
       });
@@ -84,26 +85,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     const { 'felipeferreirablog.token': token } = parseCookies()
-
     if (token) {
-      api.get(`/user-info`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        setUser(response.data.user);
-      })
-      .catch(error => {
-        console.error('Erro ao obter dados do usuário:', error);
-        // Opcional: limpar o token se ocorrer um erro
-        // destroyCookie(undefined, 'felipeferreirablog.token');
-      });
+      dispatch(fetchUserInfo());  
     }
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+    <AuthContext.Provider value={{ isAuthenticated, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   )

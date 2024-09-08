@@ -1,46 +1,50 @@
 'use client'
 
 import { AuthContext } from "@/contexts/AuthContext"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { GetServerSideProps } from "next";
 import { Button } from "@/components/ui/button";
 import { authenticateUser } from "@/services/auth";
-import { api } from "@/services/api";
-import { User } from "@/types/User";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { fetchPostsList } from "@/store/features/post/truckFunctions";
 
 export default function DashboardAdmin() {
-  const { user, signOut } = useContext(AuthContext)
-  const [ users, setUsers ] = useState<User[]>([])
+  const { signOut } = useContext(AuthContext)
+  const dispatch: AppDispatch = useDispatch()
+
+  const userState = useSelector((state: RootState) => state.user);
+  const postsState = useSelector((state: RootState) => state.posts)
 
   useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const response = await api.get<{allUsers: User[] }>('/users');
-        setUsers(response.data.allUsers);
-      } catch (error) {
-        console.error('Erro ao buscar usuários:', error);
-      }
+    if (!postsState.posts) {
+      dispatch(fetchPostsList());  
     }
-
-    fetchUsers();
-  }, []);
-  
+  }, [])
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
           <h1>Dashboard</h1>
-          <p>Bem vindo Administrador: {user?.firstName} {user?.lastName}</p>
-          <p>email: {user?.email}</p>
-          <p>tipo: {user?.type}</p>
+          <p>Bem vindo Administrador: {userState.user?.firstName} {userState.user?.lastName}</p>
+          <p>email: {userState.user?.email}</p>
+          <p>tipo: {userState.user?.type}</p>
         </div>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
-          <h2>Lista de Usuários</h2>
+          <h2>Lista de Posts</h2>
           <ul>
-            {users.map((user) => (
-              <li key={user.id}>
-                {user.firstName} {user.lastName} - {user.email} ({user.type})
-              </li>
+            {postsState.posts?.map((post) => (
+              <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5" key={post.id}>
+                <p>{post.author.firstName}</p>
+                <p>{post.title}</p>
+                <p>{post.summary}</p>
+                <p>{post.headerImage?.imageUrl}</p>
+                {post.tags.map((tag) => (
+                  <div key={tag.id}>
+                    <li>{tag.name}</li>
+                  </div>
+                ))}
+              </div>
             ))}
           </ul>
         </div>

@@ -10,6 +10,8 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { parseCookies } from "nookies";
 import { useRouter } from "next/navigation";
 import type { Login } from "@/types/Login";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 export default function Login() {
   const {
@@ -18,29 +20,25 @@ export default function Login() {
     formState: { errors },
   } = useForm<Login>()
 
-  const { signIn, user } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
   const router = useRouter();
 
   async function handleSignIn(data: Login) {
     await signIn(data)
   }
+  const userState = useSelector((state: RootState) => state.user);
 
-  // useEffect(() => {
-  //   const cookies = parseCookies();
-  //   const token = cookies['felipeferreirablog.token'];
-
-  //   if (token) {
-  //     if (user) {
-  //       if (user.type === 'admin') {
-  //         router.replace('/dashboard/admin');
-  //       } else if (user.type === 'editor') {
-  //         router.replace('/dashboard/editor');
-  //       }
-  //     } else {
-  //       router.push('/login');
-  //     }
-  //   }
-  // }, [user, router]);
+  useEffect(() => {
+    if (userState.user) {
+        if (userState.user?.type === 'admin') {
+          router.replace('/dashboard/admin');
+        } else if (userState.user?.type === 'editor') {
+          router.replace('/dashboard/editor');
+        }
+      } else {
+        router.push('/login');
+      }
+  }, [userState, router]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
