@@ -55,11 +55,12 @@ const getAllPostsHandler = async (request, reply) => {
     try {
         const posts = await prisma.post.findMany({
             include: {
+                author: true,
                 headerImage: true,
                 tags: true,
             },
         });
-        return reply.status(200).send({ allPosts: posts });
+        return reply.status(200).send(posts);
     }
     catch (error) {
         console.error('Erro ao obter posts:', error);

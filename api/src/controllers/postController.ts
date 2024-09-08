@@ -60,12 +60,13 @@ export const getAllPostsHandler = async (request: FastifyRequest, reply: Fastify
   try {
     const posts = await prisma.post.findMany({
       include: {
+        author: true,
         headerImage: true,
         tags: true,
       },
     })
 
-    return reply.status(200).send({ allPosts: posts })
+    return reply.status(200).send( posts )
   } catch (error) {
     console.error('Erro ao obter posts:', error);
     return reply.status(500).send({ error: 'Erro interno do servidor' });

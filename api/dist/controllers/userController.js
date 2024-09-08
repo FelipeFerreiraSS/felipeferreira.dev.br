@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUserHandler = exports.updateUserHandler = exports.getAllUsersHandler = exports.createUserHandler = void 0;
+exports.deleteUserHandler = exports.updateUserHandler = exports.getUserInfoHandler = exports.getUserHandler = exports.getAllUsersHandler = exports.createUserHandler = void 0;
 const client_1 = require("@prisma/client");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const zod_1 = require("zod");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userModel_1 = require("../models/userModel");
 const prisma = new client_1.PrismaClient();
 const saltRounds = 10;
@@ -57,6 +58,52 @@ const getAllUsersHandler = async (request, reply) => {
     }
 };
 exports.getAllUsersHandler = getAllUsersHandler;
+// Handler para obter apenas um usuários
+const getUserHandler = async (request, reply) => {
+    const { id } = request.params;
+    try {
+        const userId = Number(id);
+        const existingUser = await (0, userModel_1.findUserById)(userId);
+        if (!existingUser) {
+            return reply.status(409).send({ error: 'Usuário não encontrado' });
+        }
+        const users = await prisma.user.findMany({
+            where: { id: userId }
+        });
+        // Removendo as senhas antes de enviar na resposta
+        const usersWithoutPasswords = users.map(({ password, ...user }) => user);
+        return reply.status(200).send({ user: usersWithoutPasswords });
+    }
+    catch (error) {
+        console.error('Erro ao obter usuários:', error);
+        return reply.status(500).send({ error: 'Erro interno do servidor' });
+    }
+};
+exports.getUserHandler = getUserHandler;
+// Handler para a rota que retorna informações do usuário com base no token
+const getUserInfoHandler = async (request, reply) => {
+    const authHeader = request.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return reply.status(401).send({ error: 'Token não fornecido ou formato inválido' });
+    }
+    const token = authHeader.substring(7); // Remove o "Bearer " do início
+    try {
+        const secretKey = process.env.SECRET_KEY_JWT;
+        const decodedToken = jsonwebtoken_1.default.verify(token, secretKey);
+        const user = await (0, userModel_1.findUserById)(decodedToken.userId);
+        if (!user) {
+            return reply.status(404).send({ error: 'Usuário não encontrado' });
+        }
+        // Removendo a senha do objeto user antes de enviar na resposta
+        const { password: _, ...userWithoutPassword } = user;
+        return reply.status(200).send({ user: userWithoutPassword });
+    }
+    catch (error) {
+        console.error('Erro ao obter informações do usuário:', error);
+        return reply.status(401).send({ error: 'Token inválido ou expirado' });
+    }
+};
+exports.getUserInfoHandler = getUserInfoHandler;
 // Handler para atualizar um usuário
 const updateUserHandler = async (request, reply) => {
     const { id } = request.params;
