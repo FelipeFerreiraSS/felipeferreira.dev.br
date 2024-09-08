@@ -28,7 +28,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter()
   const dispatch: AppDispatch = useDispatch()
   const userState = useSelector((state: RootState) => state.user);
-  const isAuthenticated = !!userState
+  const isAuthenticated = !!userState.user
 
   async function signIn(data: Login) {
     try {
