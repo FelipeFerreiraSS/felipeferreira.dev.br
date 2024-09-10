@@ -8,12 +8,15 @@ import { authenticateUser } from "@/services/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { fetchPostsList } from "@/store/features/post/truckFunctions";
+import { Inter } from "next/font/google";
+import HeaderMenu from "@/components/headerMenu";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export default function DashboardAdmin() {
   const { signOut } = useContext(AuthContext)
   const dispatch: AppDispatch = useDispatch()
 
-  const userState = useSelector((state: RootState) => state.user);
   const postsState = useSelector((state: RootState) => state.posts)
 
   useEffect(() => {
@@ -22,13 +25,8 @@ export default function DashboardAdmin() {
     }
   }, [])
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
-        <h1>Dashboard</h1>
-        <p>Bem vindo Administrador: {userState.user?.firstName} {userState.user?.lastName}</p>
-        <p>email: {userState.user?.email}</p>
-        <p>tipo: {userState.user?.type}</p>
-      </div>
+    <div className={`flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ${inter.className}`}>
+      <HeaderMenu />
       <div className="mx-auto w-full max-w-4xl mb-5">
         <h2>Lista de Posts</h2>
         <table border={1} cellPadding="10" cellSpacing="0">

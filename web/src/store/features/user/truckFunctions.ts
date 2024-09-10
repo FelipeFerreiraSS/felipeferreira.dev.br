@@ -1,3 +1,4 @@
+import { CreateUserType } from '@/pages/dashboard/admin/profile';
 import { AppDispatch } from '../../store';
 import { setUser } from '../user/userSlice';
 import { api } from '@/services/api';
@@ -20,5 +21,23 @@ export const fetchUserInfo = () => async (dispatch: AppDispatch) => {
     dispatch(setUser(userData));
   } catch (error) {
     console.error('Failed to fetch truck data:', error);
+  }
+};
+
+export const createUser = (data: CreateUserType) => async (dispatch: AppDispatch) => {
+  const { 'felipeferreirablog.token': token } = parseCookies()
+  try {
+    const response = await api.post(`/users`, data, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      .catch(error => {
+        console.error('Erro ao criar usuário:', error);
+      });
+    return true
+  } catch (error) {
+    console.error('Failed createUser:', error);
+    return false
   }
 };
