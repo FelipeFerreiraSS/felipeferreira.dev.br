@@ -11,13 +11,14 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { createUser } from "@/store/features/user/truckFunctions";
+import { fetchUsersList, getUserById, updateUser } from "@/store/features/user/truckFunctions";
 import { useToast } from "@/hooks/use-toast";
 
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-export interface CreateUserType extends User {
-  password: string
+export interface EditUserType extends User {
+  password?: string
 }
 
 export default function EditUser() {
@@ -25,29 +26,53 @@ export default function EditUser() {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
-  } = useForm<CreateUserType>()
+  } = useForm<EditUserType>()
   const router = useRouter();
   
+  //const [isLoading, setIsLoading] = useState(true);
+  const { id } = router.query;
+
+  const numericId = typeof id === 'string' ? parseInt(id, 10) : undefined;
+
   const { toast } = useToast()
   const dispatch: AppDispatch = useDispatch()
 
-  async function handleCreateUser(data: CreateUserType) {
-    const isSuccess = await dispatch(createUser(data))
+  async function handleUpdateUser(data: EditUserType) {
+    const isSuccess = await dispatch(updateUser(numericId, data ))
     
     if (isSuccess) {
       toast({
         title: "Sucesso",
-        description: "Usuário criado com sucedido.",
+        description: "Usuário atualizado com sucesso.",
       });
+      dispatch(fetchUsersList()); 
+      router.push("/dashboard/admin/users")
     } else {
       toast({
         variant: "destructive",
         title: "Erro",
-        description: "Falha ao criar novo usário.",
+        description: "Falha atualizar o usário.",
       });
     }
   }
+
+  useEffect(() => {
+    if (numericId) {
+      const fetchUserData = async() => {
+        const userData = await dispatch(getUserById(numericId));
+        if (userData) {
+          setValue('firstName', userData.firstName);
+          setValue('lastName', userData.lastName);
+          setValue('email', userData.email);
+          setValue('type', userData.type);
+        }
+        //setIsLoading(false);
+      }
+      fetchUserData();
+    }
+  }, [id, setValue, dispatch]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -62,7 +87,7 @@ export default function EditUser() {
             Voltar
           </Button>
         </div>
-        <form className="space-y-6" onSubmit={handleSubmit(handleCreateUser)}>
+        <form className="space-y-6" onSubmit={handleSubmit(handleUpdateUser)}>
           <div>
             <Label htmlFor="name">Nome</Label>
             <Input 

@@ -4,6 +4,7 @@ import { AppDispatch } from '../../store';
 import { setUser, setUsers } from '../user/userSlice';
 import { api } from '@/services/api';
 import { parseCookies } from 'nookies';
+import { EditUserType } from '@/pages/dashboard/admin/users/edit-user/[id]';
 
 export const fetchUserInfo = () => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
@@ -58,6 +59,43 @@ export const createUser = (data: CreateUserType) => async (dispatch: AppDispatch
     return true
   } catch (error) {
     console.error('Failed createUser:', error);
+    return false
+  }
+};
+
+export const getUserById = (id: number | undefined) => async (dispatch: AppDispatch) => {
+  const { 'felipeferreirablog.token': token } = parseCookies()
+  try {
+    const response = await api.get(`/users/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      .catch(error => {
+        console.error('Erro ao buscar usuário:', error);
+      });
+    const usersData = response?.data.user[0]
+    return usersData
+  } catch (error) {
+    console.error('Failed:', error);
+    return false
+  }
+};
+
+export const updateUser = (id: number | undefined, data: EditUserType) => async (dispatch: AppDispatch) => {
+  const { 'felipeferreirablog.token': token } = parseCookies()
+  try {
+    const response = await api.put(`/users/${id}`, data, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      .catch(error => {
+        console.error('Erro ao atualizar usuário:', error);
+      });
+      return true
+  } catch (error) {
+    console.error('Failed:', error);
     return false
   }
 };
