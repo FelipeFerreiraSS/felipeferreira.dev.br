@@ -16,11 +16,25 @@ export default function HeaderMenu() {
           >
             <Link href="/dashboard">Dashboard</Link>
           </Button>
-          <Button 
-            className="bg-blue-500"
-          >
-            <Link href={`/dashboard/${userState.user?.type}/profile`}>Pefil</Link>
-          </Button>
+          {userState.user?.type === 'admin' ? (
+            menuListAdmin.map((itens) => (
+              <Button 
+                className="bg-blue-500"
+                key={itens.id}
+              >
+                <Link href={`/dashboard/${userState.user?.type}${itens.url}`}>{itens.name}</Link>
+              </Button>
+            ))
+          ) : (
+            menuListEditor.map((itens) => (
+              <Button 
+                className="bg-blue-500"
+                key={itens.id}
+              >
+                <Link href={`/dashboard/${userState.user?.type}${itens.url}`}>{itens.name}</Link>
+              </Button>
+            ))
+          )}
         </div>
         <div>
           <p>Bem vindo {userState.user?.type === 'admin' ? 'Administrador' : 'Editor'}: {userState.user?.firstName}</p>
@@ -29,3 +43,24 @@ export default function HeaderMenu() {
     </div>
   )
 }
+
+const menuListAdmin = [
+  {
+    id: 0,
+    url: '/users',
+    name: 'Usuários'
+  },
+  {
+    id: 1,
+    url: '/profile',
+    name: 'Pefil'
+  },
+]
+
+const menuListEditor = [
+  {
+    id: 0,
+    url: '/profile',
+    name: 'Pefil'
+  },
+]
