@@ -57,7 +57,14 @@ export const createUserHandler = async (request: FastifyRequest, reply: FastifyR
 // Handler para obter todos os usuários
 export const getAllUsersHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      orderBy: {
+        id: 'asc'
+      },
+      include: {
+        posts: true
+      }
+    });
 
     // Removendo as senhas antes de enviar na resposta
     const usersWithoutPasswords = users.map(({ password, ...user }) => user);
