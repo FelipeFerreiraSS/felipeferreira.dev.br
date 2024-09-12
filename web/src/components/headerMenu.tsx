@@ -55,6 +55,11 @@ const menuListAdmin = [
     url: '/profile',
     name: 'Pefil'
   },
+  {
+    id: 2,
+    url: '/tags',
+    name: 'Tags'
+  },
 ]
 
 const menuListEditor = [

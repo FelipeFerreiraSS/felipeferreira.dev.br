@@ -34,7 +34,11 @@ export const createTagHandler = async (request: FastifyRequest, reply: FastifyRe
 // Handler para obter todas as tags
 export const getAllTagsHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    const tags = await prisma.tag.findMany();
+    const tags = await prisma.tag.findMany({
+      include: {
+        posts: true
+      }
+    });
 
     return reply.status(200).send({ allTags: tags });
   } catch (error) {
@@ -76,13 +80,19 @@ export const updateTagHandler = async (request: FastifyRequest, reply: FastifyRe
 
   try {
     const tagId = Number(id);
-    const existingTag = await findTagById(tagId);
+    const existingTagId = await findTagById(tagId);
 
-    if (!existingTag) {
+    if (!existingTagId) {
       return reply.status(404).send({ error: 'Tag não encontrada' });
     }
+    
+    const existingTagName = await findTagByName(name);
 
-    const updatedData: Partial<typeof existingTag> = {
+    if (existingTagName) {
+      return reply.status(409).send({ error: 'Tag já existente' });
+    }
+
+    const updatedData: Partial<typeof existingTagId> = {
       name
     };
 
