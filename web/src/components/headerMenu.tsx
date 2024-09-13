@@ -60,6 +60,11 @@ const menuListAdmin = [
     url: '/tags',
     name: 'Tags'
   },
+  {
+    id: 3,
+    url: '/gallery',
+    name: 'Gallery'
+  },
 ]
 
 const menuListEditor = [
