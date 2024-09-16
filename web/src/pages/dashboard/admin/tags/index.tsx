@@ -195,7 +195,7 @@ export default function Tags() {
                     </PopoverContent>
                   </Popover>
                 </td>
-                <td><DeleteAlert onConfirm={handleDeleteTag} id={tag.id} /></td>
+                <td><DeleteAlert onConfirm={(result) => handleDeleteTag(result, tag.id)} id={tag.id} /></td>
               </tr>
             ))}
           </tbody>

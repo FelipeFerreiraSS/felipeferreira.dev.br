@@ -11,9 +11,9 @@ import {
   AlertDialogTrigger 
 } from "./ui/alert-dialog";
 
-export default function DeleteAlert({ onConfirm, id }: { onConfirm: (result: boolean, id: number) => void, id: number }) {
+export default function DeleteAlert({ onConfirm, id }: { onConfirm: (result: boolean) => void, id: number }) {
   const handleDelete = () => {
-    onConfirm(true, id);
+    onConfirm(true);
   };
   
   return (

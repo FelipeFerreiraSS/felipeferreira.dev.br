@@ -95,7 +95,7 @@ export default function Users() {
                 <td>{new Date(users.createdAt).toLocaleDateString()}</td>
                 <td>{new Date(users.updatedAt).toLocaleDateString()}</td>
                 <td><Link href={`/dashboard/admin/users/edit-user/${users.id}`}>✏️</Link></td>
-                <td><DeleteAlert onConfirm={handleDeleteUser} id={users.id} /></td>
+                <td><DeleteAlert onConfirm={(result) => handleDeleteUser(result, users.id)} id={users.id} /></td>
               </tr>
             ))}
           </tbody>

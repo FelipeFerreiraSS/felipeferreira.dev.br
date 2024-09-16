@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './features/user/userSlice';
 import postsReducer from './features/post/postSlice';
 import tagsReducer from './features/tag/tagSlice';
+import imageReducer from './features/image/imageSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     posts: postsReducer,
-    tags: tagsReducer
+    tags: tagsReducer,
+    images: imageReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
