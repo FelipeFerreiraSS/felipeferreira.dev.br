@@ -30,7 +30,11 @@ export const createImageHandler = async (request: FastifyRequest, reply: Fastify
 // Handler para obter todos as imagens
 export const getAllImagesHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
-    const images = await prisma.image.findMany();
+    const images = await prisma.image.findMany({
+      include: {
+        posts: true
+      }
+    });
 
     return reply.status(200).send({ allImages: images });
   } catch (error) {
