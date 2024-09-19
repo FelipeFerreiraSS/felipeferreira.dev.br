@@ -86,6 +86,7 @@ export default function CreatePost() {
         description: "Usuário criado com sucesso.",
       });
       dispatch(fetchPostsList());  
+      router.push("/dashboard/admin")
     } else {
       toast({
         variant: "destructive",

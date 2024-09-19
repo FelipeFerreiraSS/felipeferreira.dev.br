@@ -33,6 +33,43 @@ export const createPost = (data: createPostType) => async (dispatch: AppDispatch
   }
 };
 
+export const getPostById = (id: number | undefined) => async (dispatch: AppDispatch) => {
+  const { 'felipeferreirablog.token': token } = parseCookies()
+  try {
+    const response = await api.get(`/posts/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      .catch(error => {
+        console.error('Erro ao buscar post:', error);
+      });
+    const postData = response?.data.post[0]
+    return postData
+  } catch (error) {
+    console.error('Failed:', error);
+    return false
+  }
+};
+
+export const updatePost = (id: number | undefined, data: createPostType) => async (dispatch: AppDispatch) => {
+  const { 'felipeferreirablog.token': token } = parseCookies()
+  try {
+    const response = await api.patch(`/posts/${id}`, data, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      .catch(error => {
+        console.error('Erro ao atualizar post:', error);
+      });
+      return true
+  } catch (error) {
+    console.error('Failed:', error);
+    return false
+  }
+};
+
 export const deletePost = (id: number) => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
   try {
