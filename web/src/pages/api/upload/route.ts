@@ -1,4 +1,4 @@
-import { put } from '@vercel/blob'
+import { put, del } from '@vercel/blob'
 import { NextResponse } from 'next/server'
 import { customAlphabet } from 'nanoid'
 
@@ -8,24 +8,14 @@ const nanoid = customAlphabet(
   '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
   7
 ) // 7-character random string
-export default async function handler(req: Request) {
-  if (req.method === 'POST') {
-    const file = await req.blob();
-    const contentType = req.headers.get('content-type');
+export default async function POST(req: Request) {
+  const file = req.body || ''
+  const contentType = req.headers.get('content-type') || 'text/plain'
+  const filename = `${nanoid()}.${contentType.split('/')[1]}`
+  const blob = await put(filename, file, {
+    contentType,
+    access: 'public',
+  })
 
-    if (!contentType || !contentType.startsWith('image/')) {
-      return NextResponse.json({ error: 'Apenas arquivos de imagem são permitidos' }, { status: 400 });
-    }
-
-    const extension = contentType.split('/')[1];
-    const filename = `${nanoid()}.${extension}`;
-
-    const blob = await put(filename, file, {
-      contentType,
-      access: 'public',
-    });
   return NextResponse.json(blob)
-  } else {
-    return NextResponse.json({ error: 'Método não permitido' }, { status: 405 });
-  }
 }
