@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import DeleteAlert from "@/components/deleteAlert";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function Users() {
   const usersState = useSelector((state: RootState) => state.user.users);
@@ -90,8 +91,50 @@ export default function Users() {
                 <td>{users.lastName}</td>
                 <td>{users.email}</td>
                 <td>{users.type}</td>
-                <td>{users.posts?.length}</td>
-                {/**Criar um modal para exibir todos os posts desse usuário */}
+                <td>
+                  {users.posts?.length}
+                  {users.posts?.length > 0 ? (
+                    <Dialog >
+                      <DialogTrigger>
+                        📄
+                      </DialogTrigger>
+                      <DialogContent className="max-w-3xl">
+                        <DialogHeader>
+                          <DialogTitle className="mb-3">Posts do usário {users.firstName}</DialogTitle>
+                          <DialogDescription className="flex flex-row items-center justify-center text-black">
+                            <table border={1} cellPadding="10" cellSpacing="0">
+                              <thead>
+                                <tr>
+                                  <th>ID</th>
+                                  <th>Status</th>
+                                  <th>Titulo</th>
+                                  <th>Resumo</th>
+                                  <th>Data de criação</th>
+                                  <th>Data de atualização</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {users.posts?.map((post) => (
+                                  <tr key={post.id} className="border-black border-2 ">
+                                    <td>{post.id}</td>
+                                    <td>{post.published ? 'Publicado' : 'Rascunho'}</td>
+                                    <td>{post.title}</td>
+                                    <td>{post.summary}</td>
+                                    <td>{new Date(post.createdAt).toLocaleDateString()}</td>
+                                    <td>{new Date(post.updatedAt).toLocaleDateString()}</td>
+                                    
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </DialogDescription>
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
+                  ): (
+                    null
+                  )}
+                </td>
                 <td>{new Date(users.createdAt).toLocaleDateString()}</td>
                 <td>{new Date(users.updatedAt).toLocaleDateString()}</td>
                 <td><Link href={`/dashboard/admin/users/edit-user/${users.id}`}>✏️</Link></td>
