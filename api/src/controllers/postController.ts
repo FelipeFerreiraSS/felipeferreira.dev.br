@@ -86,7 +86,6 @@ export const getAllPostsHandler = async (request: FastifyRequest, reply: Fastify
 // Handler para obter apenas um post pelo slug
 export const getPostBySlugHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { slug } = request.params as { slug: string };
-  console.log("Slug recebido:", slug)
   try {
 
     const existingPost = await findPostBySlug(slug);
