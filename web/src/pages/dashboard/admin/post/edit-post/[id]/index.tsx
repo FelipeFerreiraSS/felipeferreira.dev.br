@@ -19,12 +19,57 @@ import { fetchTagsList } from "@/store/features/tag/truckFunctions";
 import { fetchImagesList } from "@/store/features/image/truckFunctions";
 import { Image  as ImageType } from "@/types/Image";
 import { Tag } from "@/types/Tag";
+import dynamic from 'next/dynamic'
+import 'react-quill/dist/quill.snow.css'
+import Prism from 'prismjs'
+import 'highlight.js/styles/monokai-sublime.css' 
+import hljs from 'highlight.js' 
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
+
+const modules = {
+  toolbar: [
+    [{ header: '1' }, { header: '2' }, { font: [] }],
+    [{ list: 'ordered' }, { list: 'bullet' }, { 'list': 'check' }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ script: 'sub' }, { script: 'super' }],
+    [{ indent: '-1' }, { indent: '+1' }],
+    [{ direction: 'rtl' }],
+    [{ size: ['small', false, 'large', 'huge'] }],
+    [{ color: [] }, { background: [] }],
+    [{ align: [] }],
+    ['link', 'image', 'video', 'blockquote', 'code-block', 'formula'],
+    ['clean'],
+  ],
+  syntax: {
+    highlight: (text: string) => hljs.highlightAuto(text).value, 
+  },
+}
+
+const formats = [
+  'header',
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link',
+  'image',
+  'video',
+  'code-block',
+]
 
 export default function EditPost() {
   const [slug, setSlug] = useState('')
   const [selectedTags, setSelectedTags] = useState<{ value: string; label: string }[]>([]);
   const [selectedImage, setSelectedImage] = useState<{ id: number; imageUrl: string } | null>(null);
-  
+  const [postValue, setPostValue] = useState('')
+
   const tagsState = useSelector((state: RootState) => state.tags)
   const imagesState = useSelector((state: RootState) => state.images.images)
 
@@ -71,7 +116,8 @@ export default function EditPost() {
       ...data,
       slug: slug,
       tags: tagsAsStrings,
-      headerImageId: selectedImage?.id
+      headerImageId: selectedImage?.id,
+      content: postValue
     }
 
     const isSuccess = await dispatch(updatePost(numericId, dataPost ))
@@ -101,7 +147,7 @@ export default function EditPost() {
         if (postData) {
           setValue('title', postData.title);
           setValue('summary', postData.summary);
-          setValue('content', postData.content);
+          setPostValue(postData.content)
           setSelectedImage({ 
             id: postData.headerImage.id, 
             imageUrl: postData.headerImage.imageUrl
@@ -134,11 +180,16 @@ export default function EditPost() {
     dispatch(fetchTagsList())
     dispatch(fetchImagesList())
   }, [])
+
+  useEffect(() => {
+    Prism.highlightAll()
+  }, [postValue])
+
   return(
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <HeaderMenu />
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
+        <div className="sm:mx-auto sm:w-full sm:max-w-4xl mb-5">
           <div className="flex justify-between">
             <h1>Editar post</h1>
             <Button
@@ -240,10 +291,13 @@ export default function EditPost() {
               />
             </div>
             <div>
-              <Label htmlFor="content">Conteudo</Label>
-              <Textarea
-                placeholder="Conteudo do post" 
-                {...register('content')} 
+              <ReactQuill
+                value={postValue}
+                onChange={setPostValue}
+                modules={modules}
+                formats={formats}
+                theme="snow"
+                className="rounded-lg shadow-md"
               />
             </div>
             <div className="flex gap-5">
@@ -263,6 +317,11 @@ export default function EditPost() {
                 Publicar
               </Button>
             </div>
+            {/* Renderiza corpo do post 
+            <div 
+              className="prose prose-lg mt-8"
+              dangerouslySetInnerHTML={{ __html: postValue }}
+            /> */}
           </form>
         </div>
       </div>

@@ -17,6 +17,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import Select from 'react-select';
+import dynamic from 'next/dynamic'
+import 'react-quill/dist/quill.snow.css'
+import Prism from 'prismjs'
+import 'highlight.js/styles/monokai-sublime.css' 
+import hljs from 'highlight.js' 
 
 export type createPostType = {
   title: string,
@@ -28,11 +33,51 @@ export type createPostType = {
   tags: string[],
 }
 
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
+
+const modules = {
+  toolbar: [
+    [{ header: '1' }, { header: '2' }, { font: [] }],
+    [{ list: 'ordered' }, { list: 'bullet' }, { 'list': 'check' }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ script: 'sub' }, { script: 'super' }],
+    [{ indent: '-1' }, { indent: '+1' }],
+    [{ direction: 'rtl' }],
+    [{ size: ['small', false, 'large', 'huge'] }],
+    [{ color: [] }, { background: [] }],
+    [{ align: [] }],
+    ['link', 'image', 'video', 'blockquote', 'code-block', 'formula'],
+    ['clean'],
+  ],
+  syntax: {
+    highlight: (text: string) => hljs.highlightAuto(text).value, 
+  },
+}
+
+const formats = [
+  'header',
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link',
+  'image',
+  'video',
+  'code-block',
+]
+
 export default function CreatePost() {
   const [slug, setSlug] = useState('')
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<{ id: number; imageUrl: string } | null>(null);
-  
+  const [postValue, setPostValue] = useState('')
+
   const tagsState = useSelector((state: RootState) => state.tags)
   const imagesState = useSelector((state: RootState) => state.images.images)
 
@@ -74,7 +119,8 @@ export default function CreatePost() {
       ...data,
       slug: slug,
       tags: selectedTags,
-      headerImageId: selectedImage?.id
+      headerImageId: selectedImage?.id,
+      content: postValue
     }
     console.log(dataPost);
     
@@ -112,12 +158,16 @@ export default function CreatePost() {
     dispatch(fetchTagsList())
     dispatch(fetchImagesList())
   }, [])
+
+  useEffect(() => {
+    Prism.highlightAll()
+  }, [postValue])
   
   return(
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <HeaderMenu />
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
+        <div className="sm:mx-auto sm:w-full sm:max-w-4xl mb-5">
           <div className="flex justify-between">
             <h1>Criar post</h1>
             <Button
@@ -220,10 +270,13 @@ export default function CreatePost() {
               />
             </div>
             <div>
-              <Label htmlFor="content">Conteudo</Label>
-              <Textarea
-                placeholder="Conteudo do post" 
-                {...register('content')} 
+              <ReactQuill
+                value={postValue}
+                onChange={setPostValue}
+                modules={modules}
+                formats={formats}
+                theme="snow"
+                className="rounded-lg shadow-md"
               />
             </div>
             <div className="flex gap-5">
@@ -243,6 +296,11 @@ export default function CreatePost() {
                 Publicar
               </Button>
             </div>
+            {/* Renderiza corpo do post  
+            <div
+              className="prose prose-lg mt-8"
+              dangerouslySetInnerHTML={{ __html: postValue }}
+            /> */}
           </form>
         </div>
       </div>
