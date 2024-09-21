@@ -22,6 +22,7 @@ import 'react-quill/dist/quill.snow.css'
 import Prism from 'prismjs'
 import 'highlight.js/styles/monokai-sublime.css' 
 import hljs from 'highlight.js' 
+import { LoadingSpinner } from "@/components/loadingSpinner";
 
 export type createPostType = {
   title: string,
@@ -76,6 +77,7 @@ export default function CreatePost() {
   const [slug, setSlug] = useState('')
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<{ id: number; imageUrl: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(false)
   const [postValue, setPostValue] = useState('')
 
   const tagsState = useSelector((state: RootState) => state.tags)
@@ -86,6 +88,7 @@ export default function CreatePost() {
     handleSubmit,
     watch,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<createPostType>()
 
@@ -115,6 +118,7 @@ export default function CreatePost() {
   const title = watch('title', '')
 
   async function handleCreatePost(data: createPostType) {
+    setIsLoading(true)
     const dataPost = {
       ...data,
       slug: slug,
@@ -131,7 +135,7 @@ export default function CreatePost() {
         title: "Sucesso",
         description: "Usuário criado com sucesso.",
       });
-      dispatch(fetchPostsList());  
+      dispatch(fetchPostsList()); 
       router.push("/dashboard/admin")
     } else {
       toast({
@@ -140,6 +144,7 @@ export default function CreatePost() {
         description: "Falha ao deletar usário.",
       });
     }
+    setIsLoading(false) 
   }
 
   const handlePublish = () => {
@@ -149,6 +154,8 @@ export default function CreatePost() {
   const handleSave = () => {
     setValue('published', false);
   };
+
+  const getValuePublished = getValues('published')
 
   useEffect(() => {
     setSlug(generateSlug(title))
@@ -282,18 +289,20 @@ export default function CreatePost() {
             <div className="flex gap-5">
               <Button
                 type="submit"
-                className="bg-blue-500 " 
+                className={'bg-blue-500'}  
                 onClick={handleSave}
+                disabled={isLoading || getValuePublished}
               >
-                Salvar
+                Salvar {isLoading && !getValuePublished ? <LoadingSpinner /> : null} 
               </Button>
               <Button
                 {...register('published')} 
                 type="submit"
-                className="bg-blue-500 " 
+                className={'bg-blue-500'}  
                 onClick={handlePublish}
+                disabled={isLoading || getValuePublished}
               >
-                Publicar
+                Publicar {isLoading && getValuePublished ? <LoadingSpinner /> : null} 
               </Button>
             </div>
             {/* Renderiza corpo do post  

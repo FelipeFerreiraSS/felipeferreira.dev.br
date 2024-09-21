@@ -6,7 +6,7 @@ import HeaderMenu from "@/components/headerMenu";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { fetchUserInfo, updateUser } from "@/store/features/user/truckFunctions";
 import { Controller, useForm } from "react-hook-form";
@@ -15,9 +15,11 @@ import { useRouter } from "next/router";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import SubmitButton from "@/components/submitButton";
 
 export default function Profile() {
   const userState = useSelector((state: RootState) => state.user.user);
+  const [isLoading, setIsLoading] = useState(false)
 
   const {
     register,
@@ -32,9 +34,10 @@ export default function Profile() {
   const dispatch: AppDispatch = useDispatch()
 
   async function handleUpdateUser(data: EditUserType) {
-    
+    setIsLoading(true)
+
     const isSuccess = await dispatch(updateUser(userState?.id, data ))
-    
+
     if (isSuccess) {
       toast({
         title: "Sucesso",
@@ -48,6 +51,7 @@ export default function Profile() {
         description: "Falha atualizar o usário.",
       });
     }
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -129,12 +133,9 @@ export default function Profile() {
             />
           </div>
           <div>
-            <Button
-            type="submit"
-            className="bg-blue-500 " 
-            >
+            <SubmitButton isLoading={isLoading}>
               Atualizar perfil
-            </Button>
+            </SubmitButton>
           </div>
         </form>
       </div>

@@ -24,6 +24,7 @@ import 'react-quill/dist/quill.snow.css'
 import Prism from 'prismjs'
 import 'highlight.js/styles/monokai-sublime.css' 
 import hljs from 'highlight.js' 
+import { LoadingSpinner } from "@/components/loadingSpinner";
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
@@ -69,6 +70,7 @@ export default function EditPost() {
   const [selectedTags, setSelectedTags] = useState<{ value: string; label: string }[]>([]);
   const [selectedImage, setSelectedImage] = useState<{ id: number; imageUrl: string } | null>(null);
   const [postValue, setPostValue] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const tagsState = useSelector((state: RootState) => state.tags)
   const imagesState = useSelector((state: RootState) => state.images.images)
@@ -78,6 +80,7 @@ export default function EditPost() {
     handleSubmit,
     watch,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<createPostType>()
 
@@ -110,6 +113,7 @@ export default function EditPost() {
   const title = watch('title', '')
 
   async function handleUpdatePost(data: createPostType) {
+    setIsLoading(true)
     const tagsAsStrings = selectedTags.map(tag => tag.value);
 
     const dataPost = {
@@ -136,7 +140,18 @@ export default function EditPost() {
         description: "Falha atualizar o usário.",
       });
     }
+    setIsLoading(false)
   }
+  
+  const handlePublish = () => {
+    setValue('published', true);
+  };
+  
+  const handleSave = () => {
+    setValue('published', false);
+  };
+  
+  const getValuePublished = getValues('published')
 
   useEffect(() => {
     if (numericId) {
@@ -163,15 +178,7 @@ export default function EditPost() {
       fetchPostData();
     }
   }, [id, setValue, dispatch]);
-
-  const handlePublish = () => {
-    setValue('published', true);
-  };
-
-  const handleSave = () => {
-    setValue('published', false);
-  };
-
+  
   useEffect(() => {
     setSlug(generateSlug(title))
   }, [title])
@@ -305,16 +312,18 @@ export default function EditPost() {
                 type="submit"
                 className="bg-blue-500 " 
                 onClick={handleSave}
+                disabled={isLoading || getValuePublished}
               >
-                Salvar
+                Salvar {isLoading && !getValuePublished ? <LoadingSpinner /> : null}
               </Button>
               <Button
                 {...register('published')} 
                 type="submit"
                 className="bg-blue-500 " 
                 onClick={handlePublish}
+                disabled={isLoading || getValuePublished}
               >
-                Publicar
+                Publicar {isLoading && getValuePublished ? <LoadingSpinner /> : null} 
               </Button>
             </div>
             {/* Renderiza corpo do post 

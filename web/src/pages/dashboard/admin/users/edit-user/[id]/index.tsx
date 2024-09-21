@@ -15,13 +15,15 @@ import { fetchUsersList, getUserById, updateUser } from "@/store/features/user/t
 import { useToast } from "@/hooks/use-toast";
 
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import SubmitButton from "@/components/submitButton";
 
 export interface EditUserType extends User {
   password?: string
 }
 
 export default function EditUser() {
+  const [isLoading, setIsLoading] = useState(false)
   const {
     register,
     handleSubmit,
@@ -40,6 +42,7 @@ export default function EditUser() {
   const dispatch: AppDispatch = useDispatch()
 
   async function handleUpdateUser(data: EditUserType) {
+    setIsLoading(true)
     const isSuccess = await dispatch(updateUser(numericId, data ))
     
     if (isSuccess) {
@@ -56,6 +59,7 @@ export default function EditUser() {
         description: "Falha atualizar o usário.",
       });
     }
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -152,12 +156,9 @@ export default function EditUser() {
             />
           </div>
           <div>
-            <Button
-            type="submit"
-            className="bg-blue-500 " 
-            >
-              Cadastrar
-            </Button>
+            <SubmitButton isLoading={isLoading}>
+              Slavar
+            </SubmitButton>
           </div>
         </form>
       </div>

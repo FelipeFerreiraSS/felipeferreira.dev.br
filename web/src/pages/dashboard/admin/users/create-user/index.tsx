@@ -14,12 +14,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { createUser, fetchUsersList } from "@/store/features/user/truckFunctions";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/router";
+import SubmitButton from "@/components/submitButton";
+import { useState } from "react";
 
 export interface CreateUserType extends User {
   password: string
 }
 
 export default function CreateUser() {
+  const [isLoading, setIsLoading] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -32,6 +36,7 @@ export default function CreateUser() {
   const dispatch: AppDispatch = useDispatch()
 
   async function handleCreateUser(data: CreateUserType) {
+    setIsLoading(true)
     const isSuccess = await dispatch(createUser(data))
     
     if (isSuccess) {
@@ -47,6 +52,7 @@ export default function CreateUser() {
         description: "Falha ao deletar usário.",
       });
     }
+    setIsLoading(false)
   }
 
   return (
@@ -127,12 +133,9 @@ export default function CreateUser() {
             />
           </div>
           <div>
-            <Button
-            type="submit"
-            className="bg-blue-500 " 
-            >
+            <SubmitButton isLoading={isLoading}>
               Cadastrar
-            </Button>
+            </SubmitButton>
           </div>
         </form>
       </div>

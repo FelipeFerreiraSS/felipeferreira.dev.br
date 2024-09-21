@@ -1,5 +1,6 @@
 import DeleteAlert from "@/components/deleteAlert";
 import HeaderMenu from "@/components/headerMenu";
+import SubmitButton from "@/components/submitButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,6 +19,9 @@ export type EditCriateTag = {
 }
 
 export default function Tags() {
+  const [editingTag, setEditingTag] = useState<Tag | null>(null);
+  const [isLoading, setIsLoading] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -32,9 +36,8 @@ export default function Tags() {
   const tagState = useSelector((state: RootState) => state.tags)
   const { toast } = useToast()
 
-  const [editingTag, setEditingTag] = useState<Tag | null>(null);
-
   async function handleCreateTag(data: EditCriateTag) {
+    setIsLoading(true)
   
     const createData = { ...data, name: data.name };
   
@@ -55,9 +58,11 @@ export default function Tags() {
         description: `${result.error.error}`,
       });
     }
+    setIsLoading(false)
   }
 
   async function handleUpdateTag(data: EditCriateTag) {
+    setIsLoading(true)
     const updatedData = { ...data, name: data.editName };
 
     const result = await dispatch(updateTag(editingTag?.id, updatedData ))
@@ -77,6 +82,7 @@ export default function Tags() {
         description: `${result.error.error}`,
       });
     }
+    setIsLoading(false)
   }
 
   async function handleDeleteTag(result: boolean, id: number) {
@@ -135,12 +141,9 @@ export default function Tags() {
                   />
                 </div> 
                 <div>
-                  <Button
-                  type="submit"
-                  className="bg-blue-500 " 
-                  >
+                  <SubmitButton isLoading={isLoading}>
                     Salvar
-                  </Button>
+                  </SubmitButton>
                 </div>
               </form> 
             </PopoverContent>
@@ -184,12 +187,9 @@ export default function Tags() {
                         />
                       </div> 
                       <div>
-                        <Button
-                        type="submit"
-                        className="bg-blue-500 " 
-                        >
+                        <SubmitButton isLoading={isLoading}>
                           Salvar
-                        </Button>
+                        </SubmitButton>
                       </div>
                     </form> 
                     </PopoverContent>
