@@ -60,7 +60,17 @@ export const getAllPostsHandler = async (request: FastifyRequest, reply: Fastify
   try {
     const posts = await prisma.post.findMany({
       include: {
-        author: true,
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
         headerImage: true,
         tags: true,
       },
@@ -73,22 +83,32 @@ export const getAllPostsHandler = async (request: FastifyRequest, reply: Fastify
   }
 }
 
-// Handler para obter apenas um posts
-export const getPostHandler = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { id } = request.params as { id: string };
-
+// Handler para obter apenas um post pelo slug
+export const getPostBySlugHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { slug } = request.params as { slug: string };
+  console.log("Slug recebido:", slug)
   try {
-    const postId = Number(id);
 
-    const existingPost = await findPostById(postId);
+    const existingPost = await findPostBySlug(slug);
 
     if (!existingPost) {
       return reply.status(404).send({ error: 'Post não encontrado' });
     }
-
+  
     const post = await prisma.post.findMany({
-      where: { id: postId },
+      where: { slug: slug },
       include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
         headerImage: true,
         tags: true,
       },
@@ -110,6 +130,17 @@ export const getUserPostHandler = async (request: FastifyRequest, reply: Fastify
     const posts = await prisma.post.findMany({
       where: { authorId: user.userId },
       include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
         headerImage: true,
         tags: true,
       },
@@ -129,6 +160,17 @@ export const getPublishedPostHandler = async (request: FastifyRequest, reply: Fa
     const posts = await prisma.post.findMany({
       where: { published: true },
       include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
         headerImage: true,
         tags: true,
       },
@@ -157,6 +199,17 @@ export const getPostsByTagHandler = async (request: FastifyRequest, reply: Fasti
     const posts = await prisma.post.findMany({
       where: { tags: { some: { id: tagId } } },
       include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
         headerImage: true,
         tags: true,
       },
