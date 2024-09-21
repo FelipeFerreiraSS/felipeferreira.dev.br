@@ -83,6 +83,44 @@ export const getAllPostsHandler = async (request: FastifyRequest, reply: Fastify
   }
 }
 
+// Handler para obter apenas um post pelo Id
+export const getPostByIdHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { id } = request.params as { id: string };
+  try {
+    const postId = Number(id);
+
+    const existingPost = await findPostById(postId);
+
+    if (!existingPost) {
+      return reply.status(404).send({ error: 'Post não encontrado' });
+    }
+  
+    const post = await prisma.post.findMany({
+      where: { id: postId },
+      include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+        headerImage: true,
+        tags: true,
+      },
+    })
+
+    return reply.status(200).send({ post: post })
+  } catch (error) {
+    console.error('Erro ao obter posts:', error);
+    return reply.status(500).send({ error: 'Erro interno do servidor' });
+  }
+}
+
 // Handler para obter apenas um post pelo slug
 export const getPostBySlugHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { slug } = request.params as { slug: string };
