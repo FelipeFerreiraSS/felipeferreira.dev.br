@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo, ChangeEvent } from 'react'
 import { PutBlobResult } from '@vercel/blob'
 import { AppDispatch } from '@/store/store'
 import { useDispatch } from 'react-redux'
-import { createImage, fetchImagesList } from '@/store/features/image/truckFunctions'
+import { uploadAndCreateImage, fetchImagesList } from '@/store/features/image/truckFunctions'
 import { useToast } from '@/hooks/use-toast'
 
 export default function Uploader() {
@@ -50,32 +50,26 @@ export default function Uploader() {
     <form
       className="grid gap-6"
       onSubmit={async (e) => {
-        e.preventDefault()
-        setSaving(true)
-        fetch('/api/upload/route', {
-          method: 'POST',
-          headers: { 'content-type': file?.type || 'application/octet-stream' },
-          body: file,
-        }).then(async (res) => {
-          if (res.status === 200) {
-            const { url } = (await res.json()) as PutBlobResult
-            try {
-              await dispatch(createImage(url))
-              await dispatch(fetchImagesList());  
-              setData({image: null})
-              toast({
-                title: "Sucesso",
-                description: "Imagem criada com sucesso.",
-              });
-            } catch (error) {
-              console.error('Erro ao executar as ações sequenciais:', error);
-            }
-          } else {
-            const error = await res.text()
-            console.log(error);
-          }
-          setSaving(false)
-        })
+        e.preventDefault();
+        if (!file) return;
+        setSaving(true);
+        
+        const isSuccess = await dispatch(uploadAndCreateImage(file));
+        if (isSuccess) {
+          await dispatch(fetchImagesList());
+          setData({ image: null });
+          toast({
+            title: 'Sucesso',
+            description: 'Imagem criada com sucesso.',
+          });
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Erro',
+            description: 'Falha ao criar a imagem.',
+          });
+        }
+        setSaving(false);
       }}
     >
       <div>
