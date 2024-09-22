@@ -36,7 +36,7 @@ export const createPost = (data: createPostType) => async (dispatch: AppDispatch
 export const getPostById = (id: number | undefined) => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
   try {
-    const response = await api.get(`/posts/${id}`, {
+    const response = await api.get(`/posts/id/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

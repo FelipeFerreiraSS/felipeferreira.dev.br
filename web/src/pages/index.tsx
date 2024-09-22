@@ -14,6 +14,9 @@ export default function Home() {
       <Button className="bg-blue-500 " variant={'link'}>
         <Link href="/login">login</Link>
       </Button>
+      <Button className="bg-blue-500 " variant={'link'}>
+        <Link href="/blog">Blog</Link>
+      </Button>
     </div>
     </main>
   );
