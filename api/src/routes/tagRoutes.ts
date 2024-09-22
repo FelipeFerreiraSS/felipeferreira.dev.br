@@ -5,7 +5,7 @@ import { createTagHandler, deleteTagHandler, getAllTagsHandler, getTagHandler, u
 export const tagRoutes = async (app: FastifyInstance) => {
   // Rota protegida por autenticação JWT
   app.post('/tag', { preHandler: authenticateJWT }, createTagHandler);
-  app.get('/tag', { preHandler: authenticateJWT }, getAllTagsHandler);
+  app.get('/tag', getAllTagsHandler);
   app.get('/tag/:id', { preHandler: authenticateJWT }, getTagHandler);
   app.put('/tag/:id', { preHandler: authenticateJWT }, updateTagHandler);
   app.delete('/tag/:id', { preHandler: authenticateJWT }, deleteTagHandler);

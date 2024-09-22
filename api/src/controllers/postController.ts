@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 import { deletePost, findPostById, findPostBySlug, updatePost } from '../models/postModel';
 import { findImageById } from '../models/imageModel';
-import { findTagById } from '../models/tagModel';
+import { findTagByName } from '../models/tagModel';
 
 const prisma = new PrismaClient();
 
@@ -60,7 +60,17 @@ export const getAllPostsHandler = async (request: FastifyRequest, reply: Fastify
   try {
     const posts = await prisma.post.findMany({
       include: {
-        author: true,
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
         headerImage: true,
         tags: true,
       },
@@ -73,10 +83,9 @@ export const getAllPostsHandler = async (request: FastifyRequest, reply: Fastify
   }
 }
 
-// Handler para obter apenas um posts
-export const getPostHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+// Handler para obter apenas um post pelo Id
+export const getPostByIdHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id } = request.params as { id: string };
-
   try {
     const postId = Number(id);
 
@@ -85,10 +94,58 @@ export const getPostHandler = async (request: FastifyRequest, reply: FastifyRepl
     if (!existingPost) {
       return reply.status(404).send({ error: 'Post não encontrado' });
     }
-
+  
     const post = await prisma.post.findMany({
       where: { id: postId },
       include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+        headerImage: true,
+        tags: true,
+      },
+    })
+
+    return reply.status(200).send({ post: post })
+  } catch (error) {
+    console.error('Erro ao obter posts:', error);
+    return reply.status(500).send({ error: 'Erro interno do servidor' });
+  }
+}
+
+// Handler para obter apenas um post pelo slug
+export const getPostBySlugHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { slug } = request.params as { slug: string };
+  try {
+
+    const existingPost = await findPostBySlug(slug);
+
+    if (!existingPost) {
+      return reply.status(404).send({ error: 'Post não encontrado' });
+    }
+  
+    const post = await prisma.post.findMany({
+      where: { slug: slug },
+      include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
         headerImage: true,
         tags: true,
       },
@@ -110,6 +167,17 @@ export const getUserPostHandler = async (request: FastifyRequest, reply: Fastify
     const posts = await prisma.post.findMany({
       where: { authorId: user.userId },
       include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
         headerImage: true,
         tags: true,
       },
@@ -129,6 +197,17 @@ export const getPublishedPostHandler = async (request: FastifyRequest, reply: Fa
     const posts = await prisma.post.findMany({
       where: { published: true },
       include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
         headerImage: true,
         tags: true,
       },
@@ -143,20 +222,32 @@ export const getPublishedPostHandler = async (request: FastifyRequest, reply: Fa
 
 // Handler para obter todos os posts de uma tag
 export const getPostsByTagHandler = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { id } = request.params as { id: string };
+  const { name } = request.params as { name: string };
 
   try {
-    const tagId = Number(id);
-
-    const existingTag = await findTagById(tagId);
+    const existingTag = await findTagByName(name);
 
     if (!existingTag) {
       return reply.status(404).send({ error: 'Tag não encontrada' });
     }
 
     const posts = await prisma.post.findMany({
-      where: { tags: { some: { id: tagId } } },
+      where: { 
+        tags: { some: { name: name } },
+        published: true
+      },
       include: {
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            type: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
         headerImage: true,
         tags: true,
       },
@@ -167,7 +258,7 @@ export const getPostsByTagHandler = async (request: FastifyRequest, reply: Fasti
     }
 
     const tagDetails = await prisma.tag.findUnique({
-      where: { id: tagId },
+      where: { name: name },
     });
 
     return reply.status(200).send({ tagDetails: tagDetails, postsByTag: posts })
