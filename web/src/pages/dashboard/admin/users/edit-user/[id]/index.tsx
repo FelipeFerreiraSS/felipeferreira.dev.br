@@ -6,7 +6,6 @@ import HeaderMenu from "@/components/headerMenu";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import { Controller, useForm } from "react-hook-form";
-import { User } from "@/types/User";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -17,10 +16,19 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import SubmitButton from "@/components/submitButton";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormErrorMessage from "@/components/formErrorMessage";
 
-export interface EditUserType extends User {
-  password?: string
-}
+const editUserSchema = z.object({
+  firstName: z.string().min(1 ,'O nome é obrigatório'),
+  lastName: z.string().min(1, 'O sobrenome é obrigatório'),
+  email: z.string().email('Formato de e-mail inválido').min(1, 'O e-mail é obrigatório'),
+  type: z.string().min(1, 'O tipo é obrigatório'),
+  password: z.string().min(8, 'A senha deve ter no mínimo 8 caracteres'),
+});
+
+export type EditUserSchema = z.infer<typeof editUserSchema>
 
 export default function EditUser() {
   const [isLoading, setIsLoading] = useState(false)
@@ -30,7 +38,10 @@ export default function EditUser() {
     control,
     setValue,
     formState: { errors },
-  } = useForm<EditUserType>()
+  } = useForm<EditUserSchema>({
+    resolver: zodResolver(editUserSchema)
+  })
+
   const router = useRouter();
   
   //const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +52,7 @@ export default function EditUser() {
   const { toast } = useToast()
   const dispatch: AppDispatch = useDispatch()
 
-  async function handleUpdateUser(data: EditUserType) {
+  async function handleUpdateUser(data: EditUserSchema) {
     setIsLoading(true)
     const isSuccess = await dispatch(updateUser(numericId, data ))
     
@@ -102,6 +113,7 @@ export default function EditUser() {
               autoComplete="name" 
               name="firstName"
             />
+            <FormErrorMessage error={errors.firstName?.message}/>
           </div>
           <div>
             <Label htmlFor="lastName">Sobrenome</Label>
@@ -113,6 +125,7 @@ export default function EditUser() {
               autoComplete="family-name" 
               name="lastName"
             />
+            <FormErrorMessage error={errors.lastName?.message}/>
           </div>
           <div>
             <Label htmlFor="email">Email</Label>
@@ -124,6 +137,7 @@ export default function EditUser() {
               autoComplete="email" 
               name="email"
             />
+            <FormErrorMessage error={errors.email?.message}/>
           </div>
           <div>
             <Label htmlFor="type">Tipo</Label>
@@ -143,6 +157,7 @@ export default function EditUser() {
                 </Select>
               )}
             />
+            <FormErrorMessage error={errors.type?.message}/>
           </div>
           <div>
             <Label htmlFor="password">Senha</Label>
@@ -154,6 +169,7 @@ export default function EditUser() {
               autoComplete="current-password" 
               name="password"
             />
+            <FormErrorMessage error={errors.password?.message}/>
           </div>
           <div>
             <SubmitButton isLoading={isLoading}>

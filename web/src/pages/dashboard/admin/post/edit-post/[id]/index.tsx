@@ -6,7 +6,6 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createPostType } from "../../create-post";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -25,6 +24,17 @@ import Prism from 'prismjs'
 import 'highlight.js/styles/monokai-sublime.css' 
 import hljs from 'highlight.js' 
 import { LoadingSpinner } from "@/components/loadingSpinner";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormErrorMessage from "@/components/formErrorMessage";
+
+const editPostSchema = z.object({
+  title: z.string().min(1 ,'O titulo é obrigatório'),
+  summary: z.string().min(1, 'O resumo é obrigatório'),
+  published: z.boolean()
+});
+
+export type EditPostSchema = z.infer<typeof editPostSchema>
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
@@ -82,7 +92,9 @@ export default function EditPost() {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<createPostType>()
+  } = useForm<EditPostSchema>({
+    resolver: zodResolver(editPostSchema)
+  })
 
   const router = useRouter();
   const { id } = router.query;
@@ -112,7 +124,7 @@ export default function EditPost() {
 
   const title = watch('title', '')
 
-  async function handleUpdatePost(data: createPostType) {
+  async function handleUpdatePost(data: EditPostSchema) {
     setIsLoading(true)
     const tagsAsStrings = selectedTags.map(tag => tag.value);
 
@@ -272,6 +284,7 @@ export default function EditPost() {
                 autoComplete="titulo" 
                 name="title"
               />
+              <FormErrorMessage error={errors.title?.message}/>
               <p>Slug: {slug}</p>
             </div>
             <div>
@@ -296,6 +309,7 @@ export default function EditPost() {
                 placeholder="Resumo do post" 
                 {...register('summary')} 
               />
+              <FormErrorMessage error={errors.summary?.message}/>
             </div>
             <div>
               <ReactQuill

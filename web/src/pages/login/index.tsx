@@ -7,23 +7,33 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
-import { parseCookies } from "nookies";
 import { useRouter } from "next/navigation";
-import type { Login } from "@/types/Login";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormErrorMessage from "@/components/formErrorMessage";
+
+const loginSchema = z.object({
+  email: z.string().min(1 ,'O email é obrigatório'),
+  password: z.string().min(8, 'A senha deve ter no mínimo 8 caracteres'),
+});
+
+export type LoginSchema = z.infer<typeof loginSchema>
 
 export default function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Login>()
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema)
+  })
 
   const { signIn } = useContext(AuthContext);
   const router = useRouter();
 
-  async function handleSignIn(data: Login) {
+  async function handleSignIn(data: LoginSchema) {
     await signIn(data)
   }
   const userState = useSelector((state: RootState) => state.user);
@@ -60,6 +70,7 @@ export default function Login() {
                 autoComplete="email" 
                 name="email"
               />
+              <FormErrorMessage error={errors.email?.message}/>
             </div>
 
             <div>
@@ -80,6 +91,7 @@ export default function Login() {
                 autoComplete="current-password" 
                 name="password"
               />
+              <FormErrorMessage error={errors.password?.message}/>
             </div>
 
             <div>

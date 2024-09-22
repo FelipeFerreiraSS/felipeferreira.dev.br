@@ -3,19 +3,30 @@
 import { GetServerSideProps } from "next";
 import { authenticateUser } from "@/services/auth";
 import HeaderMenu from "@/components/headerMenu";
-import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { fetchUserInfo, updateUser } from "@/store/features/user/truckFunctions";
 import { Controller, useForm } from "react-hook-form";
-import { EditUserType } from "../users/edit-user/[id]";
 import { useRouter } from "next/router";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SubmitButton from "@/components/submitButton";
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import FormErrorMessage from "@/components/formErrorMessage";
+
+const profileSchema = z.object({
+  firstName: z.string().min(1 ,'O nome é obrigatório'),
+  lastName: z.string().min(1, 'O sobrenome é obrigatório'),
+  email: z.string().email('Formato de e-mail inválido').min(1, 'O e-mail é obrigatório'),
+  type: z.string().min(1, 'O tipo é obrigatório'),
+  password: z.string().min(8, 'A senha deve ter no mínimo 8 caracteres'),
+});
+
+export type ProfileSchema = z.infer<typeof profileSchema>
 
 export default function Profile() {
   const userState = useSelector((state: RootState) => state.user.user);
@@ -27,13 +38,15 @@ export default function Profile() {
     control,
     setValue,
     formState: { errors },
-  } = useForm<EditUserType>()
+  } = useForm<ProfileSchema>({
+    resolver: zodResolver(profileSchema)
+  })
   const router = useRouter();
 
   const { toast } = useToast()
   const dispatch: AppDispatch = useDispatch()
 
-  async function handleUpdateUser(data: EditUserType) {
+  async function handleUpdateUser(data: ProfileSchema) {
     setIsLoading(true)
 
     const isSuccess = await dispatch(updateUser(userState?.id, data ))
@@ -79,6 +92,7 @@ export default function Profile() {
               autoComplete="name" 
               name="firstName"
             />
+            <FormErrorMessage error={errors.firstName?.message}/>
           </div>
           <div>
             <Label htmlFor="lastName">Sobrenome</Label>
@@ -90,6 +104,7 @@ export default function Profile() {
               autoComplete="family-name" 
               name="lastName"
             />
+            <FormErrorMessage error={errors.lastName?.message}/>
           </div>
           <div>
             <Label htmlFor="email">Email</Label>
@@ -101,6 +116,7 @@ export default function Profile() {
               autoComplete="email" 
               name="email"
             />
+            <FormErrorMessage error={errors.email?.message}/>
           </div>
           <div>
             <Label htmlFor="type">Tipo</Label>
@@ -120,6 +136,7 @@ export default function Profile() {
                 </Select>
               )}
             />
+            <FormErrorMessage error={errors.type?.message}/>
           </div>
           <div>
             <Label htmlFor="password">Senha</Label>
@@ -131,6 +148,7 @@ export default function Profile() {
               autoComplete="current-password" 
               name="password"
             />
+            <FormErrorMessage error={errors.password?.message}/>
           </div>
           <div>
             <SubmitButton isLoading={isLoading}>

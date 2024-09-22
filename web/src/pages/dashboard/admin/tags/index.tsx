@@ -1,22 +1,25 @@
 import DeleteAlert from "@/components/deleteAlert";
+import FormErrorMessage from "@/components/formErrorMessage";
 import HeaderMenu from "@/components/headerMenu";
 import SubmitButton from "@/components/submitButton";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { createTag, deleteTag, fetchTagsList, updateTag } from "@/store/features/tag/truckFunctions";
 import { AppDispatch, RootState } from "@/store/store";
 import { Tag } from "@/types/Tag";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { z } from "zod";
 
-export type EditCriateTag = {
-  name: string,
-  editName: string
-}
+const editCriateTagSchema = z.object({
+  name: z.string().min(1 ,'O nome é obrigatório').optional(),
+  editName: z.string().min(1, 'O nome é obrigatório').optional(),
+});
+
+export type EditCriateTagSchema = z.infer<typeof editCriateTagSchema>
 
 export default function Tags() {
   const [editingTag, setEditingTag] = useState<Tag | null>(null);
@@ -29,14 +32,16 @@ export default function Tags() {
     reset,
     setValue,
     formState: { errors },
-  } = useForm<EditCriateTag>()
+  } = useForm<EditCriateTagSchema>({
+    resolver: zodResolver(editCriateTagSchema)
+  })
 
   const dispatch: AppDispatch = useDispatch()
 
   const tagState = useSelector((state: RootState) => state.tags)
   const { toast } = useToast()
 
-  async function handleCreateTag(data: EditCriateTag) {
+  async function handleCreateTag(data: EditCriateTagSchema) {
     setIsLoading(true)
   
     const createData = { ...data, name: data.name };
@@ -61,7 +66,7 @@ export default function Tags() {
     setIsLoading(false)
   }
 
-  async function handleUpdateTag(data: EditCriateTag) {
+  async function handleUpdateTag(data: EditCriateTagSchema) {
     setIsLoading(true)
     const updatedData = { ...data, name: data.editName };
 
@@ -139,6 +144,7 @@ export default function Tags() {
                     autoComplete="Tag" 
                     name="name"
                   />
+                  <FormErrorMessage error={errors.name?.message}/>
                 </div> 
                 <div>
                   <SubmitButton isLoading={isLoading}>
@@ -185,6 +191,7 @@ export default function Tags() {
                           autoComplete="Tag" 
                           name="editName"
                         />
+                        <FormErrorMessage error={errors.editName?.message}/>
                       </div> 
                       <div>
                         <SubmitButton isLoading={isLoading}>

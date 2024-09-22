@@ -23,16 +23,17 @@ import Prism from 'prismjs'
 import 'highlight.js/styles/monokai-sublime.css' 
 import hljs from 'highlight.js' 
 import { LoadingSpinner } from "@/components/loadingSpinner";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormErrorMessage from "@/components/formErrorMessage";
 
-export type createPostType = {
-  title: string,
-  slug: string,
-  published: boolean,
-  headerImageId: number | undefined,
-  summary: string,
-  content: string,
-  tags: string[],
-}
+const createPostSchema = z.object({
+  title: z.string().min(1 ,'O titulo é obrigatório'),
+  summary: z.string().min(1, 'O resumo é obrigatório'),
+  published: z.boolean()
+});
+
+export type CreatePostSchema = z.infer<typeof createPostSchema>
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
@@ -90,7 +91,9 @@ export default function CreatePost() {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<createPostType>()
+  } = useForm<CreatePostSchema>({
+    resolver: zodResolver(createPostSchema)
+  })
 
   const router = useRouter()
   const { toast } = useToast()
@@ -117,7 +120,7 @@ export default function CreatePost() {
 
   const title = watch('title', '')
 
-  async function handleCreatePost(data: createPostType) {
+  async function handleCreatePost(data: CreatePostSchema) {
     setIsLoading(true)
     const dataPost = {
       ...data,
@@ -250,6 +253,7 @@ export default function CreatePost() {
                 autoComplete="titulo" 
                 name="title"
               />
+              <FormErrorMessage error={errors.title?.message}/>
               <p>Slug: {slug}</p>
             </div>
             <div>
@@ -275,6 +279,7 @@ export default function CreatePost() {
                 placeholder="Resumo do post" 
                 {...register('summary')} 
               />
+              <FormErrorMessage error={errors.summary?.message}/>
             </div>
             <div>
               <ReactQuill

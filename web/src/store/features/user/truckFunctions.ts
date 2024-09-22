@@ -1,10 +1,9 @@
-
-import { CreateUserType } from '@/pages/dashboard/admin/users/create-user';
 import { AppDispatch } from '../../store';
 import { setUser, setUsers } from '../user/userSlice';
 import { api } from '@/services/api';
 import { parseCookies } from 'nookies';
-import { EditUserType } from '@/pages/dashboard/admin/users/edit-user/[id]';
+import { ProfileSchema } from '@/pages/dashboard/admin/profile';
+import { CreateUserSchema } from '@/pages/dashboard/admin/users/create-user';
 
 export const fetchUserInfo = () => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
@@ -45,7 +44,7 @@ export const fetchUsersList = () => async (dispatch: AppDispatch) => {
   }
 };
 
-export const createUser = (data: CreateUserType) => async (dispatch: AppDispatch) => {
+export const createUser = (data: CreateUserSchema) => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
   try {
     const response = await api.post(`/users`, data, {
@@ -53,13 +52,17 @@ export const createUser = (data: CreateUserType) => async (dispatch: AppDispatch
           'Authorization': `Bearer ${token}`,
         },
       })
-      .catch(error => {
-        console.error('Erro ao criar usuário:', error);
-      });
     return true
   } catch (error) {
-    console.error('Failed createUser:', error);
-    return false
+    // Se houver um erro, captura e retorna a mensagem de erro
+    // if (error?.response && error.response.data && error.response.data.message) {
+    //   console.error('Erro ao criar usuário:', error.response.data.message);
+    //   return error.response.data.message;
+    // }
+
+    // Caso não tenha uma mensagem de erro específica, retorna o erro geral
+    console.error('Erro desconhecido ao criar usuário:', error);
+    return 'Erro desconhecido ao criar usuário';
   }
 };
 
@@ -82,7 +85,7 @@ export const getUserById = (id: number | undefined) => async (dispatch: AppDispa
   }
 };
 
-export const updateUser = (id: number | undefined, data: EditUserType) => async (dispatch: AppDispatch) => {
+export const updateUser = (id: number | undefined, data: ProfileSchema) => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
   try {
     const response = await api.put(`/users/${id}`, data, {

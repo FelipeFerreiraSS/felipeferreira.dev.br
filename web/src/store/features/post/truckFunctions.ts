@@ -2,7 +2,8 @@ import { AppDispatch } from '../../store';
 import { api } from '@/services/api';
 import { setPosts } from './postSlice';
 import { parseCookies } from 'nookies';
-import { createPostType } from '@/pages/dashboard/admin/post/create-post';
+import { CreatePostSchema } from '@/pages/dashboard/admin/post/create-post';
+import { EditPostSchema } from '@/pages/dashboard/admin/post/edit-post/[id]';
 
 export const fetchPostsList = () => async (dispatch: AppDispatch) => {
   try {
@@ -15,7 +16,7 @@ export const fetchPostsList = () => async (dispatch: AppDispatch) => {
   }
 };
 
-export const createPost = (data: createPostType) => async (dispatch: AppDispatch) => {
+export const createPost = (data: CreatePostSchema) => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
   try {
     const response = await api.post(`/posts`, data, {
@@ -52,7 +53,7 @@ export const getPostById = (id: number | undefined) => async (dispatch: AppDispa
   }
 };
 
-export const updatePost = (id: number | undefined, data: createPostType) => async (dispatch: AppDispatch) => {
+export const updatePost = (id: number | undefined, data: EditPostSchema) => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
   try {
     const response = await api.patch(`/posts/${id}`, data, {

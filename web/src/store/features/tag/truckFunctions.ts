@@ -2,7 +2,7 @@ import { AppDispatch } from '../../store';
 import { api } from '@/services/api';
 import { setTags } from './tagSlice';
 import { parseCookies } from 'nookies';
-import { EditCriateTag } from '@/pages/dashboard/admin/tags';
+import { EditCriateTagSchema } from '@/pages/dashboard/admin/tags';
 
 export const fetchTagsList = () => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
@@ -23,7 +23,7 @@ export const fetchTagsList = () => async (dispatch: AppDispatch) => {
   }
 };
 
-export const createTag = (data: EditCriateTag) => async (dispatch: AppDispatch) => {
+export const createTag = (data: EditCriateTagSchema) => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
   
   try {
@@ -42,7 +42,7 @@ export const createTag = (data: EditCriateTag) => async (dispatch: AppDispatch) 
   }
 };
 
-export const updateTag = (id: number | undefined, data: EditCriateTag) => async (dispatch: AppDispatch) => {
+export const updateTag = (id: number | undefined, data: EditCriateTagSchema) => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
   try {
     const response = await api.put(`/tag/${id}`, data, {
