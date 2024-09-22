@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 import { deletePost, findPostById, findPostBySlug, updatePost } from '../models/postModel';
 import { findImageById } from '../models/imageModel';
-import { findTagById } from '../models/tagModel';
+import { findTagByName } from '../models/tagModel';
 
 const prisma = new PrismaClient();
 
@@ -222,19 +222,20 @@ export const getPublishedPostHandler = async (request: FastifyRequest, reply: Fa
 
 // Handler para obter todos os posts de uma tag
 export const getPostsByTagHandler = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { id } = request.params as { id: string };
+  const { name } = request.params as { name: string };
 
   try {
-    const tagId = Number(id);
-
-    const existingTag = await findTagById(tagId);
+    const existingTag = await findTagByName(name);
 
     if (!existingTag) {
       return reply.status(404).send({ error: 'Tag não encontrada' });
     }
 
     const posts = await prisma.post.findMany({
-      where: { tags: { some: { id: tagId } } },
+      where: { 
+        tags: { some: { name: name } },
+        published: true
+      },
       include: {
         author: {
           select: {
@@ -257,7 +258,7 @@ export const getPostsByTagHandler = async (request: FastifyRequest, reply: Fasti
     }
 
     const tagDetails = await prisma.tag.findUnique({
-      where: { id: tagId },
+      where: { name: name },
     });
 
     return reply.status(200).send({ tagDetails: tagDetails, postsByTag: posts })

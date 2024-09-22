@@ -8,8 +8,8 @@ export const postRoutes = async (app: FastifyInstance) => {
   app.get('/posts/user', { preHandler: authenticateJWT }, getUserPostHandler)
   app.get('/posts/published', getPublishedPostHandler)
   app.get('/posts/id/:id', { preHandler: authenticateJWT }, getPostByIdHandler)
-  app.get('/posts/slug/:slug', { preHandler: authenticateJWT }, getPostBySlugHandler)
-  app.get('/posts/tag/:id', getPostsByTagHandler)
+  app.get('/posts/slug/:slug', getPostBySlugHandler)
+  app.get('/posts/tag/:name', getPostsByTagHandler)
   app.delete('/posts/:id',{ preHandler: authenticateJWT }, deletePostHandler)
   app.patch('/posts/:id',{ preHandler: authenticateJWT }, updatePostHandler)
 };
