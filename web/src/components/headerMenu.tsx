@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { RootState } from "@/store/store";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import ThemeToggle from "./themeToggle";
 
 export default function HeaderMenu() {
   const userState = useSelector((state: RootState) => state.user);
@@ -39,6 +40,7 @@ export default function HeaderMenu() {
         <div>
           <p>Bem vindo {userState.user?.type === 'admin' ? 'Administrador' : 'Editor'}: {userState.user?.firstName}</p>
         </div>
+        <ThemeToggle />
       </div>
     </div>
   )
