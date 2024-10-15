@@ -21,11 +21,12 @@ export const createUserHandler = async (request: FastifyRequest, reply: FastifyR
     firstName: z.string(),
     lastName: z.string(),
     email: z.string().email(),
+    profileImageUrl: z.string().optional(),
     type: z.string(),
     password: z.string(),
   });
 
-  const { firstName, lastName, email, type, password } = createUserBody.parse(request.body);
+  const { firstName, lastName, email, profileImageUrl, type, password } = createUserBody.parse(request.body);
 
   try {
     const existingUser = await findUserByEmail(email);
@@ -40,6 +41,7 @@ export const createUserHandler = async (request: FastifyRequest, reply: FastifyR
       firstName,
       lastName,
       email,
+      profileImageUrl,
       type,
       password: hashedPassword,
     });
@@ -141,11 +143,12 @@ export const updateUserHandler = async (request: FastifyRequest, reply: FastifyR
     firstName: z.string().optional(),
     lastName: z.string().optional(),
     email: z.string().email().optional(),
+    profileImageUrl: z.string().optional(),
     type: z.string().optional(),
     password: z.string().optional(),
   });
 
-  const { firstName, lastName, email, type, password } = updateUserBody.parse(request.body);
+  const { firstName, lastName, email, profileImageUrl, type, password } = updateUserBody.parse(request.body);
 
   try {
     const userId = Number(id);
@@ -167,6 +170,7 @@ export const updateUserHandler = async (request: FastifyRequest, reply: FastifyR
       firstName,
       lastName,
       email,
+      profileImageUrl,
       type,
     };
 

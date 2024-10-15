@@ -17,9 +17,11 @@ export const createPostHandler = async (request: FastifyRequest, reply: FastifyR
     summary: z.string(),
     content: z.string(),
     tags: z.array(z.string()).optional(),
+    audioPostUrl: z.string().optional(),
+    readTime: z.string()
   });
 
-  const { title, slug, published = false, headerImageId, summary, content, tags } = createPostBody.parse(request.body);
+  const { title, slug, published = false, headerImageId, summary, content, tags, audioPostUrl, readTime } = createPostBody.parse(request.body);
 
   const existingPost = await findPostBySlug(slug);
   
@@ -45,6 +47,8 @@ export const createPostHandler = async (request: FastifyRequest, reply: FastifyR
           })) || [],
         },
         authorId: user.userId,
+        audioPostUrl,
+        readTime,
       },
     });
 
@@ -280,9 +284,11 @@ export const updatePostHandler = async (request: FastifyRequest, reply: FastifyR
     summary: z.string(),
     content: z.string(),
     tags: z.array(z.string()).optional(),
+    audioPostUrl: z.string().optional(),
+    readTime: z.string()
   });
 
-  const { title, slug, published = false, headerImageId, summary, content, tags } = updatePostBody.parse(request.body);
+  const { title, slug, published = false, headerImageId, summary, content, tags, audioPostUrl, readTime } = updatePostBody.parse(request.body);
 
   try {
     const postId = Number(id);
@@ -313,6 +319,8 @@ export const updatePostHandler = async (request: FastifyRequest, reply: FastifyR
       headerImageId,
       summary,
       content,
+      audioPostUrl,
+      readTime
     };
 
     await updatePost(postId, updatedData);

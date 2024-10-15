@@ -14,15 +14,17 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  firstName String
-  lastName  String
-  email     String   @unique
-  password  String
-  type      String
-  posts     Post[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              Int      @id @default(autoincrement())
+  firstName       String
+  lastName        String
+  email           String   @unique
+  password        String
+  type            String
+  posts           Post[]
+  profileImageUrl String?
+  images          Image[]  @relation("UserImages")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Post {
@@ -34,6 +36,8 @@ model Post {
   headerImage   Image?   @relation(fields: [headerImageId], references: [id])
   headerImageId Int?
   summary       String
+  audioPostUrl  String?
+  readTime      String?
   tags          Tag[]    @relation("PostTags")
   content       String
   createdAt     DateTime @default(now())
@@ -51,9 +55,11 @@ model Tag {
 }
 
 model Image {
-  id        Int      @id @default(autoincrement())
-  imageUrl  String
-  posts     Post[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  imageUrl     String
+  uploadedById Int?
+  uploadedBy   User?    @relation("UserImages", fields: [uploadedById], references: [id])
+  posts        Post[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
