@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePostHandler = exports.updatePostHandler = exports.getPostsByTagHandler = exports.getPublishedPostHandler = exports.getUserPostHandler = exports.getPostHandler = exports.getAllPostsHandler = exports.createPostHandler = void 0;
+exports.deletePostHandler = exports.updatePostHandler = exports.getPostsByTagHandler = exports.getPublishedPostHandler = exports.getUserPostHandler = exports.getPostBySlugHandler = exports.getPostByIdHandler = exports.getAllPostsHandler = exports.createPostHandler = void 0;
 const client_1 = require("@prisma/client");
 const zod_1 = require("zod");
 const postModel_1 = require("../models/postModel");
@@ -17,8 +17,10 @@ const createPostHandler = async (request, reply) => {
         summary: zod_1.z.string(),
         content: zod_1.z.string(),
         tags: zod_1.z.array(zod_1.z.string()).optional(),
+        audioPostUrl: zod_1.z.string().optional(),
+        readTime: zod_1.z.string()
     });
-    const { title, slug, published = false, headerImageId, summary, content, tags } = createPostBody.parse(request.body);
+    const { title, slug, published = false, headerImageId, summary, content, tags, audioPostUrl, readTime } = createPostBody.parse(request.body);
     const existingPost = await (0, postModel_1.findPostBySlug)(slug);
     if (existingPost) {
         return reply.status(409).send({ error: 'Um post com esse slug já existe.' });
@@ -40,6 +42,8 @@ const createPostHandler = async (request, reply) => {
                     })) || [],
                 },
                 authorId: user.userId,
+                audioPostUrl,
+                readTime,
             },
         });
         return reply.status(201).send({ newPost: newPost });
@@ -55,7 +59,17 @@ const getAllPostsHandler = async (request, reply) => {
     try {
         const posts = await prisma.post.findMany({
             include: {
-                author: true,
+                author: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                        email: true,
+                        type: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
+                },
                 headerImage: true,
                 tags: true,
             },
@@ -68,8 +82,8 @@ const getAllPostsHandler = async (request, reply) => {
     }
 };
 exports.getAllPostsHandler = getAllPostsHandler;
-// Handler para obter apenas um posts
-const getPostHandler = async (request, reply) => {
+// Handler para obter apenas um post pelo Id
+const getPostByIdHandler = async (request, reply) => {
     const { id } = request.params;
     try {
         const postId = Number(id);
@@ -80,6 +94,17 @@ const getPostHandler = async (request, reply) => {
         const post = await prisma.post.findMany({
             where: { id: postId },
             include: {
+                author: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                        email: true,
+                        type: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
+                },
                 headerImage: true,
                 tags: true,
             },
@@ -91,7 +116,41 @@ const getPostHandler = async (request, reply) => {
         return reply.status(500).send({ error: 'Erro interno do servidor' });
     }
 };
-exports.getPostHandler = getPostHandler;
+exports.getPostByIdHandler = getPostByIdHandler;
+// Handler para obter apenas um post pelo slug
+const getPostBySlugHandler = async (request, reply) => {
+    const { slug } = request.params;
+    try {
+        const existingPost = await (0, postModel_1.findPostBySlug)(slug);
+        if (!existingPost) {
+            return reply.status(404).send({ error: 'Post não encontrado' });
+        }
+        const post = await prisma.post.findMany({
+            where: { slug: slug },
+            include: {
+                author: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                        email: true,
+                        type: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
+                },
+                headerImage: true,
+                tags: true,
+            },
+        });
+        return reply.status(200).send({ post: post });
+    }
+    catch (error) {
+        console.error('Erro ao obter posts:', error);
+        return reply.status(500).send({ error: 'Erro interno do servidor' });
+    }
+};
+exports.getPostBySlugHandler = getPostBySlugHandler;
 // Handler para obter apenas os posts do usuario logado
 const getUserPostHandler = async (request, reply) => {
     try {
@@ -99,6 +158,17 @@ const getUserPostHandler = async (request, reply) => {
         const posts = await prisma.post.findMany({
             where: { authorId: user.userId },
             include: {
+                author: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                        email: true,
+                        type: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
+                },
                 headerImage: true,
                 tags: true,
             },
@@ -117,6 +187,17 @@ const getPublishedPostHandler = async (request, reply) => {
         const posts = await prisma.post.findMany({
             where: { published: true },
             include: {
+                author: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                        email: true,
+                        type: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
+                },
                 headerImage: true,
                 tags: true,
             },
@@ -131,16 +212,29 @@ const getPublishedPostHandler = async (request, reply) => {
 exports.getPublishedPostHandler = getPublishedPostHandler;
 // Handler para obter todos os posts de uma tag
 const getPostsByTagHandler = async (request, reply) => {
-    const { id } = request.params;
+    const { name } = request.params;
     try {
-        const tagId = Number(id);
-        const existingTag = await (0, tagModel_1.findTagById)(tagId);
+        const existingTag = await (0, tagModel_1.findTagByName)(name);
         if (!existingTag) {
             return reply.status(404).send({ error: 'Tag não encontrada' });
         }
         const posts = await prisma.post.findMany({
-            where: { tags: { some: { id: tagId } } },
+            where: {
+                tags: { some: { name: name } },
+                published: true
+            },
             include: {
+                author: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                        email: true,
+                        type: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
+                },
                 headerImage: true,
                 tags: true,
             },
@@ -149,7 +243,7 @@ const getPostsByTagHandler = async (request, reply) => {
             return reply.status(404).send({ error: 'Não existe nem um post vinculado a essa tag' });
         }
         const tagDetails = await prisma.tag.findUnique({
-            where: { id: tagId },
+            where: { name: name },
         });
         return reply.status(200).send({ tagDetails: tagDetails, postsByTag: posts });
     }
@@ -170,8 +264,10 @@ const updatePostHandler = async (request, reply) => {
         summary: zod_1.z.string(),
         content: zod_1.z.string(),
         tags: zod_1.z.array(zod_1.z.string()).optional(),
+        audioPostUrl: zod_1.z.string().optional(),
+        readTime: zod_1.z.string()
     });
-    const { title, slug, published = false, headerImageId, summary, content, tags } = updatePostBody.parse(request.body);
+    const { title, slug, published = false, headerImageId, summary, content, tags, audioPostUrl, readTime } = updatePostBody.parse(request.body);
     try {
         const postId = Number(id);
         const existingPost = await (0, postModel_1.findPostById)(postId);
@@ -196,6 +292,8 @@ const updatePostHandler = async (request, reply) => {
             headerImageId,
             summary,
             content,
+            audioPostUrl,
+            readTime
         };
         await (0, postModel_1.updatePost)(postId, updatedData);
         // Atualizando as tags associadas, se forem fornecidas

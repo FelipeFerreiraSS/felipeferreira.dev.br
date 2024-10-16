@@ -8,8 +8,9 @@ const postRoutes = async (app) => {
     app.get('/posts', { preHandler: authenticateJWT_1.authenticateJWT }, postController_1.getAllPostsHandler);
     app.get('/posts/user', { preHandler: authenticateJWT_1.authenticateJWT }, postController_1.getUserPostHandler);
     app.get('/posts/published', postController_1.getPublishedPostHandler);
-    app.get('/posts/:id', { preHandler: authenticateJWT_1.authenticateJWT }, postController_1.getPostHandler);
-    app.get('/posts/tag/:id', postController_1.getPostsByTagHandler);
+    app.get('/posts/id/:id', { preHandler: authenticateJWT_1.authenticateJWT }, postController_1.getPostByIdHandler);
+    app.get('/posts/slug/:slug', postController_1.getPostBySlugHandler);
+    app.get('/posts/tag/:name', postController_1.getPostsByTagHandler);
     app.delete('/posts/:id', { preHandler: authenticateJWT_1.authenticateJWT }, postController_1.deletePostHandler);
     app.patch('/posts/:id', { preHandler: authenticateJWT_1.authenticateJWT }, postController_1.updatePostHandler);
 };

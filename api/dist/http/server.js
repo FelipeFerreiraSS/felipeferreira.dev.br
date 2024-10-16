@@ -17,7 +17,7 @@ const port = 3333;
 dotenv_1.default.config();
 app.register(cors_1.default, {
     origin: 'https://felipeferreiradev.vercel.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true,
 });
 app.get('/', async (request, reply) => {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteImageHandler = exports.updateImageHandler = exports.getImageHandler = exports.getAllImagesHandler = exports.createImageHandler = void 0;
+exports.deleteImageHandler = exports.updateImageHandler = exports.getImageHandler = exports.getAllUserImagesHandler = exports.getAllImagesHandler = exports.createImageHandler = void 0;
 const client_1 = require("@prisma/client");
 const zod_1 = require("zod");
 const imageModel_1 = require("../models/imageModel");
@@ -11,10 +11,12 @@ const createImageHandler = async (request, reply) => {
         imageUrl: zod_1.z.string()
     });
     const { imageUrl } = createImageBody.parse(request.body);
+    const user = request.user;
     try {
         const newImage = await prisma.image.create({
             data: {
                 imageUrl,
+                uploadedById: user.userId,
             },
         });
         return reply.status(201).send({ newImage: newImage });
@@ -28,7 +30,11 @@ exports.createImageHandler = createImageHandler;
 // Handler para obter todos as imagens
 const getAllImagesHandler = async (request, reply) => {
     try {
-        const images = await prisma.image.findMany();
+        const images = await prisma.image.findMany({
+            include: {
+                posts: true
+            }
+        });
         return reply.status(200).send({ allImages: images });
     }
     catch (error) {
@@ -37,6 +43,24 @@ const getAllImagesHandler = async (request, reply) => {
     }
 };
 exports.getAllImagesHandler = getAllImagesHandler;
+// Handler para obter todos as imagens do usuario logado
+const getAllUserImagesHandler = async (request, reply) => {
+    try {
+        const user = request.user;
+        const images = await prisma.image.findMany({
+            where: { uploadedById: user.userId },
+            include: {
+                posts: true
+            }
+        });
+        return reply.status(200).send({ allImages: images });
+    }
+    catch (error) {
+        console.error('Erro ao obter imagens:', error);
+        return reply.status(500).send({ error: 'Erro interno do servidor' });
+    }
+};
+exports.getAllUserImagesHandler = getAllUserImagesHandler;
 // Handler para obter apenas uma imagem
 const getImageHandler = async (request, reply) => {
     const { id } = request.params;
