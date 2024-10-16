@@ -17,10 +17,11 @@ const createUserHandler = async (request, reply) => {
         firstName: zod_1.z.string(),
         lastName: zod_1.z.string(),
         email: zod_1.z.string().email(),
+        profileImageUrl: zod_1.z.string().optional(),
         type: zod_1.z.string(),
         password: zod_1.z.string(),
     });
-    const { firstName, lastName, email, type, password } = createUserBody.parse(request.body);
+    const { firstName, lastName, email, profileImageUrl, type, password } = createUserBody.parse(request.body);
     try {
         const existingUser = await (0, userModel_1.findUserByEmail)(email);
         if (existingUser) {
@@ -31,6 +32,7 @@ const createUserHandler = async (request, reply) => {
             firstName,
             lastName,
             email,
+            profileImageUrl,
             type,
             password: hashedPassword,
         });
@@ -47,7 +49,14 @@ exports.createUserHandler = createUserHandler;
 // Handler para obter todos os usuários
 const getAllUsersHandler = async (request, reply) => {
     try {
-        const users = await prisma.user.findMany();
+        const users = await prisma.user.findMany({
+            orderBy: {
+                id: 'asc'
+            },
+            include: {
+                posts: true
+            }
+        });
         // Removendo as senhas antes de enviar na resposta
         const usersWithoutPasswords = users.map(({ password, ...user }) => user);
         return reply.status(200).send({ allUsers: usersWithoutPasswords });
@@ -111,10 +120,11 @@ const updateUserHandler = async (request, reply) => {
         firstName: zod_1.z.string().optional(),
         lastName: zod_1.z.string().optional(),
         email: zod_1.z.string().email().optional(),
+        profileImageUrl: zod_1.z.string().optional(),
         type: zod_1.z.string().optional(),
         password: zod_1.z.string().optional(),
     });
-    const { firstName, lastName, email, type, password } = updateUserBody.parse(request.body);
+    const { firstName, lastName, email, profileImageUrl, type, password } = updateUserBody.parse(request.body);
     try {
         const userId = Number(id);
         const existingUser = await (0, userModel_1.findUserById)(userId);
@@ -132,6 +142,7 @@ const updateUserHandler = async (request, reply) => {
             firstName,
             lastName,
             email,
+            profileImageUrl,
             type,
         };
         if (password) {

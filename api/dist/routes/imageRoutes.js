@@ -6,6 +6,7 @@ const authenticateJWT_1 = require("../middlewares/authenticateJWT");
 const imageRoutes = async (app) => {
     // Rota protegida por autenticação JWT
     app.get('/images', { preHandler: authenticateJWT_1.authenticateJWT }, imageController_1.getAllImagesHandler);
+    app.get('/images/user', { preHandler: authenticateJWT_1.authenticateJWT }, imageController_1.getAllUserImagesHandler);
     app.get('/images/:id', { preHandler: authenticateJWT_1.authenticateJWT }, imageController_1.getImageHandler);
     app.post('/images', { preHandler: authenticateJWT_1.authenticateJWT }, imageController_1.createImageHandler);
     app.put('/images/:id', { preHandler: authenticateJWT_1.authenticateJWT }, imageController_1.updateImageHandler);

@@ -30,7 +30,11 @@ exports.createTagHandler = createTagHandler;
 // Handler para obter todas as tags
 const getAllTagsHandler = async (request, reply) => {
     try {
-        const tags = await prisma.tag.findMany();
+        const tags = await prisma.tag.findMany({
+            include: {
+                posts: true
+            }
+        });
         return reply.status(200).send({ allTags: tags });
     }
     catch (error) {
@@ -68,9 +72,13 @@ const updateTagHandler = async (request, reply) => {
     const { name } = updateTagBody.parse(request.body);
     try {
         const tagId = Number(id);
-        const existingTag = await (0, tagModel_1.findTagById)(tagId);
-        if (!existingTag) {
+        const existingTagId = await (0, tagModel_1.findTagById)(tagId);
+        if (!existingTagId) {
             return reply.status(404).send({ error: 'Tag não encontrada' });
+        }
+        const existingTagName = await (0, tagModel_1.findTagByName)(name);
+        if (existingTagName) {
+            return reply.status(409).send({ error: 'Tag já existente' });
         }
         const updatedData = {
             name
