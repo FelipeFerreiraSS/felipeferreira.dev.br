@@ -13,10 +13,13 @@ export const createImageHandler = async (request: FastifyRequest, reply: Fastify
 
   const { imageUrl } = createImageBody.parse(request.body);
 
+  const user = request.user as { userId: number };
+
   try {
     const newImage = await prisma.image.create({
       data: {
         imageUrl,
+        uploadedById: user.userId,
       },
     });
 
@@ -31,6 +34,24 @@ export const createImageHandler = async (request: FastifyRequest, reply: Fastify
 export const getAllImagesHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
     const images = await prisma.image.findMany({
+      include: {
+        posts: true
+      }
+    });
+
+    return reply.status(200).send({ allImages: images });
+  } catch (error) {
+    console.error('Erro ao obter imagens:', error);
+    return reply.status(500).send({ error: 'Erro interno do servidor' });
+  }
+};
+
+// Handler para obter todos as imagens do usuario logado
+export const getAllUserImagesHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const user = request.user as { userId: number };
+    const images = await prisma.image.findMany({
+      where: { uploadedById: user.userId },
       include: {
         posts: true
       }
