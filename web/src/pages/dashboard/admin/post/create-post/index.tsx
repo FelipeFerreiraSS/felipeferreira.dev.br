@@ -1,4 +1,3 @@
-import HeaderMenu from "@/components/headerMenu";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -26,6 +25,7 @@ import { LoadingSpinner } from "@/components/loadingSpinner";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormErrorMessage from "@/components/formErrorMessage";
+import Layout from "@/components/layout";
 
 const createPostSchema = z.object({
   title: z.string().min(1 ,'O titulo é obrigatório'),
@@ -174,9 +174,8 @@ export default function CreatePost() {
   }, [postValue])
   
   return(
-    <>
+    <Layout pageTitle="Criar post">
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <HeaderMenu />
         <div className="sm:mx-auto sm:w-full sm:max-w-4xl mb-5">
           <div className="flex justify-between">
             <h1>Criar post</h1>
@@ -318,6 +317,6 @@ export default function CreatePost() {
           </form>
         </div>
       </div>
-    </>
+    </Layout>
   )
 }

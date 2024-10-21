@@ -3,6 +3,7 @@ export type User = {
   firstName: string,
   lastName: string,
   email: string,
+  profileImageUrl?: string
   type: string,
   createdAt: Date,
   updatedAt: Date

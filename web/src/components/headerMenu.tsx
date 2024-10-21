@@ -4,6 +4,8 @@ import { RootState } from "@/store/store";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import ThemeToggle from "./themeToggle";
+import Image from "next/image";
+import { CircleUserRound } from 'lucide-react';
 
 export default function HeaderMenu() {
   const userState = useSelector((state: RootState) => state.user);
@@ -37,10 +39,28 @@ export default function HeaderMenu() {
             ))
           )}
         </div>
-        <div>
-          <p>Bem vindo {userState.user?.type === 'admin' ? 'Administrador' : 'Editor'}: {userState.user?.firstName}</p>
+        <div className="flex justify-center items-center">
+          <div className="mr-3">
+            {userState.user?.profileImageUrl ? (
+              <Image
+                src={userState.user?.profileImageUrl}
+                width={50}
+                height={50}
+                alt="Picture of the author"
+                className="rounded-full"
+                style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "100%" }}
+                priority
+              />
+            ) : (
+              <CircleUserRound size={50}/> 
+            )}
+          </div>
+          <div>
+            <p>{userState.user?.firstName}</p>
+            <p>{userState.user?.type === 'admin' ? 'Administrador' : 'Editor'}</p>
+          </div>
         </div>
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
       </div>
     </div>
   )

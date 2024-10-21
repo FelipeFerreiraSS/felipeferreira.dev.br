@@ -2,7 +2,6 @@
 
 import { GetServerSideProps } from "next";
 import { authenticateUser } from "@/services/auth";
-import HeaderMenu from "@/components/headerMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { useEffect, useState } from "react";
@@ -17,6 +16,9 @@ import SubmitButton from "@/components/submitButton";
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import FormErrorMessage from "@/components/formErrorMessage";
+import Image from "next/image";
+import { CircleUserRound } from "lucide-react";
+import Layout from "@/components/layout";
 
 const profileSchema = z.object({
   firstName: z.string().min(1 ,'O nome é obrigatório'),
@@ -77,87 +79,103 @@ export default function Profile() {
   }, [userState, setValue]);
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <HeaderMenu />
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
-        <h1>Perfil</h1>
-        <form className="space-y-6" onSubmit={handleSubmit(handleUpdateUser)}>
+    <Layout pageTitle="Perfil">
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
+          <h1>Perfil</h1>
           <div>
-            <Label htmlFor="name">Nome</Label>
-            <Input 
-              {...register('firstName')}
-              type="text" 
-              id="firstName" 
-              placeholder="Nome" 
-              autoComplete="name" 
-              name="firstName"
-            />
-            <FormErrorMessage error={errors.firstName?.message}/>
+            {userState?.profileImageUrl ? (
+              <Image
+                src={userState.profileImageUrl}
+                width={300}
+                height={300}
+                alt="Picture of the author"
+                className="rounded-full"
+                style={{ width: "200px", height: "200px", objectFit: "cover", borderRadius: "100%" }}
+                priority
+              />
+            ) : (
+              <CircleUserRound size={200} /> 
+            )}
           </div>
-          <div>
-            <Label htmlFor="lastName">Sobrenome</Label>
-            <Input 
-              {...register('lastName')}
-              type="text" 
-              id="lastName" 
-              placeholder="Sobrenome" 
-              autoComplete="family-name" 
-              name="lastName"
-            />
-            <FormErrorMessage error={errors.lastName?.message}/>
-          </div>
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input 
-              {...register('email')}
-              type="email" 
-              id="email" 
-              placeholder="Email" 
-              autoComplete="email" 
-              name="email"
-            />
-            <FormErrorMessage error={errors.email?.message}/>
-          </div>
-          <div>
-            <Label htmlFor="type">Tipo</Label>
-            <Controller
-              name="type"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Tipo do usuário" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="admin">Administrador</SelectItem>
-                    <SelectItem value="editor">Editor</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            />
-            <FormErrorMessage error={errors.type?.message}/>
-          </div>
-          <div>
-            <Label htmlFor="password">Senha</Label>
-            <Input 
-              {...register('password')}
-              type="password" 
-              id="password" 
-              placeholder="Senha" 
-              autoComplete="current-password" 
-              name="password"
-            />
-            <FormErrorMessage error={errors.password?.message}/>
-          </div>
-          <div>
-            <SubmitButton isLoading={isLoading}>
-              Atualizar perfil
-            </SubmitButton>
-          </div>
-        </form>
+          <form className="space-y-6" onSubmit={handleSubmit(handleUpdateUser)}>
+            <div>
+              <Label htmlFor="name">Nome</Label>
+              <Input 
+                {...register('firstName')}
+                type="text" 
+                id="firstName" 
+                placeholder="Nome" 
+                autoComplete="name" 
+                name="firstName"
+              />
+              <FormErrorMessage error={errors.firstName?.message}/>
+            </div>
+            <div>
+              <Label htmlFor="lastName">Sobrenome</Label>
+              <Input 
+                {...register('lastName')}
+                type="text" 
+                id="lastName" 
+                placeholder="Sobrenome" 
+                autoComplete="family-name" 
+                name="lastName"
+              />
+              <FormErrorMessage error={errors.lastName?.message}/>
+            </div>
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input 
+                {...register('email')}
+                type="email" 
+                id="email" 
+                placeholder="Email" 
+                autoComplete="email" 
+                name="email"
+              />
+              <FormErrorMessage error={errors.email?.message}/>
+            </div>
+            <div>
+              <Label htmlFor="type">Tipo</Label>
+              <Controller
+                name="type"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Tipo do usuário" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="admin">Administrador</SelectItem>
+                      <SelectItem value="editor">Editor</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              <FormErrorMessage error={errors.type?.message}/>
+            </div>
+            <div>
+              <Label htmlFor="password">Senha</Label>
+              <Input 
+                {...register('password')}
+                type="password" 
+                id="password" 
+                placeholder="Senha" 
+                autoComplete="current-password" 
+                name="password"
+              />
+              <FormErrorMessage error={errors.password?.message}/>
+            </div>
+            <div>
+              <SubmitButton isLoading={isLoading}>
+                Atualizar perfil
+              </SubmitButton>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

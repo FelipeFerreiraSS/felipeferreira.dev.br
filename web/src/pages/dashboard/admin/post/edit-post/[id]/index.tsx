@@ -27,6 +27,7 @@ import { LoadingSpinner } from "@/components/loadingSpinner";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormErrorMessage from "@/components/formErrorMessage";
+import Layout from "@/components/layout";
 
 const editPostSchema = z.object({
   title: z.string().min(1 ,'O titulo é obrigatório'),
@@ -205,9 +206,8 @@ export default function EditPost() {
   }, [postValue])
 
   return(
-    <>
+    <Layout pageTitle="Editar post">
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <HeaderMenu />
         <div className="sm:mx-auto sm:w-full sm:max-w-4xl mb-5">
           <div className="flex justify-between">
             <h1>Editar post</h1>
@@ -348,6 +348,6 @@ export default function EditPost() {
           </form>
         </div>
       </div>
-    </>
+    </Layout>
   )
 }

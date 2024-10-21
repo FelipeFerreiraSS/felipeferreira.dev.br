@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { SunIcon, MoonIcon } from 'lucide-react';
 
-const ThemeToggle = () => {
+type ThemeToggleProps = {
+  isCollapsed: boolean;
+}
+
+const ThemeToggle = ({ isCollapsed }: ThemeToggleProps) => {
   const [theme, setTheme] = useState<string | null>('light');
 
   const toggleTheme = () => {
@@ -34,12 +38,16 @@ const ThemeToggle = () => {
   }, [theme]);
 
   return (
-    <Button variant="outline" onClick={toggleTheme}>
-      {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
-      <span className="ml-2">
-        {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-      </span>
-    </Button>
+    <ul>
+      <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer"onClick={toggleTheme}>
+        {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+        {!isCollapsed && 
+          <span className="ml-4">
+            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+          </span>  
+        }
+      </li>
+    </ul>
   );
 };
 

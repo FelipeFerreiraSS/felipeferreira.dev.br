@@ -18,6 +18,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormErrorMessage from "@/components/formErrorMessage";
+import Layout from "@/components/layout";
 
 const createUserSchema = z.object({
   firstName: z.string().min(1 ,'O nome é obrigatório'),
@@ -67,95 +68,96 @@ export default function CreateUser() {
   }
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <HeaderMenu />
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
-        <div className="flex justify-between">
-          <h1>Cadastrar novo usuário</h1>
-          <Button
-            className="bg-blue-500 "
-            onClick={() => router.back()} 
-          >
-            Voltar
-          </Button>
+    <Layout pageTitle="Criar usuário">
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
+          <div className="flex justify-between">
+            <h1>Cadastrar novo usuário</h1>
+            <Button
+              className="bg-blue-500 "
+              onClick={() => router.back()} 
+            >
+              Voltar
+            </Button>
+          </div>
+          <form className="space-y-6" onSubmit={handleSubmit(handleCreateUser)}>
+            <div>
+              <Label htmlFor="name">Nome</Label>
+              <Input 
+                {...register('firstName')}
+                type="text" 
+                id="firstName" 
+                placeholder="Nome" 
+                autoComplete="name" 
+                name="firstName"
+              />
+              <FormErrorMessage error={errors.firstName?.message}/>
+            </div>
+            <div>
+              <Label htmlFor="lastName">Sobrenome</Label>
+              <Input 
+                {...register('lastName')}
+                type="text" 
+                id="lastName" 
+                placeholder="Sobrenome" 
+                autoComplete="family-name" 
+                name="lastName"
+              />
+              <FormErrorMessage error={errors.lastName?.message}/>
+            </div>
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input 
+                {...register('email')}
+                type="email" 
+                id="email" 
+                placeholder="Email" 
+                autoComplete="email" 
+                name="email"
+              />
+              <FormErrorMessage error={errors.email?.message}/>
+            </div>
+            <div>
+              <Label htmlFor="type">Tipo</Label>
+              <Controller
+                name="type"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Tipo do usuário" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="admin">Administrador</SelectItem>
+                      <SelectItem value="editor">Editor</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              <FormErrorMessage error={errors.type?.message}/>
+            </div>
+            <div>
+              <Label htmlFor="password">Senha</Label>
+              <Input 
+                {...register('password')}
+                type="password" 
+                id="password" 
+                placeholder="Senha" 
+                autoComplete="current-password" 
+                name="password"
+              />
+              <FormErrorMessage error={errors.password?.message}/>
+            </div>
+            <div>
+              <SubmitButton isLoading={isLoading}>
+                Cadastrar
+              </SubmitButton>
+            </div>
+          </form>
         </div>
-        <form className="space-y-6" onSubmit={handleSubmit(handleCreateUser)}>
-          <div>
-            <Label htmlFor="name">Nome</Label>
-            <Input 
-              {...register('firstName')}
-              type="text" 
-              id="firstName" 
-              placeholder="Nome" 
-              autoComplete="name" 
-              name="firstName"
-            />
-            <FormErrorMessage error={errors.firstName?.message}/>
-          </div>
-          <div>
-            <Label htmlFor="lastName">Sobrenome</Label>
-            <Input 
-              {...register('lastName')}
-              type="text" 
-              id="lastName" 
-              placeholder="Sobrenome" 
-              autoComplete="family-name" 
-              name="lastName"
-            />
-            <FormErrorMessage error={errors.lastName?.message}/>
-          </div>
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input 
-              {...register('email')}
-              type="email" 
-              id="email" 
-              placeholder="Email" 
-              autoComplete="email" 
-              name="email"
-            />
-            <FormErrorMessage error={errors.email?.message}/>
-          </div>
-          <div>
-            <Label htmlFor="type">Tipo</Label>
-            <Controller
-              name="type"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Tipo do usuário" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="admin">Administrador</SelectItem>
-                    <SelectItem value="editor">Editor</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            />
-            <FormErrorMessage error={errors.type?.message}/>
-          </div>
-          <div>
-            <Label htmlFor="password">Senha</Label>
-            <Input 
-              {...register('password')}
-              type="password" 
-              id="password" 
-              placeholder="Senha" 
-              autoComplete="current-password" 
-              name="password"
-            />
-            <FormErrorMessage error={errors.password?.message}/>
-          </div>
-          <div>
-            <SubmitButton isLoading={isLoading}>
-              Cadastrar
-            </SubmitButton>
-          </div>
-        </form>
       </div>
-    </div>
+    </Layout>
   )
 }
 
