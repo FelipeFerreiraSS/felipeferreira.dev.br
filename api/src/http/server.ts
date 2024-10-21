@@ -8,6 +8,7 @@ import { userRoutes } from '../routes/userRoutes';
 import { postRoutes } from '../routes/postRoutes';
 import { imageRoutes } from '../routes/imageRoutes';
 import { tagRoutes } from '../routes/tagRoutes';
+import { analyticRoutes } from '../routes/analytics';
 
 const app = fastify()
 
@@ -30,6 +31,7 @@ app.register(userRoutes);
 app.register(postRoutes);
 app.register(imageRoutes);
 app.register(tagRoutes);
+app.register(analyticRoutes)
 
 app.listen({ port }).then(() => {
   console.log(`Server rodando na porta: ${port}`)
