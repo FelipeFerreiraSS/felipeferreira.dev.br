@@ -9,6 +9,18 @@ type MostRecentPost = {
   summary: string;
   createdAt: Date;
   headerImage: HeaderImage;
+  updatedAt: string,
+  readTime: string
+  tags: [
+    {
+      id: number,
+      name: string
+    }
+  ],
+  author : {
+    firstName: string
+    lastName: string
+  },
 }
 
 type TopAuthor = {
@@ -16,6 +28,8 @@ type TopAuthor = {
   firstName: string;
   lastName: string;
   email: string;
+  profileImageUrl: string,
+  type: string,
   postsPublished: number;
 }
 

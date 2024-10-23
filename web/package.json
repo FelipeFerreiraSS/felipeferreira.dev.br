@@ -23,6 +23,7 @@
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "highlight.js": "^11.10.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.437.0",
@@ -36,6 +37,7 @@
     "react-quill": "^2.0.0",
     "react-redux": "^9.1.2",
     "react-select": "^5.8.0",
+    "recharts": "^2.13.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
