@@ -136,6 +136,8 @@ export const getTopAuthor = async () => {
       firstName: true,
       lastName: true,
       email: true,
+      profileImageUrl: true,
+      type: true,
       // posts: {
       //   where: { published: true },
       //   select: { id: true, title: true },
@@ -166,6 +168,20 @@ export const getMostRecentPost = async () => {
       title: true,
       summary: true,
       createdAt: true,
+      updatedAt: true,
+      readTime: true,
+      tags: {
+        select: {
+          id: true,
+          name: true
+        }
+      },
+      author: {
+        select: {
+          firstName: true,
+          lastName: true,
+        }
+      },
       headerImage: {
         select: {
           id: true,
