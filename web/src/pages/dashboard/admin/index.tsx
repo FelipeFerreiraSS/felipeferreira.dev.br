@@ -118,8 +118,8 @@ export default function DashboardAdmin() {
 
       </div>
       <div className="flex gap-5 mb-5">
-        <PostsByMonthChart analyticPostsByMonth={analyticState?.postsByMonth}  />
-        <PostsPerTagChart analyticpostsPerTag={analyticState?.postsPerTag}/>
+        {/* <PostsByMonthChart analyticPostsByMonth={analyticState?.postsByMonth}  />
+        <PostsPerTagChart analyticpostsPerTag={analyticState?.postsPerTag}/> */}
         <Card className="max-w-64">
           <CardHeader>
             <CardTitle>Top autor</CardTitle>
@@ -177,15 +177,27 @@ export default function DashboardAdmin() {
           <CardContent>
             {analyticState?.mostRecentPost ? (
               <div className="flex gap-5">
-                <Image
-                  src={analyticState?.mostRecentPost.headerImage.imageUrl ?? '/default-image.png'}
-                  width={400}
-                  height={200}
-                  alt="Picture of the author"
-                  className="rounded-lg"
-                  style={{ width: "400px", height: "200px", objectFit: "cover" }}
-                  priority
-                />
+                {analyticState?.mostRecentPost.headerImage.imageUrl ? (
+                  <Image
+                    src={analyticState?.mostRecentPost.headerImage.imageUrl ?? '/default-image.png'}
+                    width={400}
+                    height={200}
+                    alt="Picture of the author"
+                    className="rounded-lg"
+                    style={{ width: "400px", height: "200px", objectFit: "cover" }}
+                    priority
+                  />
+                  ) : (
+                    <Image
+                    src={'/default-image.png'}
+                    width={400}
+                    height={200}
+                    alt="Picture of the author"
+                    className="rounded-lg"
+                    style={{ width: "400px", height: "200px", objectFit: "cover" }}
+                    priority
+                  />
+                  )}
                 <div>
                   <h2 className="font-bold text-3xl gap-5">{analyticState?.mostRecentPost.title}</h2>
                   <h3 className="text-xl flex gap-5">{analyticState?.mostRecentPost.summary}</h3>
