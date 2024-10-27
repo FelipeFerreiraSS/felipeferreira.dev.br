@@ -10,6 +10,8 @@ import {
   AlertDialogTitle, 
   AlertDialogTrigger 
 } from "./ui/alert-dialog";
+import { Trash2 } from "lucide-react";
+import { Button } from "./ui/button";
 
 export default function DeleteAlert({ onConfirm, id }: { onConfirm: (result: boolean) => void, id: number }) {
   const handleDelete = () => {
@@ -18,7 +20,13 @@ export default function DeleteAlert({ onConfirm, id }: { onConfirm: (result: boo
   
   return (
     <AlertDialog>
-      <AlertDialogTrigger>🗑️</AlertDialogTrigger>
+      <AlertDialogTrigger>
+        <button
+          className="hover:bg-red-500 p-2 rounded-full hover:text-white"
+        >
+          <Trash2 />
+        </button>
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Deletar este item?</AlertDialogTitle>

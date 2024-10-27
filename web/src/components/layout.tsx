@@ -1,5 +1,8 @@
 import Header from "./header";
 import Sidebar from "./sidebar";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -8,7 +11,7 @@ type LayoutProps = {
 
 export default function Layout({ children, pageTitle }: LayoutProps) {
   return (
-    <div className="flex h-screen">
+    <div className={`${inter.className} flex h-screen`}>
       <Sidebar />
       <div className="flex flex-col flex-1">
         <Header pageTitle={pageTitle}/>

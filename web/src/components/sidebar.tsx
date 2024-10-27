@@ -65,15 +65,15 @@ export default function Sidebar() {
           <ul className="mt-6 ml-3">
             {sidebarAdminItems.map((item, index) => (
               <Link href={`/dashboard/${userState.user?.type}${item.link}`} key={index}>
-                  <li
-                    className={`relative group flex items-center p-2 hover:bg-gray-700 cursor-pointer ${
-                      isActive(item.link, userState.user?.type) ? 'bg-gray-500' : ''
-                    }`}
-                  >
+                <li
+                  className={`relative group flex items-center p-2 hover:bg-gray-700 cursor-pointer ${
+                    isActive(item.link, userState.user?.type) ? 'bg-gray-500' : ''
+                  }`}
+                >
                   <span className="text-xl">{item.icon}</span>
                   {!isCollapsed && <span className="ml-4">{item.label}</span>}
                   {isCollapsed && (
-                    <span className="absolute left-20 bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="absolute z-50 cursor-default left-20 bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       {item.label}
                     </span>
                   )}

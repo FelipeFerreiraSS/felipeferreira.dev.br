@@ -9,8 +9,8 @@ import { useEffect } from "react";
 import { fetchAnalytics } from "@/store/features/analytic/truckFunctions";
 import PostsByMonthChart from "@/components/dashboard/postsByMonth";
 import PostsPerTagChart from "@/components/dashboard/postsPerTag";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bookmark, CircleUserRound, Clock2, Images, NotebookPen, NotebookText } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CircleUserRound, Clock2, Images, NotebookPen, NotebookText, Tag } from "lucide-react";
 import Image from "next/image";
 
 export default function DashboardAdmin() {
@@ -20,9 +20,7 @@ export default function DashboardAdmin() {
   console.log(analyticState);
 
   useEffect(() => {
-    if (!analyticState) {
       dispatch(fetchAnalytics());  
-    }
   }, [])
   
   return (
@@ -39,14 +37,14 @@ export default function DashboardAdmin() {
           </CardHeader>
           <CardContent>
             <p>Posts publicados</p>
-            <h3 className="font-bold text-5xl">{analyticState?.postsPublished}</h3>
+            <h3 className="font-bold text-5xl">{analyticState?.postsPublished || 0}</h3>
           </CardContent>
           {/* <CardFooter>
             <p>Card Footer</p>
           </CardFooter> */}
         </Card>
 
-        <Card className="max-w-52">
+        <Card className="max-w-56">
           <CardHeader>
             <CardTitle 
               className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
@@ -57,7 +55,7 @@ export default function DashboardAdmin() {
           </CardHeader>
           <CardContent>
             <p>Posts não publicados</p>
-            <h3 className="font-bold text-5xl">{analyticState?.postsDraft}</h3>
+            <h3 className="font-bold text-5xl">{analyticState?.postsDraft || 0}</h3>
           </CardContent>
           {/* <CardFooter>
             <p>Card Footer</p>
@@ -69,13 +67,13 @@ export default function DashboardAdmin() {
             <CardTitle 
               className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
             >
-              <Bookmark size={40} />
+              <Tag size={40} />
             </CardTitle>
             {/* <CardDescription>Card Description</CardDescription> */}
           </CardHeader>
           <CardContent>
             <p>Total de Tags</p>
-            <h3 className="font-bold text-5xl">{analyticState?.tags}</h3>
+            <h3 className="font-bold text-5xl">{analyticState?.tags || 0}</h3>
           </CardContent>
           {/* <CardFooter>
             <p>Card Footer</p>
@@ -93,14 +91,14 @@ export default function DashboardAdmin() {
           </CardHeader>
           <CardContent>
             <p>Total de Imagens</p>
-            <h3 className="font-bold text-5xl">{analyticState?.images}</h3>
+            <h3 className="font-bold text-5xl">{analyticState?.images || 0}</h3>
           </CardContent>
           {/* <CardFooter>
             <p>Card Footer</p>
           </CardFooter> */}
         </Card>
 
-        <Card className="max-w-64">
+        <Card className="max-w-72">
           <CardHeader>
             <CardTitle 
               className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
@@ -111,7 +109,7 @@ export default function DashboardAdmin() {
           </CardHeader>
           <CardContent>
             <p>Média de leitura do post</p>
-            <h3 className="font-bold text-5xl">{analyticState?.averageReadTime} Min</h3>
+            <h3 className="font-bold text-5xl">{analyticState?.averageReadTime || '0:00'} Min</h3>
           </CardContent>
           {/* <CardFooter>
             <p>Card Footer</p>
@@ -129,14 +127,18 @@ export default function DashboardAdmin() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col items-center justify-center mb-5">
+            {analyticState?.topAuthor ? (
               <p>
                 {analyticState?.topAuthor.type === 'admin' ? 'Administrador:' : 'Editor:'} { }
                 {analyticState?.topAuthor.firstName} { }
                 {analyticState?.topAuthor.lastName}
               </p>
+            ) : (
+              <div>Nenhum autor publicou posts ainda</div>
+            )}
               {analyticState?.topAuthor ? (
                 <Image
-                src={analyticState.topAuthor.profileImageUrl}
+                src={analyticState?.topAuthor.profileImageUrl}
                 width={100}
                 height={100}
                 alt="Picture of the author"
@@ -148,7 +150,18 @@ export default function DashboardAdmin() {
                 <CircleUserRound size={200} /> 
               )}
             </div>
-            <h3 className="font-bold text-5xl flex items-center justify-center gap-5">{analyticState?.topAuthor.postsPublished} <span className="font-normal text-lg">posts publicados</span></h3>
+            {analyticState?.topAuthor ? (
+              <h3 
+                className="font-bold text-5xl flex items-center justify-center gap-5"
+              >
+                {analyticState?.topAuthor.postsPublished} 
+                <span 
+                  className="font-normal text-lg"
+                >
+                  posts publicados
+                </span>
+              </h3>
+            ) : null}
           </CardContent>
           {/* <CardFooter>
             <p>Card Footer</p>
@@ -162,10 +175,10 @@ export default function DashboardAdmin() {
             {/* <CardDescription></CardDescription> */}
           </CardHeader>
           <CardContent>
-            <div className="flex gap-5">
-              {analyticState?.topAuthor ? (
+            {analyticState?.mostRecentPost ? (
+              <div className="flex gap-5">
                 <Image
-                  src={analyticState.mostRecentPost.headerImage.imageUrl}
+                  src={analyticState?.mostRecentPost.headerImage.imageUrl ?? '/default-image.png'}
                   width={400}
                   height={200}
                   alt="Picture of the author"
@@ -173,24 +186,24 @@ export default function DashboardAdmin() {
                   style={{ width: "400px", height: "200px", objectFit: "cover" }}
                   priority
                 />
-              ) : (
-                <CircleUserRound size={200} /> 
-              )}
-              <div>
-                <h2 className="font-bold text-3xl gap-5">{analyticState?.mostRecentPost.title}</h2>
-                <h3 className="text-xl flex gap-5">{analyticState?.mostRecentPost.summary}</h3>
-                <p className="text-base flex gap-5">Data de publicação: {new Date(analyticState?.mostRecentPost?.updatedAt || new Date()).toLocaleDateString()}</p>
-                <p className="text-base flex gap-5">{analyticState?.mostRecentPost.readTime} Min de leitura</p>
-                <ul className="flex flex-wrap gap-2 mt-4">
-                  {analyticState?.mostRecentPost.tags.map((tag) => (
-                    <li className="bg-blue-100 text-blue-600 px-2 py-1 rounded">
-                      {tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-base flex gap-5">Publicado por {analyticState?.mostRecentPost.author.firstName} {analyticState?.mostRecentPost.author.lastName}</p>
+                <div>
+                  <h2 className="font-bold text-3xl gap-5">{analyticState?.mostRecentPost.title}</h2>
+                  <h3 className="text-xl flex gap-5">{analyticState?.mostRecentPost.summary}</h3>
+                  <p className="text-base flex gap-5">Data de publicação: {new Date(analyticState?.mostRecentPost?.updatedAt || new Date()).toLocaleDateString()}</p>
+                  <p className="text-base flex gap-5">{analyticState?.mostRecentPost.readTime} Min de leitura</p>
+                  <ul className="flex flex-wrap gap-2 mt-4">
+                    {analyticState?.mostRecentPost.tags.map((tag) => (
+                      <li className="bg-blue-100 text-blue-600 px-2 py-1 rounded">
+                        {tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-base flex gap-5">Publicado por {analyticState?.mostRecentPost.author.firstName} {analyticState?.mostRecentPost.author.lastName}</p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div>Nenhum post foi publicado ainda</div>
+            )}
           </CardContent>
           {/* <CardFooter>
             <p>Card Footer</p>

@@ -2,11 +2,12 @@
 import { AppDispatch } from '../../store';
 import { api } from '@/services/api';
 import { parseCookies } from 'nookies';
-import { setAnalytics } from './analyticSlice';
+import { clearAnalytics, setAnalytics } from './analyticSlice';
 
 export const fetchAnalytics = () => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
   try {
+    dispatch(clearAnalytics())
     const response = await api.get(`/analytics`, {
         headers: {
           'Authorization': `Bearer ${token}`,
