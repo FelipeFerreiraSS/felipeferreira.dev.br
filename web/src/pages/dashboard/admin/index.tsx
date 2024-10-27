@@ -5,23 +5,38 @@ import { authenticateUser } from "@/services/auth";
 import Layout from "@/components/layout";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchAnalytics } from "@/store/features/analytic/truckFunctions";
 import PostsByMonthChart from "@/components/dashboard/postsByMonth";
 import PostsPerTagChart from "@/components/dashboard/postsPerTag";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CircleUserRound, Clock2, Images, NotebookPen, NotebookText, Tag } from "lucide-react";
+import { CircleUserRound, Clock2, Images, NotebookPen, NotebookText, RefreshCw, Tag } from "lucide-react";
 import Image from "next/image";
 
 export default function DashboardAdmin() {
+  const [loading, setLoading] = useState(true);
   const dispatch: AppDispatch = useDispatch()
 
   const analyticState = useSelector((state: RootState) => state.analytics.analytics)
   console.log(analyticState);
 
   useEffect(() => {
-      dispatch(fetchAnalytics());  
-  }, [])
+    dispatch(fetchAnalytics());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (analyticState !== null && analyticState !== undefined) {
+      setLoading(false);
+    }
+  }, [analyticState]);
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white">
+        <div className="animate-spin"><RefreshCw size={30} /></div>
+      </div>
+    );
+  }
   
   return (
     <Layout pageTitle="Dashboard">
@@ -118,8 +133,8 @@ export default function DashboardAdmin() {
 
       </div>
       <div className="flex gap-5 mb-5">
-        {/* <PostsByMonthChart analyticPostsByMonth={analyticState?.postsByMonth}  />
-        <PostsPerTagChart analyticpostsPerTag={analyticState?.postsPerTag}/> */}
+        <PostsByMonthChart analyticPostsByMonth={analyticState?.postsByMonth} />
+        <PostsPerTagChart analyticpostsPerTag={analyticState?.postsPerTag} />
         <Card className="max-w-64">
           <CardHeader>
             <CardTitle>Top autor</CardTitle>
@@ -177,27 +192,15 @@ export default function DashboardAdmin() {
           <CardContent>
             {analyticState?.mostRecentPost ? (
               <div className="flex gap-5">
-                {analyticState?.mostRecentPost.headerImage.imageUrl ? (
-                  <Image
-                    src={analyticState?.mostRecentPost.headerImage.imageUrl ?? '/default-image.png'}
-                    width={400}
-                    height={200}
-                    alt="Picture of the author"
-                    className="rounded-lg"
-                    style={{ width: "400px", height: "200px", objectFit: "cover" }}
-                    priority
-                  />
-                  ) : (
-                    <Image
-                    src={'/default-image.png'}
-                    width={400}
-                    height={200}
-                    alt="Picture of the author"
-                    className="rounded-lg"
-                    style={{ width: "400px", height: "200px", objectFit: "cover" }}
-                    priority
-                  />
-                  )}
+                <Image
+                  src={analyticState?.mostRecentPost.headerImage.imageUrl ?? '/default-image.png'}
+                  width={400}
+                  height={200}
+                  alt="Picture of the author"
+                  className="rounded-lg"
+                  style={{ width: "400px", height: "200px", objectFit: "cover" }}
+                  priority
+                />
                 <div>
                   <h2 className="font-bold text-3xl gap-5">{analyticState?.mostRecentPost.title}</h2>
                   <h3 className="text-xl flex gap-5">{analyticState?.mostRecentPost.summary}</h3>
@@ -205,7 +208,7 @@ export default function DashboardAdmin() {
                   <p className="text-base flex gap-5">{analyticState?.mostRecentPost.readTime || '0'} Min de leitura</p>
                   <ul className="flex flex-wrap gap-2 mt-4">
                     {analyticState?.mostRecentPost.tags.map((tag) => (
-                      <li className="bg-blue-100 text-blue-600 px-2 py-1 rounded">
+                      <li className="bg-blue-100 text-blue-600 px-2 py-1 rounded" key={tag.id}>
                         {tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}
                       </li>
                     ))}
