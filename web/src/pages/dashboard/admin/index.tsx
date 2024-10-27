@@ -133,7 +133,7 @@ export default function DashboardAdmin() {
 
       </div>
       <div className="flex gap-5 mb-5">
-        {analyticState?.postsByMonth ? (
+        {analyticState?.postsByMonth && analyticState.postsByMonth.length > 0 ? (
           <PostsByMonthChart analyticPostsByMonth={analyticState?.postsByMonth} />
         ) : (
           <Card className="max-w-72">
@@ -144,7 +144,7 @@ export default function DashboardAdmin() {
             </CardHeader>
           </Card>
         )}
-        {analyticState?.postsPerTag ? (
+        {analyticState?.postsPerTag && analyticState?.postsPerTag.length > 0 ? (
           <PostsPerTagChart analyticpostsPerTag={analyticState?.postsPerTag} />
         ) : (
           <Card className="max-w-72">
