@@ -30,7 +30,7 @@ export default function DashboardAdmin() {
     }
   }, [analyticState]);
 
-  if (loading) {
+  if (loading || !analyticState) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white">
         <div className="animate-spin"><RefreshCw size={30} /></div>
@@ -133,8 +133,28 @@ export default function DashboardAdmin() {
 
       </div>
       <div className="flex gap-5 mb-5">
-        <PostsByMonthChart analyticPostsByMonth={analyticState?.postsByMonth} />
-        <PostsPerTagChart analyticpostsPerTag={analyticState?.postsPerTag} />
+        {analyticState?.postsByMonth ? (
+          <PostsByMonthChart analyticPostsByMonth={analyticState?.postsByMonth} />
+        ) : (
+          <Card className="max-w-72">
+            <CardHeader>
+              <CardTitle>
+                <p>Carregando dados do gráfico...</p>
+              </CardTitle>
+            </CardHeader>
+          </Card>
+        )}
+        {analyticState?.postsPerTag ? (
+          <PostsPerTagChart analyticpostsPerTag={analyticState?.postsPerTag} />
+        ) : (
+          <Card className="max-w-72">
+            <CardHeader>
+              <CardTitle>
+                <p>Carregando dados do gráfico...</p>
+              </CardTitle>
+            </CardHeader>
+          </Card>
+        )}
         <Card className="max-w-64">
           <CardHeader>
             <CardTitle>Top autor</CardTitle>
@@ -145,8 +165,8 @@ export default function DashboardAdmin() {
             {analyticState?.topAuthor ? (
               <p>
                 {analyticState?.topAuthor.type === 'admin' ? 'Administrador:' : 'Editor:'} { }
-                {analyticState?.topAuthor.firstName} { }
-                {analyticState?.topAuthor.lastName}
+                {analyticState?.topAuthor.firstName || ""} { }
+                {analyticState?.topAuthor.lastName || ""}
               </p>
             ) : (
               <div>Nenhum autor publicou posts ainda</div>
@@ -169,7 +189,7 @@ export default function DashboardAdmin() {
               <h3 
                 className="font-bold text-5xl flex items-center justify-center gap-5"
               >
-                {analyticState?.topAuthor.postsPublished} 
+                {analyticState?.topAuthor.postsPublished || '0'} 
                 <span 
                   className="font-normal text-lg"
                 >
@@ -202,18 +222,22 @@ export default function DashboardAdmin() {
                   priority
                 />
                 <div>
-                  <h2 className="font-bold text-3xl gap-5">{analyticState?.mostRecentPost.title}</h2>
-                  <h3 className="text-xl flex gap-5">{analyticState?.mostRecentPost.summary}</h3>
+                  <h2 className="font-bold text-3xl gap-5">{analyticState?.mostRecentPost.title || ""}</h2>
+                  <h3 className="text-xl flex gap-5">{analyticState?.mostRecentPost.summary || ""}</h3>
                   <p className="text-base flex gap-5">Data de publicação: {new Date(analyticState?.mostRecentPost?.updatedAt || new Date()).toLocaleDateString()}</p>
                   <p className="text-base flex gap-5">{analyticState?.mostRecentPost.readTime || '0'} Min de leitura</p>
                   <ul className="flex flex-wrap gap-2 mt-4">
-                    {analyticState?.mostRecentPost.tags.map((tag) => (
-                      <li className="bg-blue-100 text-blue-600 px-2 py-1 rounded" key={tag.id}>
-                        {tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}
-                      </li>
-                    ))}
+                    {analyticState?.mostRecentPost.tags ? (
+                      <>
+                        {analyticState?.mostRecentPost.tags.map((tag) => (
+                          <li className="bg-blue-100 text-blue-600 px-2 py-1 rounded" key={tag.id}>
+                            {tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}
+                          </li>
+                        ))}
+                      </>
+                    ) : <li></li>}
                   </ul>
-                  <p className="text-base flex gap-5">Publicado por {analyticState?.mostRecentPost.author.firstName} {analyticState?.mostRecentPost.author.lastName}</p>
+                  <p className="text-base flex gap-5">Publicado por {analyticState?.mostRecentPost.author.firstName || ""} {analyticState?.mostRecentPost.author.lastName || ""}</p>
                 </div>
               </div>
             ) : (
