@@ -82,6 +82,7 @@ export default function EditPost() {
   const [selectedImage, setSelectedImage] = useState<{ id: number; imageUrl: string } | null>(null);
   const [postValue, setPostValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [readTime, setReadTime] = useState(0)
 
   const tagsState = useSelector((state: RootState) => state.tags)
   const imagesState = useSelector((state: RootState) => state.images.images)
@@ -123,6 +124,16 @@ export default function EditPost() {
       .replace(/^-+|-+$/g, '')
   };
 
+  function calculateReadingTime(text: string) {
+    const wordsPerMinute = 210; // Velocidade de leitura
+    const wordsArray = text.trim().split(/\s+/); // Divide o texto em palavras
+    const wordCount = wordsArray.length;
+    const readingTime = Math.ceil(wordCount / wordsPerMinute); // Calcula o tempo e arredonda para cima
+    console.log(readingTime);
+    
+    return readingTime;
+   }
+
   const title = watch('title', '')
 
   async function handleUpdatePost(data: EditPostSchema) {
@@ -134,7 +145,8 @@ export default function EditPost() {
       slug: slug,
       tags: tagsAsStrings,
       headerImageId: selectedImage?.id,
-      content: postValue
+      content: postValue,
+      readTime: `${readTime}`
     }
 
     const isSuccess = await dispatch(updatePost(numericId, dataPost ))
@@ -145,7 +157,7 @@ export default function EditPost() {
         description: "Usuário atualizado com sucesso.",
       });
       dispatch(fetchPostsList()); 
-      router.push("/dashboard/admin")
+      router.push("/dashboard/admin/post")
     } else {
       toast({
         variant: "destructive",
@@ -194,7 +206,8 @@ export default function EditPost() {
   
   useEffect(() => {
     setSlug(generateSlug(title))
-  }, [title])
+    setReadTime(calculateReadingTime(postValue))
+  }, [title, postValue])
 
   useEffect(() => {
     dispatch(fetchTagsList())

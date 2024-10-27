@@ -80,6 +80,7 @@ export default function CreatePost() {
   const [selectedImage, setSelectedImage] = useState<{ id: number; imageUrl: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false)
   const [postValue, setPostValue] = useState('')
+  const [readTime, setReadTime] = useState(0)
 
   const tagsState = useSelector((state: RootState) => state.tags)
   const imagesState = useSelector((state: RootState) => state.images.images)
@@ -120,6 +121,16 @@ export default function CreatePost() {
 
   const title = watch('title', '')
 
+  function calculateReadingTime(text: string) {
+   const wordsPerMinute = 210; // Velocidade de leitura
+   const wordsArray = text.trim().split(/\s+/); // Divide o texto em palavras
+   const wordCount = wordsArray.length;
+   const readingTime = Math.ceil(wordCount / wordsPerMinute); // Calcula o tempo e arredonda para cima
+   console.log(readingTime);
+   
+   return readingTime;
+  }
+
   async function handleCreatePost(data: CreatePostSchema) {
     setIsLoading(true)
     const dataPost = {
@@ -127,7 +138,8 @@ export default function CreatePost() {
       slug: slug,
       tags: selectedTags,
       headerImageId: selectedImage?.id,
-      content: postValue
+      content: postValue,
+      readTime: `${readTime}`
     }
     console.log(dataPost);
     
@@ -139,7 +151,7 @@ export default function CreatePost() {
         description: "Usuário criado com sucesso.",
       });
       dispatch(fetchPostsList()); 
-      router.push("/dashboard/admin")
+      router.push("/dashboard/admin/post")
     } else {
       toast({
         variant: "destructive",
@@ -162,7 +174,8 @@ export default function CreatePost() {
 
   useEffect(() => {
     setSlug(generateSlug(title))
-  }, [title])
+    setReadTime(calculateReadingTime(postValue))
+  }, [title, postValue])
 
   useEffect(() => {
     dispatch(fetchTagsList())
