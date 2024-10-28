@@ -11,7 +11,7 @@ import {
   ArrowUpAZ, 
   CircleCheckBig, 
   ImageOff, 
-  NotebookPen, 
+  Pencil, 
   PencilLine 
 } from "lucide-react";
 import { 
@@ -328,7 +328,7 @@ export default function Posts() {
             <TableHeader>
               <TableRow>
                 <TableHead 
-                  className={`cursor-pointer hover:text-blue-500 ${sortConfig.key === 'id' ? 'text-blue-500' : ''}`} 
+                  className={`cursor-pointer select-none hover:text-blue-500 ${sortConfig.key === 'id' ? 'text-blue-500' : ''}`} 
                   onClick={() => handleSort('id')}
                 >
                   <span className="flex">
@@ -337,7 +337,7 @@ export default function Posts() {
                   </span>
                 </TableHead>
                 <TableHead
-                  className={`cursor-pointer hover:text-blue-500 ${sortConfig.key === 'published' ? 'text-blue-500' : ''}`} 
+                  className={`cursor-pointer select-none hover:text-blue-500 ${sortConfig.key === 'published' ? 'text-blue-500' : ''}`} 
                   onClick={() => handleSort('published')}
                 >
                   <span className="flex">
@@ -347,7 +347,7 @@ export default function Posts() {
                 </TableHead>
                 <TableHead>Capa</TableHead>
                 <TableHead
-                  className={`cursor-pointer hover:text-blue-500 ${sortConfig.key === 'title' ? 'text-blue-500' : ''}`} 
+                  className={`cursor-pointer select-none hover:text-blue-500 ${sortConfig.key === 'title' ? 'text-blue-500' : ''}`} 
                   onClick={() => handleSort('title')}
                 >
                   <span className="flex">
@@ -358,7 +358,7 @@ export default function Posts() {
                 <TableHead>Resumo</TableHead>
                 <TableHead>Tags</TableHead>
                 <TableHead
-                  className={`w-32 hover:text-blue-500 cursor-pointer ${sortConfig.key === 'author.firstName' ? 'text-blue-500' : ''}`} 
+                  className={`w-32 hover:text-blue-500 cursor-pointer select-none ${sortConfig.key === 'author.firstName' ? 'text-blue-500' : ''}`} 
                   onClick={() => handleSort('author.firstName')}
                 >
                   <span className="flex">
@@ -367,7 +367,7 @@ export default function Posts() {
                   </span>
                 </TableHead>
                 <TableHead
-                  className={`cursor-pointer hover:text-blue-500 ${sortConfig.key === 'createdAt' ? 'text-blue-500' : ''}`} 
+                  className={`cursor-pointer select-none hover:text-blue-500 ${sortConfig.key === 'createdAt' ? 'text-blue-500' : ''}`} 
                   onClick={() => handleSort('createdAt')}
                 >
                   <span className="flex">
@@ -376,7 +376,7 @@ export default function Posts() {
                   </span>
                 </TableHead>
                 <TableHead
-                  className={`cursor-pointer hover:text-blue-500 ${sortConfig.key === 'updatedAt' ? 'text-blue-500' : ''}`} 
+                  className={`cursor-pointer select-none hover:text-blue-500 ${sortConfig.key === 'updatedAt' ? 'text-blue-500' : ''}`} 
                   onClick={() => handleSort('updatedAt')}
                 >
                   <span className="flex">
@@ -449,7 +449,7 @@ export default function Posts() {
                   <TableCell>{new Date(post.updatedAt).toLocaleDateString()}</TableCell>
                   <TableCell>
                     <Link href={`/dashboard/admin/post/edit-post/${post.id}`}>
-                      <button className="hover:bg-blue-500 p-2 rounded-full hover:text-white"><NotebookPen /></button>
+                      <button className="hover:bg-blue-500 p-2 rounded-full hover:text-white"><Pencil /></button>
                     </Link>
                   </TableCell>
                   <TableCell>
