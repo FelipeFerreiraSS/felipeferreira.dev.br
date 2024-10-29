@@ -287,7 +287,7 @@ export default function Posts() {
                         </SelectTrigger>
                         <SelectContent>
                         {allTags.map((tag) => (
-                          <SelectItem key={tag} value={tag}>{tag}</SelectItem>
+                          <SelectItem key={tag} value={tag}>{tag.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}</SelectItem>
                         ))}
                         </SelectContent>
                       </Select>

@@ -15,14 +15,14 @@ import Image from "next/image";
 
 export default function DashboardAdmin() {
   const [loading, setLoading] = useState(true);
-  const dispatch: AppDispatch = useDispatch()
+  //const dispatch: AppDispatch = useDispatch()
 
   const analyticState = useSelector((state: RootState) => state.analytics.analytics)
   console.log(analyticState);
 
-  useEffect(() => {
-    dispatch(fetchAnalytics());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchAnalytics());
+  // }, [dispatch]);
 
   useEffect(() => {
     if (analyticState !== null && analyticState !== undefined) {
@@ -258,6 +258,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   //const { ['felipeferreirablog.token']: token } = parseCookies(ctx)
 
   const authResult = await authenticateUser(ctx);
+  const dispatch: AppDispatch = useDispatch()
 
   if ('redirect' in authResult) {
     return authResult; // Retorna o redirecionamento se necessário
@@ -273,6 +274,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
+
+  useEffect(() => {
+    dispatch(fetchAnalytics());
+  }, [dispatch]);
 
   // Chamada API do lado do servidor
   //await apiClient.get('/users')
