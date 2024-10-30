@@ -20,24 +20,41 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormErrorMessage from "@/components/formErrorMessage";
 import Layout from "@/components/layout";
+import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
+import { CircleUserRound } from "lucide-react";
 
 const editUserSchema = z.object({
   firstName: z.string().min(1 ,'O nome é obrigatório'),
   lastName: z.string().min(1, 'O sobrenome é obrigatório'),
   email: z.string().email('Formato de e-mail inválido').min(1, 'O e-mail é obrigatório'),
   type: z.string().min(1, 'O tipo é obrigatório'),
-  password: z.string().min(8, 'A senha deve ter no mínimo 8 caracteres'),
+  password: z.string().optional().refine((val) => !val || val.length >= 8, {
+    message: 'A senha deve ter no mínimo 8 caracteres',
+  }),
 });
+
+type UserData = {
+  firstName: string,
+  lastName: string,
+  email: string,
+  type: string,
+  profileImageUrl: string
+}
 
 export type EditUserSchema = z.infer<typeof editUserSchema>
 
 export default function EditUser() {
   const [isLoading, setIsLoading] = useState(false)
+  const [isFormChanged, setIsFormChanged] = useState(false);
+  const [userData, setUserData] = useState<UserData>();
+
   const {
     register,
     handleSubmit,
     control,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<EditUserSchema>({
     resolver: zodResolver(editUserSchema)
@@ -52,6 +69,8 @@ export default function EditUser() {
 
   const { toast } = useToast()
   const dispatch: AppDispatch = useDispatch()
+
+  const formValues = watch();
 
   async function handleUpdateUser(data: EditUserSchema) {
     setIsLoading(true)
@@ -77,12 +96,13 @@ export default function EditUser() {
   useEffect(() => {
     if (numericId) {
       const fetchUserData = async() => {
-        const userData = await dispatch(getUserById(numericId));
-        if (userData) {
-          setValue('firstName', userData.firstName);
-          setValue('lastName', userData.lastName);
-          setValue('email', userData.email);
-          setValue('type', userData.type);
+        const data = await dispatch(getUserById(numericId));
+        setUserData(data)
+        if (data) {
+          setValue('firstName', data.firstName);
+          setValue('lastName', data.lastName);
+          setValue('email', data.email);
+          setValue('type', data.type);
         }
         //setIsLoading(false);
       }
@@ -90,95 +110,129 @@ export default function EditUser() {
     }
   }, [id, setValue, dispatch]);
 
+  useEffect(() => {
+    const hasChanged = 
+      formValues.firstName !== userData?.firstName ||
+      formValues.lastName !== userData?.lastName ||
+      formValues.email !== userData?.email ||
+      formValues.type !== userData?.type ||
+      formValues.password !== "";
+  
+    setIsFormChanged(hasChanged);
+  }, [formValues, userData]);
+
   return (
     <Layout pageTitle="Editar usuário">
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm mb-5">
-          <div className="flex justify-between">
-            <h1>Editar usuário</h1>
+      <div>
+        <Card>
+          <CardContent>
+          <div className="flex items-center justify-between mt-5">
+            <div className="flex items-center gap-10">
+              <div>
+                <Label htmlFor="image">Foto de perfil</Label>
+                {userData?.profileImageUrl ? (
+                  <Image
+                    src={userData.profileImageUrl}
+                    width={100}
+                    height={100}
+                    alt="Picture of the author"
+                    className="rounded-full"
+                    style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "100%" }}
+                    priority
+                  />
+                ) : (
+                  <CircleUserRound size={100} /> 
+                )}
+              </div>
+              <div className="flex gap-5 mt-5">
+                <Button variant={"default"}>Altera imagem</Button>
+                <Button variant={"destructive"}>Deletar imagem</Button>
+              </div>
+            </div>
             <Button
               className="bg-blue-500 "
               onClick={() => router.back()} 
             >
               Voltar
             </Button>
-          </div>
-          <form className="space-y-6" onSubmit={handleSubmit(handleUpdateUser)}>
-            <div>
-              <Label htmlFor="name">Nome</Label>
-              <Input 
-                {...register('firstName')}
-                type="text" 
-                id="firstName" 
-                placeholder="Nome" 
-                autoComplete="name" 
-                name="firstName"
-              />
-              <FormErrorMessage error={errors.firstName?.message}/>
             </div>
-            <div>
-              <Label htmlFor="lastName">Sobrenome</Label>
-              <Input 
-                {...register('lastName')}
-                type="text" 
-                id="lastName" 
-                placeholder="Sobrenome" 
-                autoComplete="family-name" 
-                name="lastName"
-              />
-              <FormErrorMessage error={errors.lastName?.message}/>
-            </div>
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <Input 
-                {...register('email')}
-                type="email" 
-                id="email" 
-                placeholder="Email" 
-                autoComplete="email" 
-                name="email"
-              />
-              <FormErrorMessage error={errors.email?.message}/>
-            </div>
-            <div>
-              <Label htmlFor="type">Tipo</Label>
-              <Controller
-                name="type"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Tipo do usuário" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="admin">Administrador</SelectItem>
-                      <SelectItem value="editor">Editor</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-              <FormErrorMessage error={errors.type?.message}/>
-            </div>
-            <div>
-              <Label htmlFor="password">Senha</Label>
-              <Input 
-                {...register('password')}
-                type="password" 
-                id="password" 
-                placeholder="Senha" 
-                autoComplete="current-password" 
-                name="password"
-              />
-              <FormErrorMessage error={errors.password?.message}/>
-            </div>
-            <div>
-              <SubmitButton isLoading={isLoading}>
-                Slavar
-              </SubmitButton>
-            </div>
-          </form>
-        </div>
+            <form className="space-y-6 max-w-lg" onSubmit={handleSubmit(handleUpdateUser)}>
+              <div>
+                <Label htmlFor="name">Nome</Label>
+                <Input 
+                  {...register('firstName')}
+                  type="text" 
+                  id="firstName" 
+                  placeholder="Nome" 
+                  autoComplete="name" 
+                  name="firstName"
+                />
+                <FormErrorMessage error={errors.firstName?.message}/>
+              </div>
+              <div>
+                <Label htmlFor="lastName">Sobrenome</Label>
+                <Input 
+                  {...register('lastName')}
+                  type="text" 
+                  id="lastName" 
+                  placeholder="Sobrenome" 
+                  autoComplete="family-name" 
+                  name="lastName"
+                />
+                <FormErrorMessage error={errors.lastName?.message}/>
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input 
+                  {...register('email')}
+                  type="email" 
+                  id="email" 
+                  placeholder="Email" 
+                  autoComplete="email" 
+                  name="email"
+                />
+                <FormErrorMessage error={errors.email?.message}/>
+              </div>
+              <div>
+                <Label htmlFor="type">Tipo</Label>
+                <Controller
+                  name="type"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Tipo do usuário" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="admin">Administrador</SelectItem>
+                        <SelectItem value="editor">Editor</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                <FormErrorMessage error={errors.type?.message}/>
+              </div>
+              <div>
+                <Label htmlFor="password">Senha</Label>
+                <Input 
+                  {...register('password')}
+                  type="password" 
+                  id="password" 
+                  placeholder="Senha" 
+                  autoComplete="new-password" 
+                  name="password"
+                />
+                <FormErrorMessage error={errors.password?.message}/>
+              </div>
+              <div>
+                <SubmitButton isLoading={isLoading} disabled={!isFormChanged}>
+                  Atualizar perfil
+                </SubmitButton>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </Layout>
   )
