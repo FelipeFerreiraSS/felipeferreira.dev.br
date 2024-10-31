@@ -31,11 +31,21 @@ exports.createImageHandler = createImageHandler;
 const getAllImagesHandler = async (request, reply) => {
     try {
         const images = await prisma.image.findMany({
-            include: {
-                posts: true
+            select: {
+                id: true, // Inclua outros campos da imagem que desejar
+                imageUrl: true,
+                createdAt: true,
+                updatedAt: true,
+                _count: {
+                    select: { posts: true }
+                }
             }
         });
-        return reply.status(200).send({ allImages: images });
+        const result = images.map(({ _count, ...image }) => ({
+            ...image,
+            postCount: _count.posts || 0
+        }));
+        return reply.status(200).send({ allImages: result });
     }
     catch (error) {
         console.error('Erro ao obter imagens:', error);
