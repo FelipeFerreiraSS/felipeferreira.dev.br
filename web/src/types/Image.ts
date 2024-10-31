@@ -5,6 +5,5 @@ export type Image = {
   imageUrl: string;
   createdAt: Date;
   updatedAt: Date;
-
-  posts: Post[];
+  postCount: number
 };

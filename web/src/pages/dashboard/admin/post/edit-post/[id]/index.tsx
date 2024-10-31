@@ -28,6 +28,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormErrorMessage from "@/components/formErrorMessage";
 import Layout from "@/components/layout";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CircleAlert, ImagePlus } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const editPostSchema = z.object({
   title: z.string().min(1 ,'O titulo é obrigatório'),
@@ -189,8 +193,8 @@ export default function EditPost() {
           setValue('summary', postData.summary);
           setPostValue(postData.content)
           setSelectedImage({ 
-            id: postData.headerImage.id, 
-            imageUrl: postData.headerImage.imageUrl
+            id: postData.headerImage?.id, 
+            imageUrl: postData.headerImage?.imageUrl
           });
           const selectedTagOptions = postData.tags.map((tag: Tag) => ({
             value: tag.name,
@@ -220,146 +224,188 @@ export default function EditPost() {
 
   return(
     <Layout pageTitle="Editar post">
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-4xl mb-5">
-          <div className="flex justify-between">
-            <h1>Editar post</h1>
-            <Button
-              className="bg-blue-500 "
-              onClick={() => router.back()} 
-            >
-              Voltar
-            </Button>
-          </div>
-          <div>
-            <Label htmlFor="title">Imagem de capa</Label>
-            <Dialog>
-              <DialogTrigger>
-                {selectedImage ? (
-                  <Image
-                    src={selectedImage.imageUrl}
-                    width={300}
-                    height={300}
-                    alt="Picture of the author"
-                    className="rounded-xl"
+      <div className="mb-5">
+        <Button
+          className="bg-blue-500 "
+          onClick={() => router.back()} 
+        >
+          Voltar
+        </Button>
+      </div>
+      <div className="flex w-full gap-5">
+        <Card className="w-[40%] h-full">
+          <CardHeader>
+            <CardTitle>Detalhes</CardTitle>
+            <CardDescription>
+              Adicione a imagem de capa, insira o título, selecione as tags  
+              e escreva um resumo do conteúdo.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col">
+              <Label htmlFor="title" className="mb-5">Imagem de capa</Label>
+              <Dialog>
+                <DialogTrigger className="w-[50%]">
+                  {selectedImage && selectedImage?.imageUrl  ? (
+                    <Image
+                      src={selectedImage.imageUrl}
+                      width={300}
+                      height={300}
+                      alt="Picture of the author"
+                      className="rounded-xl"
+                    />
+                  ) : (
+                    <Card>
+                      <CardContent className="flex justify-center items-center h-28">
+                        <ImagePlus className="mt-5"/>
+                      </CardContent>
+                    </Card>
+                  )}
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl">
+                  <DialogHeader>
+                    <DialogTitle className="mb-3">Selecione uma imagem para capa</DialogTitle>
+                    <DialogDescription>
+                      <div>
+                        <div className="mb-3">
+                          <Uploader />
+                        </div>
+                        <div className="grid grid-cols-5 gap-2">
+                          {imagesState?.map((image) => (
+                            <div 
+                              key={image.id}
+                              onClick={() => handleImageClick(image)}
+                            >
+                              <Image
+                                src={image.imageUrl}
+                                width={200}
+                                height={200}
+                                alt="Picture of the author"
+                                className={`rounded-xl mb-3 cursor-pointer ${selectedImage?.id === image.id ? 'border-4 border-blue-500' : ''}`}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter className="sm:justify-end">
+                    <DialogClose asChild>
+                      <Button type="button" variant="default" className="bg-blue-500 ">
+                        Salvar
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+            <form className="space-y-6" onSubmit={handleSubmit(handleUpdatePost)}>
+              <div>
+                <Label htmlFor="title">Titulo</Label>
+                <Input 
+                  {...register('title')}
+                  type="text" 
+                  id="title" 
+                  placeholder="Titulo" 
+                  autoComplete="titulo" 
+                  name="title"
+                />
+                <FormErrorMessage error={errors.title?.message}/>
+                <p>Slug: {slug}</p>
+              </div>
+              <div>
+                <Label htmlFor="type">Tags</Label>
+                <Select
+                  value={selectedTags}
+                  isMulti
+                  name="tags"
+                  options={options}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  placeholder='-- Selecione --'
+                  noOptionsMessage={() => "Nenhuma opção encontrada"}
+                  onChange={(selectedOptions) => {
+                    setSelectedTags(selectedOptions as { value: string; label: string }[]);
+                  }}
+                />
+              </div>
+              <div>
+                <Label htmlFor="summary">Resumo</Label>
+                <Textarea
+                  placeholder="Resumo do post" 
+                  {...register('summary')} 
+                />
+                <FormErrorMessage error={errors.summary?.message}/>
+              </div>
+              <div className="flex gap-5">
+                <Button
+                  type="submit"
+                  className="bg-blue-500 " 
+                  onClick={handleSave}
+                  disabled={isLoading || getValuePublished}
+                >
+                  Salvar {isLoading && !getValuePublished ? <LoadingSpinner /> : null}
+                </Button>
+                <Button
+                  {...register('published')} 
+                  type="submit"
+                  className="bg-blue-500 " 
+                  onClick={handlePublish}
+                  disabled={isLoading || getValuePublished}
+                >
+                  Publicar {isLoading && getValuePublished ? <LoadingSpinner /> : null} 
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+        <Card className="w-[60%]">
+          <CardHeader>
+            <CardTitle>Conteúdo</CardTitle>
+            <CardDescription>
+              Escreva o conteúdo do post e 
+              visualize uma prévia do resultado final.
+            </CardDescription> 
+          </CardHeader>
+          <CardContent className="h-full">
+            <Tabs defaultValue="post" className="w-full">
+              <TabsList>
+                <TabsTrigger value="post">Post</TabsTrigger>
+                <TabsTrigger value="preview">Preview</TabsTrigger>
+              </TabsList>
+              <TabsContent value="post">
+                <div>
+                  <ReactQuill
+                    value={postValue}
+                    onChange={setPostValue}
+                    modules={modules}
+                    formats={formats}
+                    theme="snow"
+                    className="rounded-lg shadow-md"
                   />
-                ) : (
-                  <div className="bg-slate-200 w-96 h-32 flex justify-center items-center rounded-xl">
-                    <h3>Adicione uma imagem de capa</h3>
+                </div>
+              </TabsContent>
+              <TabsContent value="preview">
+                {postValue && postValue !== '<p><br></p>' ? (
+                  <div
+                    className="prose prose-lg mt-8"
+                    dangerouslySetInnerHTML={{ __html: postValue }}
+                  />
+                ):(
+                  <div>
+                    <Alert variant={"destructive"}>
+                      <CircleAlert />
+                      <AlertTitle>Prévia Indisponível</AlertTitle>
+                      <AlertDescription>
+                        Escreva o conteúdo do post para visualizar a prévia.
+                      </AlertDescription>
+                    </Alert>
                   </div>
                 )}
-              </DialogTrigger>
-              <DialogContent className="max-w-3xl">
-                <DialogHeader>
-                  <DialogTitle className="mb-3">Selecione uma imagem para capa</DialogTitle>
-                  <DialogDescription>
-                    <div>
-                      <div className="mb-3">
-                        <Uploader />
-                      </div>
-                      <div className="grid grid-cols-5 gap-2">
-                        {imagesState?.map((image) => (
-                          <div 
-                            key={image.id}
-                            onClick={() => handleImageClick(image)}
-                          >
-                            <Image
-                              src={image.imageUrl}
-                              width={200}
-                              height={200}
-                              alt="Picture of the author"
-                              className={`rounded-xl mb-3 cursor-pointer ${selectedImage?.id === image.id ? 'border-4 border-blue-500' : ''}`}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter className="sm:justify-end">
-                  <DialogClose asChild>
-                    <Button type="button" variant="default" className="bg-blue-500 ">
-                      Salvar
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
-          <form className="space-y-6" onSubmit={handleSubmit(handleUpdatePost)}>
-            <div>
-              <Label htmlFor="title">Titulo</Label>
-              <Input 
-                {...register('title')}
-                type="text" 
-                id="title" 
-                placeholder="Titulo" 
-                autoComplete="titulo" 
-                name="title"
-              />
-              <FormErrorMessage error={errors.title?.message}/>
-              <p>Slug: {slug}</p>
-            </div>
-            <div>
-              <Label htmlFor="type">Tags</Label>
-              <Select
-                value={selectedTags}
-                isMulti
-                name="tags"
-                options={options}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                placeholder='-- Selecione --'
-                noOptionsMessage={() => "Nenhuma opção encontrada"}
-                onChange={(selectedOptions) => {
-                  setSelectedTags(selectedOptions as { value: string; label: string }[]);
-                }}
-              />
-            </div>
-            <div>
-              <Label htmlFor="summary">Resumo</Label>
-              <Textarea
-                placeholder="Resumo do post" 
-                {...register('summary')} 
-              />
-              <FormErrorMessage error={errors.summary?.message}/>
-            </div>
-            <div>
-              <ReactQuill
-                value={postValue}
-                onChange={setPostValue}
-                modules={modules}
-                formats={formats}
-                theme="snow"
-                className="rounded-lg shadow-md"
-              />
-            </div>
-            <div className="flex gap-5">
-              <Button
-                type="submit"
-                className="bg-blue-500 " 
-                onClick={handleSave}
-                disabled={isLoading || getValuePublished}
-              >
-                Salvar {isLoading && !getValuePublished ? <LoadingSpinner /> : null}
-              </Button>
-              <Button
-                {...register('published')} 
-                type="submit"
-                className="bg-blue-500 " 
-                onClick={handlePublish}
-                disabled={isLoading || getValuePublished}
-              >
-                Publicar {isLoading && getValuePublished ? <LoadingSpinner /> : null} 
-              </Button>
-            </div>
-            {/* Renderiza corpo do post 
-            <div 
-              className="prose prose-lg mt-8"
-              dangerouslySetInnerHTML={{ __html: postValue }}
-            /> */}
-          </form>
-        </div>
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
       </div>
     </Layout>
   )
