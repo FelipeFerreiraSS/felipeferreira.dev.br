@@ -148,6 +148,21 @@ export default function EditPost() {
     return readingTime;
    }
 
+  function addIdsToHeadings(content: string) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, "text/html");
+  
+    const headings = doc.querySelectorAll("h2, h3, h4, h5");
+  
+    headings.forEach(heading => {
+      const text = heading.textContent || "";
+      const id = text.trim().toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-');
+      heading.setAttribute("id", id);
+    });
+
+    return doc.body.innerHTML;
+  }
+
   const title = watch('title', '')
 
   async function handleUpdatePost(data: EditPostSchema) {
@@ -159,7 +174,7 @@ export default function EditPost() {
       slug: slug,
       tags: tagsAsStrings,
       headerImageId: selectedImage?.id,
-      content: postValue,
+      content: addIdsToHeadings(postValue),
       readTime: `${readTime}`
     }
 
@@ -196,7 +211,6 @@ export default function EditPost() {
     if (numericId) {
       const fetchPostData = async() => {
         const postData = await dispatch(getPostById(numericId));
-        console.log(postData);
         
         if (postData) {
           setValue('title', postData.title);
@@ -206,6 +220,9 @@ export default function EditPost() {
             id: postData.headerImage?.id, 
             imageUrl: postData.headerImage?.imageUrl
           });
+          if (postData.headerImage.imageUrl) {
+            setValue('selectedImage', postData.headerImage.imageUrl)
+          }
           const selectedTagOptions: TagOption[] = postData.tags.map((tag: Tag) => ({
             value: tag.name,
             label: tag.name,

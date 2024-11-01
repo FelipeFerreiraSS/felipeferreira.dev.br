@@ -4,13 +4,40 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { api } from "@/services/api";
+import { useEffect, useState } from "react";
 
 type PostProps = {
   post: PostType | null;
 };
 
+type Heading = {
+  id: string;
+  title: string;
+};
+
+function extractHeadingsFromContent(content: string) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(content, "text/html");
+  const headingElements = doc.querySelectorAll("h2, h3, h4, h5");
+  
+  return Array.from(headingElements).map((heading) => {
+    const text = heading.textContent || "";
+    const id = text.trim().toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-');
+    heading.setAttribute("id", id);
+    return { id, title: text };
+  });
+}
 
 export default function Post({ post }: PostProps) {
+  const [headings, setHeadings] = useState<Heading[]>([]);
+
+  useEffect(() => {
+    if (post?.content) {
+      const extractedHeadings = extractHeadingsFromContent(post.content);
+      setHeadings(extractedHeadings);
+    }
+  }, [post?.content]);
+
   if (!post) {
     return <div>Post not found</div>;
   }
@@ -40,6 +67,21 @@ export default function Post({ post }: PostProps) {
             </Link>
           ))}
         </ul>
+
+        {headings.length > 0 && (
+          <div className="my-6 p-4 border border-gray-300 rounded-lg">
+            <h3 className="text-xl font-bold mb-4">Sumário</h3>
+            <ul>
+              {headings.map((heading) => (
+                <li key={heading.id} className="mb-2">
+                  <a href={`#${heading.id}`} className="text-blue-500 hover:underline">
+                    {heading.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         
         <div
           className="prose prose-img:rounded-xl prose-lg prose-blue mt-6"

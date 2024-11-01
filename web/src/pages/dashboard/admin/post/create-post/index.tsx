@@ -143,6 +143,21 @@ export default function CreatePost() {
    return readingTime;
   }
 
+  function addIdsToHeadings(content: string) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, "text/html");
+  
+    const headings = doc.querySelectorAll("h2, h3, h4, h5");
+  
+    headings.forEach(heading => {
+      const text = heading.textContent || "";
+      const id = text.trim().toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-');
+      heading.setAttribute("id", id);
+    });
+
+    return doc.body.innerHTML;
+  }
+
   async function handleCreatePost(data: CreatePostSchema) {
     setIsLoading(true)
     const dataPost = {
@@ -150,7 +165,7 @@ export default function CreatePost() {
       slug: slug,
       tags: selectedTags,
       headerImageId: selectedImage?.id,
-      content: postValue,
+      content: addIdsToHeadings(postValue),
       readTime: `${readTime}`
     }
     console.log(dataPost);
