@@ -35,9 +35,15 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const editPostSchema = z.object({
   title: z.string().min(1 ,'O titulo é obrigatório'),
-  summary: z.string().min(1, 'O resumo é obrigatório'),
-  published: z.boolean()
+  summary: z.string().min(1, 'O resumo é obrigatório').max(255, 'O resumo não pode ter mais que 255 caracteres'),
+  published: z.boolean(),
+  selectedImage: z.preprocess((val) => (val === null || val === undefined ? '' : val), 
+    z.string().min(1, 'A imagem é obrigatória')
+  ),
+  selectedTags: z.array(z.string()).min(1, 'Selecione ao menos uma tag'),
 });
+
+type TagOption = { value: string; label: string };
 
 export type EditPostSchema = z.infer<typeof editPostSchema>
 
@@ -97,9 +103,12 @@ export default function EditPost() {
     watch,
     setValue,
     getValues,
+    clearErrors,
+    setError,
     formState: { errors },
   } = useForm<EditPostSchema>({
-    resolver: zodResolver(editPostSchema)
+    resolver: zodResolver(editPostSchema),
+    defaultValues: { selectedTags: [] },
   })
 
   const router = useRouter();
@@ -117,6 +126,7 @@ export default function EditPost() {
 
   const handleImageClick = (image: ImageType) => {
     setSelectedImage({ id: image.id, imageUrl: image.imageUrl });
+    setValue('selectedImage', image.imageUrl)
   };
   
   const generateSlug = (title: string) => {
@@ -196,17 +206,30 @@ export default function EditPost() {
             id: postData.headerImage?.id, 
             imageUrl: postData.headerImage?.imageUrl
           });
-          const selectedTagOptions = postData.tags.map((tag: Tag) => ({
+          const selectedTagOptions: TagOption[] = postData.tags.map((tag: Tag) => ({
             value: tag.name,
-            label: tag.name
+            label: tag.name,
           }));
+
           setSelectedTags(selectedTagOptions);
+          setValue('selectedTags', selectedTagOptions.map((option: TagOption) => option.value));
+          clearErrors('selectedTags');
         }
         //setIsLoading(false);
       }
       fetchPostData();
     }
-  }, [id, setValue, dispatch]);
+  }, [id, setValue, dispatch, clearErrors]);
+
+  const summary = watch('summary');
+
+  useEffect(() => {
+    if (summary?.length > 255) {
+      setError('summary', { type: 'manual', message: 'O resumo não pode ter mais que 255 caracteres' });
+    } else {
+      clearErrors('summary');
+    }
+  }, [summary, setError, clearErrors]);
   
   useEffect(() => {
     setSlug(generateSlug(title))
@@ -255,11 +278,14 @@ export default function EditPost() {
                       className="rounded-xl"
                     />
                   ) : (
-                    <Card>
-                      <CardContent className="flex justify-center items-center h-28">
-                        <ImagePlus className="mt-5"/>
-                      </CardContent>
-                    </Card>
+                    <>
+                      <Card>
+                        <CardContent className="flex justify-center items-center h-28">
+                          <ImagePlus className="mt-5"/>
+                        </CardContent>
+                      </Card>
+                      <FormErrorMessage error={errors.selectedImage?.message} />
+                    </>
                   )}
                 </DialogTrigger>
                 <DialogContent className="max-w-3xl">
@@ -326,8 +352,14 @@ export default function EditPost() {
                   noOptionsMessage={() => "Nenhuma opção encontrada"}
                   onChange={(selectedOptions) => {
                     setSelectedTags(selectedOptions as { value: string; label: string }[]);
+                    const selectedValues = selectedOptions.map((option) => option.value);
+                    setValue('selectedTags', selectedValues);
+                    if (selectedValues.length > 0) {
+                      clearErrors('selectedTags');
+                    }
                   }}
                 />
+                <FormErrorMessage error={errors.selectedTags?.message} />
               </div>
               <div>
                 <Label htmlFor="summary">Resumo</Label>

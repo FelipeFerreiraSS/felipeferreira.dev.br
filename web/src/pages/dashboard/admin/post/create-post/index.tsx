@@ -33,8 +33,12 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const createPostSchema = z.object({
   title: z.string().min(1 ,'O titulo é obrigatório'),
-  summary: z.string().min(1, 'O resumo é obrigatório'),
-  published: z.boolean()
+  summary: z.string().min(1, 'O resumo é obrigatório').max(255, 'O resumo não pode ter mais que 255 caracteres'),
+  published: z.boolean(),
+  selectedImage: z.preprocess((val) => (val === null || val === undefined ? '' : val), 
+    z.string().min(1, 'A imagem é obrigatória')
+  ),
+  selectedTags: z.array(z.string()).min(1, 'Selecione ao menos uma tag'),
 });
 
 export type CreatePostSchema = z.infer<typeof createPostSchema>
@@ -95,9 +99,12 @@ export default function CreatePost() {
     watch,
     setValue,
     getValues,
+    clearErrors,
+    setError,
     formState: { errors },
   } = useForm<CreatePostSchema>({
-    resolver: zodResolver(createPostSchema)
+    resolver: zodResolver(createPostSchema),
+    defaultValues: { selectedTags: [] },
   })
 
   const router = useRouter()
@@ -112,6 +119,7 @@ export default function CreatePost() {
 
   const handleImageClick = (image: ImageType) => {
     setSelectedImage({ id: image.id, imageUrl: image.imageUrl });
+    setValue('selectedImage', image.imageUrl)
   };
   
   const generateSlug = (title: string) => {
@@ -175,6 +183,25 @@ export default function CreatePost() {
   };
 
   const getValuePublished = getValues('published')
+  
+  const handleTagChange = (selectedOptions: any) => {
+    const selectedValues = selectedOptions.map((option: any) => option.value);
+    setSelectedTags(selectedValues);
+    setValue('selectedTags', selectedValues);
+    if (selectedValues.length > 0) {
+      clearErrors('selectedTags');
+    }
+  };
+
+  const summary = watch('summary'); 
+
+  useEffect(() => {
+    if (summary?.length > 255) {
+      setError('summary', { type: 'manual', message: 'O resumo não pode ter mais que 255 caracteres' });
+    } else {
+      clearErrors('summary');
+    }
+  }, [summary, setError, clearErrors]);
 
   useEffect(() => {
     setSlug(generateSlug(title))
@@ -223,11 +250,14 @@ export default function CreatePost() {
                       className="rounded-xl"
                     />
                   ) : (
-                    <Card>
-                      <CardContent className="flex justify-center items-center h-28">
-                        <ImagePlus className="mt-5"/>
-                      </CardContent>
-                    </Card>
+                    <>
+                      <Card>
+                        <CardContent className="flex justify-center items-center h-28">
+                          <ImagePlus className="mt-5"/>
+                        </CardContent>
+                      </Card>
+                      <FormErrorMessage error={errors.selectedImage?.message} />
+                    </>
                   )}
                 </DialogTrigger>
                 <DialogContent className="max-w-3xl">
@@ -292,11 +322,9 @@ export default function CreatePost() {
                 classNamePrefix="select"
                 placeholder='-- Selecione --'
                 noOptionsMessage={() => "Nenhuma opção encontrada"}
-                onChange={(selectedOptions) => {
-                  const selectedTags = selectedOptions.map(option => option.value);
-                  setSelectedTags(selectedTags);
-                }}
+                onChange={handleTagChange}
               />
+              <FormErrorMessage error={errors.selectedTags?.message} />
             </div>
             <div>
               <Label htmlFor="summary">Resumo</Label>
