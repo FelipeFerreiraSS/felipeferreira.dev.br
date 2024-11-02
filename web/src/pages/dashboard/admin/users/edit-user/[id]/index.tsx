@@ -3,8 +3,8 @@
 import { GetServerSideProps } from "next";
 import { authenticateUser } from "@/services/auth";
 import HeaderMenu from "@/components/headerMenu";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
 import { Controller, useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -23,6 +23,9 @@ import Layout from "@/components/layout";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { CircleUserRound } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import UploaderProfileImages from "@/components/user/uploaderProfileImages";
+
 
 const editUserSchema = z.object({
   firstName: z.string().min(1 ,'O nome é obrigatório'),
@@ -34,12 +37,12 @@ const editUserSchema = z.object({
   }),
 });
 
-type UserData = {
+export type UserData = {
   firstName: string,
   lastName: string,
   email: string,
   type: string,
-  profileImageUrl: string
+  profileImageUrl?: string
 }
 
 export type EditUserSchema = z.infer<typeof editUserSchema>
@@ -47,8 +50,9 @@ export type EditUserSchema = z.infer<typeof editUserSchema>
 export default function EditUser() {
   const [isLoading, setIsLoading] = useState(false)
   const [isFormChanged, setIsFormChanged] = useState(false);
-  const [userData, setUserData] = useState<UserData>();
 
+  const userIdState = useSelector((state: RootState) => state.user.userId);
+  
   const {
     register,
     handleSubmit,
@@ -96,13 +100,12 @@ export default function EditUser() {
   useEffect(() => {
     if (numericId) {
       const fetchUserData = async() => {
-        const data = await dispatch(getUserById(numericId));
-        setUserData(data)
-        if (data) {
-          setValue('firstName', data.firstName);
-          setValue('lastName', data.lastName);
-          setValue('email', data.email);
-          setValue('type', data.type);
+        dispatch(getUserById(numericId));
+        if (userIdState) {
+          setValue('firstName', userIdState.firstName);
+          setValue('lastName', userIdState.lastName);
+          setValue('email', userIdState.email);
+          setValue('type', userIdState.type);
         }
         //setIsLoading(false);
       }
@@ -112,14 +115,14 @@ export default function EditUser() {
 
   useEffect(() => {
     const hasChanged = 
-      formValues.firstName !== userData?.firstName ||
-      formValues.lastName !== userData?.lastName ||
-      formValues.email !== userData?.email ||
-      formValues.type !== userData?.type ||
+      formValues.firstName !== userIdState?.firstName ||
+      formValues.lastName !== userIdState?.lastName ||
+      formValues.email !== userIdState?.email ||
+      formValues.type !== userIdState?.type ||
       formValues.password !== "";
   
     setIsFormChanged(hasChanged);
-  }, [formValues, userData]);
+  }, [formValues, userIdState]);
 
   return (
     <Layout pageTitle="Editar usuário">
@@ -130,9 +133,9 @@ export default function EditUser() {
             <div className="flex items-center gap-10">
               <div>
                 <Label htmlFor="image">Foto de perfil</Label>
-                {userData?.profileImageUrl ? (
+                {userIdState?.profileImageUrl ? (
                   <Image
-                    src={userData.profileImageUrl}
+                    src={userIdState.profileImageUrl}
                     width={100}
                     height={100}
                     alt="Picture of the author"
@@ -145,8 +148,23 @@ export default function EditUser() {
                 )}
               </div>
               <div className="flex gap-5 mt-5">
-                <Button variant={"default"}>Altera imagem</Button>
-                <Button variant={"destructive"}>Deletar imagem</Button>
+                <Dialog>
+                  <DialogTrigger>
+                    <Button variant={"default"}>{userIdState?.profileImageUrl ? 'Altera imagem':'Adicionar imagem'}</Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-3xl">
+                    <DialogHeader>
+                      <DialogTitle className="mb-3">Atualizar foto de perfil</DialogTitle>
+                      <DialogDescription>
+                        <UploaderProfileImages 
+                          profileImageUrl={userIdState?.profileImageUrl ? userIdState?.profileImageUrl : null} 
+                          userId={numericId} 
+                          updateMyProfileImage={false}
+                        />
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
             <Button

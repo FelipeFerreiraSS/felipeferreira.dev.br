@@ -78,30 +78,7 @@ export default function CreateUser() {
       <div>
         <Card>
           <CardContent>
-            <div className="flex items-center justify-between mt-5">
-              <div className="flex items-center gap-10">
-                <div>
-                  <Label htmlFor="image">Foto de perfil</Label>
-                  {/* {userState?.profileImageUrl ? (
-                    <Image
-                      src={userState.profileImageUrl}
-                      width={100}
-                      height={100}
-                      alt="Picture of the author"
-                      className="rounded-full"
-                      style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "100%" }}
-                      priority
-                    />
-                  ) : (
-                    <CircleUserRound size={200} /> 
-                  )} */}
-                  <CircleUserRound size={100} /> 
-                </div>
-                <div className="flex gap-5 mt-5">
-                  <Button variant={"default"}>Altera imagem</Button>
-                  <Button variant={"destructive"}>Deletar imagem</Button>
-                </div>
-              </div>
+            <div className="flex items-center justify-between mt-5 mb-5">
               <Button
                 className="bg-blue-500 "
                 onClick={() => router.back()} 
@@ -109,7 +86,7 @@ export default function CreateUser() {
                 Voltar
               </Button>
             </div>
-            <form className="space-y-6" onSubmit={handleSubmit(handleCreateUser)}>
+            <form className="space-y-6 max-w-lg" onSubmit={handleSubmit(handleCreateUser)}>
               <div>
                 <Label htmlFor="name">Nome</Label>
                 <Input 

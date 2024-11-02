@@ -20,6 +20,8 @@ import { CircleUserRound } from "lucide-react";
 import Layout from "@/components/layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import UploaderProfileImages from "@/components/user/uploaderProfileImages";
 
 const profileSchema = z.object({
   firstName: z.string().min(1 ,'O nome é obrigatório'),
@@ -117,8 +119,23 @@ export default function Profile() {
                 )}
               </div>
               <div className="flex gap-5 mt-5">
-                <Button variant={"default"}>Altera imagem</Button>
-                <Button variant={"destructive"}>Deletar imagem</Button>
+                <Dialog>
+                  <DialogTrigger>
+                    <Button variant={"default"}>{userState?.profileImageUrl ? 'Altera imagem':'Adicionar imagem'}</Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-3xl">
+                    <DialogHeader>
+                      <DialogTitle className="mb-3">Atualizar foto de perfil</DialogTitle>
+                      <DialogDescription>
+                        <UploaderProfileImages 
+                          profileImageUrl={userState?.profileImageUrl ? userState?.profileImageUrl : null} 
+                          userId={userState?.id} 
+                          updateMyProfileImage={true}
+                        />
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
             <form className="space-y-6 max-w-lg" onSubmit={handleSubmit(handleUpdateUser)}>

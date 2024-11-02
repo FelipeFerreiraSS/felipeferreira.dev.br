@@ -1,9 +1,11 @@
 import { AppDispatch } from '../../store';
-import { setUser, setUsers } from '../user/userSlice';
+import { setUser, setUserId, setUsers } from '../user/userSlice';
 import { api } from '@/services/api';
 import { parseCookies } from 'nookies';
-import { ProfileSchema } from '@/pages/dashboard/admin/profile';
 import { CreateUserSchema } from '@/pages/dashboard/admin/users/create-user';
+import { customAlphabet } from 'nanoid';
+import { del, put } from '@vercel/blob';
+import { UserData } from '@/pages/dashboard/admin/users/edit-user/[id]';
 
 export const fetchUserInfo = () => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
@@ -78,14 +80,14 @@ export const getUserById = (id: number | undefined) => async (dispatch: AppDispa
         console.error('Erro ao buscar usuário:', error);
       });
     const usersData = response?.data.user[0]
-    return usersData
+    dispatch(setUserId(usersData));
   } catch (error) {
     console.error('Failed:', error);
     return false
   }
 };
 
-export const updateUser = (id: number | undefined, data: ProfileSchema) => async (dispatch: AppDispatch) => {
+export const updateUser = (id: number | undefined, data: UserData) => async (dispatch: AppDispatch) => {
   const { 'felipeferreirablog.token': token } = parseCookies()
   try {
     const response = await api.put(`/users/${id}`, data, {
@@ -100,6 +102,82 @@ export const updateUser = (id: number | undefined, data: ProfileSchema) => async
   } catch (error) {
     console.error('Failed:', error);
     return false
+  }
+};
+
+export const updateProfileImageUrl = (id: number | undefined, profileImageUrl: string) => async (dispatch: AppDispatch) => {
+  const { 'felipeferreirablog.token': token } = parseCookies()
+  const data = {
+    profileImageUrl: profileImageUrl
+  }
+  try {
+    const response = await api.put(`/users/${id}`, data, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      .catch(error => {
+        console.error('Erro ao atualizar usuário:', error);
+      });
+      return true
+  } catch (error) {
+    console.error('Failed:', error);
+    return false
+  }
+};
+
+const nanoid = customAlphabet(
+  '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+  7
+) 
+// Função para realizar upload da imagem para o Vercel Blob
+export const uploadImage = async (file: File) => {
+  const contentType = file.type || 'application/octet-stream';
+  const filename = `${nanoid()}.${contentType.split('/')[1]}`;
+  try {
+    const blob = await put('profile-images/' + filename, file, {
+      contentType,
+      access: 'public',
+      token: process.env.NEXT_PUBLIC_BLOB_READ_WRITE_TOKEN,
+    });
+    return blob.url;
+  } catch (error) {
+    console.error('Erro ao fazer upload da imagem:', error);
+    throw error;
+  }
+};
+
+export const deleteProfileImage = ( url: string) => async () => {
+  try {
+    del(url, {
+      token: process.env.NEXT_PUBLIC_BLOB_READ_WRITE_TOKEN,
+    });
+    return true
+  } catch (error) {
+    console.error('Failed deleteImage:', error);
+    return false
+  }
+};
+
+// Função principal que combina o upload da imagem e adiciona a imagem de perfil do usuário
+export const updateProfileImage = (file: File, id: number | undefined, oldProfilePicture?: string) => async (dispatch: AppDispatch) => {
+  try {
+    const profileImageUrl = await uploadImage(file);
+    if (!profileImageUrl) {
+      throw new Error('Erro ao obter a URL da nova imagem.');
+    }
+
+    if (oldProfilePicture) {
+      const deleteSuccess = oldProfilePicture ? await deleteProfileImage(oldProfilePicture)() : true;
+      if (!deleteSuccess) {
+        throw new Error('Erro ao excluir a imagem antiga.');
+      }
+    }
+    
+    return await dispatch(updateProfileImageUrl(id, profileImageUrl));
+  } catch (error) {
+    console.error('Erro durante a atualização da imagem de perfil do usuário:', error);
+    return false;
   }
 };
 

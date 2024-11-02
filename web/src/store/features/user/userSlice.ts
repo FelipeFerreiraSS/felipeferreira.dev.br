@@ -9,11 +9,13 @@ export interface Users extends User {
 interface UserState {
   user: User | null
   users: Users[] | null
+  userId: User | null
 }
 
 const initialState: UserState = {
   user: null,
-  users: null
+  users: null,
+  userId: null
 };
 
 const userSlice = createSlice({
@@ -26,12 +28,15 @@ const userSlice = createSlice({
     setUsers: (state, action: PayloadAction<Users[]>) => {
       state.users = action.payload;
     },
+    setUserId: (state, action: PayloadAction<Users>) => {
+      state.userId = action.payload;
+    },
     clearUser: (state) => {
       state.user = null;
     },
   },
 });
 
-export const { setUser, setUsers, clearUser } = userSlice.actions;
+export const { setUser, setUsers, setUserId, clearUser } = userSlice.actions;
 
 export default userSlice.reducer;
