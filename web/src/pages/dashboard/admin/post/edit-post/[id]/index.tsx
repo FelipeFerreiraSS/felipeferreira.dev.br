@@ -143,7 +143,6 @@ export default function EditPost() {
     const wordsArray = text.trim().split(/\s+/); // Divide o texto em palavras
     const wordCount = wordsArray.length;
     const readingTime = Math.ceil(wordCount / wordsPerMinute); // Calcula o tempo e arredonda para cima
-    console.log(readingTime);
     
     return readingTime;
    }

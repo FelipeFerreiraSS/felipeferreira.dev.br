@@ -138,7 +138,6 @@ export default function CreatePost() {
    const wordsArray = text.trim().split(/\s+/); // Divide o texto em palavras
    const wordCount = wordsArray.length;
    const readingTime = Math.ceil(wordCount / wordsPerMinute); // Calcula o tempo e arredonda para cima
-   console.log(readingTime);
    
    return readingTime;
   }
@@ -168,7 +167,6 @@ export default function CreatePost() {
       content: addIdsToHeadings(postValue),
       readTime: `${readTime}`
     }
-    console.log(dataPost);
     
     const isSuccess = await dispatch(createPost(dataPost))
     

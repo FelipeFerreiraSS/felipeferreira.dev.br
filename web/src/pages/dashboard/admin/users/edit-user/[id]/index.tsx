@@ -54,7 +54,6 @@ export default function EditUser() {
 
   const userIdState = useSelector((state: RootState) => state.user.userId);
   const userState = useSelector((state: RootState) => state.user.user);
-  console.log('userState', userState);
   
   const {
     register,

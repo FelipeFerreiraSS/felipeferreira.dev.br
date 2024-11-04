@@ -16,7 +16,6 @@ type UploaderProfileImagesProps = {
 
 export default function UploaderProfileImages(props: UploaderProfileImagesProps) {
   const { userId, updateMyProfileImage, profileImageUrl, onSuccess } = props
-  console.log(updateMyProfileImage);
   
   const [saving, setSaving] = useState(false)
   const [data, setData] = useState<{
@@ -37,7 +36,11 @@ export default function UploaderProfileImages(props: UploaderProfileImagesProps)
       const file = event.currentTarget.files && event.currentTarget.files[0]
       if (file) {
         if (file.size / 1024 / 1024 > 5) {
-          console.log('File size too big (max 5MB)')
+          toast({
+            variant: 'destructive',
+            title: 'Erro',
+            description: 'Tamanho da imagem muito grande (máximo de 5MB)',
+          });
         } else {
           setFile(file)
           const reader = new FileReader()
@@ -146,7 +149,11 @@ export default function UploaderProfileImages(props: UploaderProfileImagesProps)
               const file = e.dataTransfer.files && e.dataTransfer.files[0]
               if (file) {
                 if (file.size / 1024 / 1024 > 5) {
-                  console.log('File size too big (max 5MB)');
+                  toast({
+                    variant: 'destructive',
+                    title: 'Erro',
+                    description: 'Tamanho da imagem muito grande (máximo de 5MB)',
+                  });
                 } else {
                   setFile(file)
                   const reader = new FileReader()

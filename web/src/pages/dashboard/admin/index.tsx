@@ -18,7 +18,6 @@ export default function DashboardAdmin() {
   const dispatch: AppDispatch = useDispatch()
 
   const analyticState = useSelector((state: RootState) => state.analytics.analytics)
-  console.log(analyticState);
 
   useEffect(() => {
     dispatch(fetchAnalytics());

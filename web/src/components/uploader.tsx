@@ -8,7 +8,7 @@ import { uploadAndCreateImage, fetchImagesList } from '@/store/features/image/tr
 import { useToast } from '@/hooks/use-toast'
 
 type SubmitButtonProps = {
-  onSuccess: () => void
+  onSuccess?: () => void
 }
 
 export default function Uploader(props: SubmitButtonProps) {
@@ -32,7 +32,11 @@ export default function Uploader(props: SubmitButtonProps) {
       const file = event.currentTarget.files && event.currentTarget.files[0]
       if (file) {
         if (file.size / 1024 / 1024 > 5) {
-          console.log('File size too big (max 5MB)')
+          toast({
+            variant: 'destructive',
+            title: 'Erro',
+            description: 'Tamanho da imagem muito grande (máximo de 5MB)',
+          });
         } else {
           setFile(file)
           const reader = new FileReader()
@@ -54,7 +58,7 @@ export default function Uploader(props: SubmitButtonProps) {
     const isSuccess = await dispatch(uploadAndCreateImage(file));
     if (isSuccess) {
       await dispatch(fetchImagesList());
-      onSuccess(); // Chama a função de sucesso para fechar o modal
+      if (onSuccess) onSuccess(); // Chama a função de sucesso para fechar o modal
       toast({
         title: 'Sucesso',
         description: 'Imagem criada com sucesso.',
@@ -114,7 +118,11 @@ export default function Uploader(props: SubmitButtonProps) {
               const file = e.dataTransfer.files && e.dataTransfer.files[0]
               if (file) {
                 if (file.size / 1024 / 1024 > 5) {
-                  console.log('File size too big (max 5MB)');
+                  toast({
+                    variant: 'destructive',
+                    title: 'Erro',
+                    description: 'Tamanho da imagem muito grande (máximo de 5MB)',
+                  });
                 } else {
                   setFile(file)
                   const reader = new FileReader()

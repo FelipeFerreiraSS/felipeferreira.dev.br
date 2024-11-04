@@ -18,7 +18,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   const { userType } = authResult.props;
-  console.log('userType', userType);
   
   if (userType === 'editor') {
     return {
