@@ -11,12 +11,14 @@ type UploaderProfileImagesProps = {
   profileImageUrl: string | null
   userId: number | undefined
   updateMyProfileImage: boolean
+  onSuccess: () => void
 }
 
-export default function UploaderProfileImages({ profileImageUrl, userId, updateMyProfileImage }: UploaderProfileImagesProps) {
-  console.log(profileImageUrl);
-  console.log(userId);
+export default function UploaderProfileImages(props: UploaderProfileImagesProps) {
+  const { userId, updateMyProfileImage, profileImageUrl, onSuccess } = props
+  console.log(updateMyProfileImage);
   
+  const [saving, setSaving] = useState(false)
   const [data, setData] = useState<{
     image: string | null
   }>({
@@ -34,8 +36,8 @@ export default function UploaderProfileImages({ profileImageUrl, userId, updateM
     (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.currentTarget.files && event.currentTarget.files[0]
       if (file) {
-        if (file.size / 1024 / 1024 > 50) {
-          console.log('File size too big (max 50MB)')
+        if (file.size / 1024 / 1024 > 5) {
+          console.log('File size too big (max 5MB)')
         } else {
           setFile(file)
           const reader = new FileReader()
@@ -49,7 +51,55 @@ export default function UploaderProfileImages({ profileImageUrl, userId, updateM
     [setData]
   )
 
-  const [saving, setSaving] = useState(false)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!file) return;
+    setSaving(true);
+    if (profileImageUrl) {
+      const isSuccess = await dispatch(updateProfileImage(file, userId, profileImageUrl));
+      if (isSuccess) {
+        if (updateMyProfileImage) {
+          await dispatch(fetchUserInfo());
+        } else {
+          await dispatch(getUserById(userId));
+        }
+        setData({ image: null });
+        onSuccess();
+        toast({
+          title: 'Sucesso',
+          description: 'Imagem de perfil atualizada com sucesso.',
+        });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Erro',
+          description: 'Falha ao atualizar a imagem.',
+        });
+      }
+    } else {
+      const isSuccess = await dispatch(updateProfileImage(file, userId));
+      if (isSuccess) {
+        if (updateMyProfileImage) {
+          await dispatch(fetchUserInfo());
+        } else {
+          await dispatch(getUserById(userId));
+        }
+        setData({ image: null });
+        onSuccess();
+        toast({
+          title: 'Sucesso',
+          description: 'Imagem de perfil adicionada com sucesso.',
+        });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Erro',
+          description: 'Falha ao adicionada imagem de perfil.',
+        });
+      }
+    }
+    setSaving(false);
+  }
 
   const saveDisabled = useMemo(() => {
     return !data.image || saving
@@ -58,60 +108,13 @@ export default function UploaderProfileImages({ profileImageUrl, userId, updateM
   return (
     <form
       className="grid gap-6"
-      onSubmit={async (e) => {
-        e.preventDefault();
-        if (!file) return;
-        setSaving(true);
-        
-        if (profileImageUrl) {
-          const isSuccess = await dispatch(updateProfileImage(file, userId, profileImageUrl));
-          if (isSuccess) {
-            if (updateMyProfileImage) {
-              await dispatch(fetchUserInfo());
-            } else {
-              await dispatch(getUserById(userId));
-            }
-            setData({ image: null });
-            toast({
-              title: 'Sucesso',
-              description: 'Imagem de perfil atualizada com sucesso.',
-            });
-          } else {
-            toast({
-              variant: 'destructive',
-              title: 'Erro',
-              description: 'Falha ao atualizar a imagem.',
-            });
-          }
-        } else {
-          const isSuccess = await dispatch(updateProfileImage(file, userId));
-          if (isSuccess) {
-            if (updateMyProfileImage) {
-              await dispatch(fetchUserInfo());
-            } else {
-              await dispatch(getUserById(userId));
-            }
-            setData({ image: null });
-            toast({
-              title: 'Sucesso',
-              description: 'Imagem de perfil adicionada com sucesso.',
-            });
-          } else {
-            toast({
-              variant: 'destructive',
-              title: 'Erro',
-              description: 'Falha ao adicionada imagem de perfil.',
-            });
-          }
-        }
-        setSaving(false);
-      }}
+      onSubmit={handleSubmit}
     >
       <div>
         <div className="space-y-1 mb-4">
-          <h2 className="text-xl font-semibold">Upload a file</h2>
+          <h2 className="text-xl font-semibold">Upload de imagem</h2>
           <p className="text-sm text-gray-500">
-            Accepted formats: .png, .jpg, .gif, .mp4
+            Formatos aceitos: .png, .jpg, .gif, .svg, .webp 
           </p>
         </div>
         <label
@@ -142,8 +145,8 @@ export default function UploaderProfileImages({ profileImageUrl, userId, updateM
 
               const file = e.dataTransfer.files && e.dataTransfer.files[0]
               if (file) {
-                if (file.size / 1024 / 1024 > 50) {
-                  console.log('File size too big (max 50MB)');
+                if (file.size / 1024 / 1024 > 5) {
+                  console.log('File size too big (max 5MB)');
                 } else {
                   setFile(file)
                   const reader = new FileReader()
@@ -186,12 +189,12 @@ export default function UploaderProfileImages({ profileImageUrl, userId, updateM
               <path d="m16 16-4-4-4 4"></path>
             </svg>
             <p className="mt-2 text-center text-sm text-gray-500">
-              Drag and drop or click to upload.
+              Arraste e solte ou clique para fazer upload.
             </p>
             <p className="mt-2 text-center text-sm text-gray-500">
-              Max file size: 50MB
+              Tamanho máximo do arquivo: 5 MB
             </p>
-            <span className="sr-only">Photo upload</span>
+            <span className="sr-only">Upload de imagens</span>
           </div>
           {data.image && (
             // eslint-disable-next-line @next/next/no-img-element
@@ -226,7 +229,7 @@ export default function UploaderProfileImages({ profileImageUrl, userId, updateM
           //<LoadingDots color="#808080" />
           <></>
         ) : (
-          <p className="text-sm">Confirm upload</p>
+          <p className="text-sm">Confirmar upload</p>
         )}
       </button>
     </form>

@@ -39,6 +39,7 @@ export default function Profile() {
   const userState = useSelector((state: RootState) => state.user.user);
   const [isLoading, setIsLoading] = useState(false)
   const [isFormChanged, setIsFormChanged] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   
   const {
     register,
@@ -75,6 +76,10 @@ export default function Profile() {
     }
     setIsLoading(false)
   }
+
+  const handleSuccess = () => {
+    setIsDialogOpen(false);
+  };
 
   useEffect(() => {
     if (userState) {
@@ -119,9 +124,14 @@ export default function Profile() {
                 )}
               </div>
               <div className="flex gap-5 mt-5">
-                <Dialog>
-                  <DialogTrigger>
-                    <Button variant={"default"}>{userState?.profileImageUrl ? 'Altera imagem':'Adicionar imagem'}</Button>
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button 
+                      variant={"default"}
+                      onClick={() => setIsDialogOpen(true)} 
+                    >
+                      {userState?.profileImageUrl ? 'Altera imagem':'Adicionar imagem'}
+                    </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-3xl">
                     <DialogHeader>
@@ -131,6 +141,7 @@ export default function Profile() {
                           profileImageUrl={userState?.profileImageUrl ? userState?.profileImageUrl : null} 
                           userId={userState?.id} 
                           updateMyProfileImage={true}
+                          onSuccess={handleSuccess}
                         />
                       </DialogDescription>
                     </DialogHeader>

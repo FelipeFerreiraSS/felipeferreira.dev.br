@@ -50,8 +50,11 @@ export type EditUserSchema = z.infer<typeof editUserSchema>
 export default function EditUser() {
   const [isLoading, setIsLoading] = useState(false)
   const [isFormChanged, setIsFormChanged] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const userIdState = useSelector((state: RootState) => state.user.userId);
+  const userState = useSelector((state: RootState) => state.user.user);
+  console.log('userState', userState);
   
   const {
     register,
@@ -96,6 +99,10 @@ export default function EditUser() {
     }
     setIsLoading(false)
   }
+
+  const handleSuccess = () => {
+    setIsDialogOpen(false);
+  };
 
   useEffect(() => {
     if (numericId) {
@@ -148,9 +155,14 @@ export default function EditUser() {
                 )}
               </div>
               <div className="flex gap-5 mt-5">
-                <Dialog>
-                  <DialogTrigger>
-                    <Button variant={"default"}>{userIdState?.profileImageUrl ? 'Altera imagem':'Adicionar imagem'}</Button>
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button 
+                      variant={"default"}
+                      onClick={() => setIsDialogOpen(true)}
+                    >
+                      {userIdState?.profileImageUrl ? 'Altera imagem':'Adicionar imagem'}
+                    </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-3xl">
                     <DialogHeader>
@@ -160,6 +172,7 @@ export default function EditUser() {
                           profileImageUrl={userIdState?.profileImageUrl ? userIdState?.profileImageUrl : null} 
                           userId={numericId} 
                           updateMyProfileImage={false}
+                          onSuccess={handleSuccess}
                         />
                       </DialogDescription>
                     </DialogHeader>

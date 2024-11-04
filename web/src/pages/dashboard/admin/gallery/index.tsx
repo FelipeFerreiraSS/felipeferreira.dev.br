@@ -9,13 +9,14 @@ import { AppDispatch, RootState } from "@/store/store";
 import { Image as ImageType } from "@/types/Image";
 import { RefreshCw } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Gallery() {
   const imagesState = useSelector((state: RootState) => state.images.images);
   const { toast } = useToast()
   const dispatch: AppDispatch = useDispatch()
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   
   async function handleDeleteImage(result: boolean, id: number, url: string) {
     const isSuccess = await dispatch(deleteImage(id, url))
@@ -46,6 +47,10 @@ export default function Gallery() {
     }, {});
   }, [imagesState]);
 
+  const handleSuccess = () => {
+    setIsDialogOpen(false);
+  };
+
   useEffect(() => {
     if(!imagesState) {
       dispatch(fetchImagesList());  
@@ -57,15 +62,15 @@ export default function Gallery() {
       <div className="container mx-auto p-4">
         {groupedImages ? (
           <>
-            <Dialog >
-              <DialogTrigger>
-                <Button className="mb-5">Adicionar imagem</Button>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="mb-5" onClick={() => setIsDialogOpen(true)}>Adicionar imagem</Button>
               </DialogTrigger>
               <DialogContent className="max-w-3xl">
                 <DialogHeader>
                   <DialogTitle className="mb-3">Adicionar uma nova imagem</DialogTitle>
                   <DialogDescription>
-                    <Uploader />
+                    <Uploader onSuccess={handleSuccess}/>
                   </DialogDescription>
                 </DialogHeader>
               </DialogContent>
@@ -78,7 +83,7 @@ export default function Gallery() {
                     <>
                       <Dialog >
                         <DialogTrigger>
-                          <div key={image.id} className="max-w-30 max-h-30 flex justify-center items-center relative w-full h-full overflow-hidden rounded-lg">
+                          <div key={image.id} className="max-w-48 max-h-32 flex justify-center items-center relative overflow-hidden rounded-lg">
                             <Image
                               src={image.imageUrl}
                               width={200}
@@ -88,17 +93,17 @@ export default function Gallery() {
                             />
                           </div>
                         </DialogTrigger>
-                        <DialogContent className="max-w-3xl">
+                        <DialogContent>
                           <DialogHeader>
                             <DialogTitle className="mb-3"></DialogTitle>
                             <DialogDescription className="flex flex-row items-center justify-center text-black">
-                              <div>
+                              <div className="max-w-3xl max-h-screen">
                                 <Image
                                   src={image.imageUrl}
                                   width={700}
                                   height={700}
                                   alt="Picture of the author"
-                                  className="rounded-xl mb-3 "
+                                  className="max-w-full max-h-full object-cover rounded-xl mb-3 "
                                 />
                                 <p>Informações da imagem</p>
                                 <div className="flex gap-3">

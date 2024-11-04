@@ -7,7 +7,13 @@ import { useDispatch } from 'react-redux'
 import { uploadAndCreateImage, fetchImagesList } from '@/store/features/image/truckFunctions'
 import { useToast } from '@/hooks/use-toast'
 
-export default function Uploader() {
+type SubmitButtonProps = {
+  onSuccess: () => void
+}
+
+export default function Uploader(props: SubmitButtonProps) {
+  const { onSuccess } = props
+  const [saving, setSaving] = useState(false)
   const [data, setData] = useState<{
     image: string | null
   }>({
@@ -25,8 +31,8 @@ export default function Uploader() {
     (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.currentTarget.files && event.currentTarget.files[0]
       if (file) {
-        if (file.size / 1024 / 1024 > 50) {
-          console.log('File size too big (max 50MB)')
+        if (file.size / 1024 / 1024 > 5) {
+          console.log('File size too big (max 5MB)')
         } else {
           setFile(file)
           const reader = new FileReader()
@@ -40,7 +46,28 @@ export default function Uploader() {
     [setData]
   )
 
-  const [saving, setSaving] = useState(false)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!file) return;
+    setSaving(true);
+
+    const isSuccess = await dispatch(uploadAndCreateImage(file));
+    if (isSuccess) {
+      await dispatch(fetchImagesList());
+      onSuccess(); // Chama a função de sucesso para fechar o modal
+      toast({
+        title: 'Sucesso',
+        description: 'Imagem criada com sucesso.',
+      });
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Erro',
+        description: 'Falha ao criar a imagem.',
+      });
+    }
+    setSaving(false);
+  };
 
   const saveDisabled = useMemo(() => {
     return !data.image || saving
@@ -49,34 +76,13 @@ export default function Uploader() {
   return (
     <form
       className="grid gap-6"
-      onSubmit={async (e) => {
-        e.preventDefault();
-        if (!file) return;
-        setSaving(true);
-        
-        const isSuccess = await dispatch(uploadAndCreateImage(file));
-        if (isSuccess) {
-          await dispatch(fetchImagesList());
-          setData({ image: null });
-          toast({
-            title: 'Sucesso',
-            description: 'Imagem criada com sucesso.',
-          });
-        } else {
-          toast({
-            variant: 'destructive',
-            title: 'Erro',
-            description: 'Falha ao criar a imagem.',
-          });
-        }
-        setSaving(false);
-      }}
+      onSubmit={handleSubmit}
     >
       <div>
         <div className="space-y-1 mb-4">
-          <h2 className="text-xl font-semibold">Upload a file</h2>
+          <h2 className="text-xl font-semibold">Upload de imagem</h2>
           <p className="text-sm text-gray-500">
-            Accepted formats: .png, .jpg, .gif, .mp4
+            Formatos aceitos: .png, .jpg, .gif, .svg, .webp 
           </p>
         </div>
         <label
@@ -107,8 +113,8 @@ export default function Uploader() {
 
               const file = e.dataTransfer.files && e.dataTransfer.files[0]
               if (file) {
-                if (file.size / 1024 / 1024 > 50) {
-                  console.log('File size too big (max 50MB)');
+                if (file.size / 1024 / 1024 > 5) {
+                  console.log('File size too big (max 5MB)');
                 } else {
                   setFile(file)
                   const reader = new FileReader()
@@ -151,12 +157,12 @@ export default function Uploader() {
               <path d="m16 16-4-4-4 4"></path>
             </svg>
             <p className="mt-2 text-center text-sm text-gray-500">
-              Drag and drop or click to upload.
+              Arraste e solte ou clique para fazer upload.
             </p>
             <p className="mt-2 text-center text-sm text-gray-500">
-              Max file size: 50MB
+              Tamanho máximo do arquivo: 5 MB
             </p>
-            <span className="sr-only">Photo upload</span>
+            <span className="sr-only">Upload de imagens</span>
           </div>
           {data.image && (
             // eslint-disable-next-line @next/next/no-img-element
@@ -191,7 +197,7 @@ export default function Uploader() {
           //<LoadingDots color="#808080" />
           <></>
         ) : (
-          <p className="text-sm">Confirm upload</p>
+          <p className="text-sm">Confirmar upload</p>
         )}
       </button>
     </form>
