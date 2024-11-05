@@ -131,7 +131,77 @@ export default function DashboardAdmin() {
         </Card>
 
       </div>
-      
+      <div className="flex gap-5 mb-5">
+        {analyticState?.postsByMonth && analyticState.postsByMonth.length > 0 ? (
+          <PostsByMonthChart analyticPostsByMonth={analyticState?.postsByMonth} />
+        ) : (
+          <Card className="max-w-72">
+            <CardHeader>
+              <CardTitle>
+                <p>Carregando dados do gráfico...</p>
+              </CardTitle>
+            </CardHeader>
+          </Card>
+        )}
+        {analyticState?.postsPerTag && analyticState?.postsPerTag.length > 0 ? (
+          <PostsPerTagChart analyticpostsPerTag={analyticState?.postsPerTag} />
+        ) : (
+          <Card className="max-w-72">
+            <CardHeader>
+              <CardTitle>
+                <p>Carregando dados do gráfico...</p>
+              </CardTitle>
+            </CardHeader>
+          </Card>
+        )}
+        <Card className="max-w-64">
+          <CardHeader>
+            <CardTitle>Top autor</CardTitle>
+            <CardDescription>Autor que mais publicou posts no blog</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col items-center justify-center mb-5">
+            {analyticState?.topAuthor ? (
+              <p>
+                {analyticState?.topAuthor.type === 'admin' ? 'Administrador:' : 'Editor:'} { }
+                {analyticState?.topAuthor.firstName || ""} { }
+                {analyticState?.topAuthor.lastName || ""}
+              </p>
+            ) : (
+              <div>Nenhum autor publicou posts ainda</div>
+            )}
+              {analyticState?.topAuthor ? (
+                <Image
+                src={analyticState?.topAuthor.profileImageUrl}
+                width={100}
+                height={100}
+                alt="Picture of the author"
+                className="rounded-full"
+                style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "100%" }}
+                priority
+                />
+              ) : (
+                <CircleUserRound size={200} /> 
+              )}
+            </div>
+            {analyticState?.topAuthor ? (
+              <h3 
+                className="font-bold text-5xl flex items-center justify-center gap-5"
+              >
+                {analyticState?.topAuthor.postsPublished || '0'} 
+                <span 
+                  className="font-normal text-lg"
+                >
+                  posts publicados
+                </span>
+              </h3>
+            ) : null}
+          </CardContent>
+          {/* <CardFooter>
+            <p>Card Footer</p>
+          </CardFooter> */}
+        </Card>
+      </div>
       <div>
         <Card>
           <CardHeader>
