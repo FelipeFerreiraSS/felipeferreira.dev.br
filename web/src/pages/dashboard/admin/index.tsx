@@ -131,6 +131,53 @@ export default function DashboardAdmin() {
         </Card>
 
       </div>
+      
+      <div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Ultimo post publicado</CardTitle>
+            {/* <CardDescription></CardDescription> */}
+          </CardHeader>
+          <CardContent>
+            {analyticState?.mostRecentPost ? (
+              <div className="flex gap-5">
+                <Image
+                  src={analyticState?.mostRecentPost.headerImage.imageUrl ?? '/default-image.png'}
+                  width={400}
+                  height={200}
+                  alt="Picture of the author"
+                  className="rounded-lg"
+                  style={{ width: "400px", height: "200px", objectFit: "cover" }}
+                  priority
+                />
+                <div>
+                  <h2 className="font-bold text-3xl gap-5">{analyticState?.mostRecentPost.title || ""}</h2>
+                  <h3 className="text-xl flex gap-5">{analyticState?.mostRecentPost.summary || ""}</h3>
+                  <p className="text-base flex gap-5">Data de publicação: {new Date(analyticState?.mostRecentPost?.updatedAt || new Date()).toLocaleDateString()}</p>
+                  <p className="text-base flex gap-5">{analyticState?.mostRecentPost.readTime || '0'} Min de leitura</p>
+                  <ul className="flex flex-wrap gap-2 mt-4">
+                    {analyticState?.mostRecentPost.tags ? (
+                      <>
+                        {analyticState?.mostRecentPost.tags.map((tag) => (
+                          <li className="bg-blue-100 text-blue-600 px-2 py-1 rounded" key={tag.id}>
+                            {tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}
+                          </li>
+                        ))}
+                      </>
+                    ) : <li></li>}
+                  </ul>
+                  <p className="text-base flex gap-5">Publicado por {analyticState?.mostRecentPost.author.firstName || ""} {analyticState?.mostRecentPost.author.lastName || ""}</p>
+                </div>
+              </div>
+            ) : (
+              <div>Nenhum post foi publicado ainda</div>
+            )}
+          </CardContent>
+          {/* <CardFooter>
+            <p>Card Footer</p>
+          </CardFooter> */}
+        </Card>
+      </div>
     </Layout>
   )
 }
