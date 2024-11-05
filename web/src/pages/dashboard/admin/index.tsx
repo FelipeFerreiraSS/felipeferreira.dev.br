@@ -14,7 +14,7 @@ import { CircleUserRound, Clock2, Images, NotebookPen, NotebookText, RefreshCw, 
 import Image from "next/image";
 
 export default function DashboardAdmin() {
-  //const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const dispatch: AppDispatch = useDispatch()
 
   const analyticState = useSelector((state: RootState) => state.analytics.analytics)
@@ -23,23 +23,41 @@ export default function DashboardAdmin() {
     dispatch(fetchAnalytics());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   if (analyticState !== null && analyticState !== undefined) {
-  //     setLoading(false);
-  //   }
-  // }, [analyticState]);
+  useEffect(() => {
+    if (analyticState !== null && analyticState !== undefined) {
+      setLoading(false);
+    }
+  }, [analyticState]);
 
-  // if (loading || !analyticState) {
-  //   return (
-  //     <div className="fixed inset-0 flex items-center justify-center bg-white">
-  //       <div className="animate-spin"><RefreshCw size={30} /></div>
-  //     </div>
-  //   );
-  // }
+  if (loading || !analyticState) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white">
+        <div className="animate-spin"><RefreshCw size={30} /></div>
+      </div>
+    );
+  }
   
   return (
     <Layout pageTitle="Dashboard">
-      <h1>teste</h1>
+      <div className="flex gap-5 mb-5">
+        <Card className="max-w-52">
+          <CardHeader>
+            <CardTitle 
+              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
+            >
+              <NotebookText size={40} />
+            </CardTitle>
+            {/* <CardDescription>Card Description</CardDescription> */}
+          </CardHeader>
+          <CardContent>
+            <p>Posts publicados</p>
+            <h3 className="font-bold text-5xl">{analyticState?.postsPublished || 0}</h3>
+          </CardContent>
+          {/* <CardFooter>
+            <p>Card Footer</p>
+          </CardFooter> */}
+        </Card>
+      </div>
     </Layout>
   )
 }
