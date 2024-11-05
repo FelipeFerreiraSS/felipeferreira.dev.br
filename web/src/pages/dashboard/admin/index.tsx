@@ -57,6 +57,79 @@ export default function DashboardAdmin() {
             <p>Card Footer</p>
           </CardFooter> */}
         </Card>
+
+        <Card className="max-w-56">
+          <CardHeader>
+            <CardTitle 
+              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
+            >
+              <NotebookPen size={40} />
+            </CardTitle>
+            {/* <CardDescription>Card Description</CardDescription> */}
+          </CardHeader>
+          <CardContent>
+            <p>Posts não publicados</p>
+            <h3 className="font-bold text-5xl">{analyticState?.postsDraft || 0}</h3>
+          </CardContent>
+          {/* <CardFooter>
+            <p>Card Footer</p>
+          </CardFooter> */}
+        </Card>
+
+        <Card className="max-w-52">
+          <CardHeader>
+            <CardTitle 
+              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
+            >
+              <Tag size={40} />
+            </CardTitle>
+            {/* <CardDescription>Card Description</CardDescription> */}
+          </CardHeader>
+          <CardContent>
+            <p>Total de Tags</p>
+            <h3 className="font-bold text-5xl">{analyticState?.tags || 0}</h3>
+          </CardContent>
+          {/* <CardFooter>
+            <p>Card Footer</p>
+          </CardFooter> */}
+        </Card>
+
+        <Card className="max-w-52">
+          <CardHeader>
+            <CardTitle 
+              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
+            >
+              <Images size={40} />
+            </CardTitle>
+            {/* <CardDescription>Card Description</CardDescription> */}
+          </CardHeader>
+          <CardContent>
+            <p>Total de Imagens</p>
+            <h3 className="font-bold text-5xl">{analyticState?.images || 0}</h3>
+          </CardContent>
+          {/* <CardFooter>
+            <p>Card Footer</p>
+          </CardFooter> */}
+        </Card>
+
+        <Card className="max-w-72">
+          <CardHeader>
+            <CardTitle 
+              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
+            >
+              <Clock2 size={40} />
+            </CardTitle>
+            {/* <CardDescription>Card Description</CardDescription> */}
+          </CardHeader>
+          <CardContent>
+            <p>Média de leitura do post</p>
+            <h3 className="font-bold text-5xl">{analyticState?.averageReadTime || '0:00'} Min</h3>
+          </CardContent>
+          {/* <CardFooter>
+            <p>Card Footer</p>
+          </CardFooter> */}
+        </Card>
+
       </div>
     </Layout>
   )
