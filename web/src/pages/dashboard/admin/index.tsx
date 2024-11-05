@@ -14,7 +14,7 @@ import { CircleUserRound, Clock2, Images, NotebookPen, NotebookText, RefreshCw, 
 import Image from "next/image";
 
 export default function DashboardAdmin() {
-  const [loading, setLoading] = useState(true);
+  //const [loading, setLoading] = useState(true);
   const dispatch: AppDispatch = useDispatch()
 
   const analyticState = useSelector((state: RootState) => state.analytics.analytics)
@@ -23,231 +23,23 @@ export default function DashboardAdmin() {
     dispatch(fetchAnalytics());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (analyticState !== null && analyticState !== undefined) {
-      setLoading(false);
-    }
-  }, [analyticState]);
+  // useEffect(() => {
+  //   if (analyticState !== null && analyticState !== undefined) {
+  //     setLoading(false);
+  //   }
+  // }, [analyticState]);
 
-  if (loading || !analyticState) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white">
-        <div className="animate-spin"><RefreshCw size={30} /></div>
-      </div>
-    );
-  }
+  // if (loading || !analyticState) {
+  //   return (
+  //     <div className="fixed inset-0 flex items-center justify-center bg-white">
+  //       <div className="animate-spin"><RefreshCw size={30} /></div>
+  //     </div>
+  //   );
+  // }
   
   return (
     <Layout pageTitle="Dashboard">
-      <div className="flex gap-5 mb-5">
-        <Card className="max-w-52">
-          <CardHeader>
-            <CardTitle 
-              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
-            >
-              <NotebookText size={40} />
-            </CardTitle>
-            {/* <CardDescription>Card Description</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <p>Posts publicados</p>
-            <h3 className="font-bold text-5xl">{analyticState?.postsPublished || 0}</h3>
-          </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
-        </Card>
-
-        <Card className="max-w-56">
-          <CardHeader>
-            <CardTitle 
-              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
-            >
-              <NotebookPen size={40} />
-            </CardTitle>
-            {/* <CardDescription>Card Description</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <p>Posts não publicados</p>
-            <h3 className="font-bold text-5xl">{analyticState?.postsDraft || 0}</h3>
-          </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
-        </Card>
-
-        <Card className="max-w-52">
-          <CardHeader>
-            <CardTitle 
-              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
-            >
-              <Tag size={40} />
-            </CardTitle>
-            {/* <CardDescription>Card Description</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <p>Total de Tags</p>
-            <h3 className="font-bold text-5xl">{analyticState?.tags || 0}</h3>
-          </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
-        </Card>
-
-        <Card className="max-w-52">
-          <CardHeader>
-            <CardTitle 
-              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
-            >
-              <Images size={40} />
-            </CardTitle>
-            {/* <CardDescription>Card Description</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <p>Total de Imagens</p>
-            <h3 className="font-bold text-5xl">{analyticState?.images || 0}</h3>
-          </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
-        </Card>
-
-        <Card className="max-w-72">
-          <CardHeader>
-            <CardTitle 
-              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
-            >
-              <Clock2 size={40} />
-            </CardTitle>
-            {/* <CardDescription>Card Description</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <p>Média de leitura do post</p>
-            <h3 className="font-bold text-5xl">{analyticState?.averageReadTime || '0:00'} Min</h3>
-          </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
-        </Card>
-
-      </div>
-      <div className="flex gap-5 mb-5">
-        {analyticState?.postsByMonth && analyticState.postsByMonth.length > 0 ? (
-          <PostsByMonthChart analyticPostsByMonth={analyticState?.postsByMonth} />
-        ) : (
-          <Card className="max-w-72">
-            <CardHeader>
-              <CardTitle>
-                <p>Carregando dados do gráfico...</p>
-              </CardTitle>
-            </CardHeader>
-          </Card>
-        )}
-        {analyticState?.postsPerTag && analyticState?.postsPerTag.length > 0 ? (
-          <PostsPerTagChart analyticpostsPerTag={analyticState?.postsPerTag} />
-        ) : (
-          <Card className="max-w-72">
-            <CardHeader>
-              <CardTitle>
-                <p>Carregando dados do gráfico...</p>
-              </CardTitle>
-            </CardHeader>
-          </Card>
-        )}
-        <Card className="max-w-64">
-          <CardHeader>
-            <CardTitle>Top autor</CardTitle>
-            <CardDescription>Autor que mais publicou posts no blog</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col items-center justify-center mb-5">
-            {analyticState?.topAuthor ? (
-              <p>
-                {analyticState?.topAuthor.type === 'admin' ? 'Administrador:' : 'Editor:'} { }
-                {analyticState?.topAuthor.firstName || ""} { }
-                {analyticState?.topAuthor.lastName || ""}
-              </p>
-            ) : (
-              <div>Nenhum autor publicou posts ainda</div>
-            )}
-              {analyticState?.topAuthor ? (
-                <Image
-                src={analyticState?.topAuthor.profileImageUrl}
-                width={100}
-                height={100}
-                alt="Picture of the author"
-                className="rounded-full"
-                style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "100%" }}
-                priority
-                />
-              ) : (
-                <CircleUserRound size={200} /> 
-              )}
-            </div>
-            {analyticState?.topAuthor ? (
-              <h3 
-                className="font-bold text-5xl flex items-center justify-center gap-5"
-              >
-                {analyticState?.topAuthor.postsPublished || '0'} 
-                <span 
-                  className="font-normal text-lg"
-                >
-                  posts publicados
-                </span>
-              </h3>
-            ) : null}
-          </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
-        </Card>
-      </div>
-      <div>
-        <Card>
-          <CardHeader>
-            <CardTitle>Ultimo post publicado</CardTitle>
-            {/* <CardDescription></CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            {analyticState?.mostRecentPost ? (
-              <div className="flex gap-5">
-                <Image
-                  src={analyticState?.mostRecentPost.headerImage.imageUrl ?? '/default-image.png'}
-                  width={400}
-                  height={200}
-                  alt="Picture of the author"
-                  className="rounded-lg"
-                  style={{ width: "400px", height: "200px", objectFit: "cover" }}
-                  priority
-                />
-                <div>
-                  <h2 className="font-bold text-3xl gap-5">{analyticState?.mostRecentPost.title || ""}</h2>
-                  <h3 className="text-xl flex gap-5">{analyticState?.mostRecentPost.summary || ""}</h3>
-                  <p className="text-base flex gap-5">Data de publicação: {new Date(analyticState?.mostRecentPost?.updatedAt || new Date()).toLocaleDateString()}</p>
-                  <p className="text-base flex gap-5">{analyticState?.mostRecentPost.readTime || '0'} Min de leitura</p>
-                  <ul className="flex flex-wrap gap-2 mt-4">
-                    {analyticState?.mostRecentPost.tags ? (
-                      <>
-                        {analyticState?.mostRecentPost.tags.map((tag) => (
-                          <li className="bg-blue-100 text-blue-600 px-2 py-1 rounded" key={tag.id}>
-                            {tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}
-                          </li>
-                        ))}
-                      </>
-                    ) : <li></li>}
-                  </ul>
-                  <p className="text-base flex gap-5">Publicado por {analyticState?.mostRecentPost.author.firstName || ""} {analyticState?.mostRecentPost.author.lastName || ""}</p>
-                </div>
-              </div>
-            ) : (
-              <div>Nenhum post foi publicado ainda</div>
-            )}
-          </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
-        </Card>
-      </div>
+      <h1>teste</h1>
     </Layout>
   )
 }
