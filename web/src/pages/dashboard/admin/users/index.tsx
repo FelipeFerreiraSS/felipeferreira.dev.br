@@ -59,6 +59,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { User } from "@/types/User";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type PostKey = keyof User
 
@@ -74,6 +75,7 @@ export default function Users() {
   const [isClient, setIsClient] = useState(false);
   const usersState = useSelector((state: RootState) => state.user.users);
   const userState = useSelector((state: RootState) => state.user.user);
+  const [loading, setLoading] = useState(true);
 
   const { toast } = useToast()
 
@@ -201,6 +203,12 @@ export default function Users() {
   }, [])
 
   useEffect(() => {
+    if (usersState !== null && usersState !== undefined) {
+      setLoading(false);
+    }
+  }, [usersState]);
+
+  useEffect(() => {
     if ( 
       filterUserType || 
       filterCreationDate || 
@@ -218,6 +226,30 @@ export default function Users() {
   }, []);
 
   if (!isClient) return null;
+
+  if (loading || !usersState) {
+    return (
+      <Layout pageTitle="Dashboard">
+        <div className="flex justify-between mb-5">
+          <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <div className="flex gap-5">
+            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          </div>
+        </div>
+        <div className="mb-5">
+          <Skeleton className="h-8 w-full rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div>
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout pageTitle="Usuários">

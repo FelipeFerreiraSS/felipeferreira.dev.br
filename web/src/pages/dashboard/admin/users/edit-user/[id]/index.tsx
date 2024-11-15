@@ -25,6 +25,7 @@ import Image from "next/image";
 import { CircleUserRound } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import UploaderProfileImages from "@/components/user/uploaderProfileImages";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 
 const editUserSchema = z.object({
@@ -140,15 +141,10 @@ export default function EditUser() {
               <div>
                 <Label htmlFor="image">Foto de perfil</Label>
                 {userIdState?.profileImageUrl ? (
-                  <Image
-                    src={userIdState.profileImageUrl}
-                    width={100}
-                    height={100}
-                    alt="Picture of the author"
-                    className="rounded-full"
-                    style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "100%" }}
-                    priority
-                  />
+                  <Avatar className="w-32 h-32">
+                    <AvatarImage className="object-cover" src={userIdState.profileImageUrl} />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
                 ) : (
                   <CircleUserRound size={100} /> 
                 )}

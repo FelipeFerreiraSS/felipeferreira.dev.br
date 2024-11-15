@@ -12,6 +12,8 @@ import PostsPerTagChart from "@/components/dashboard/postsPerTag";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CircleUserRound, Clock2, Images, NotebookPen, NotebookText, RefreshCw, Tag } from "lucide-react";
 import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardAdmin() {
   const [loading, setLoading] = useState(true);
@@ -31,9 +33,23 @@ export default function DashboardAdmin() {
 
   if (loading || !analyticState) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-white">
-        <div className="animate-spin"><RefreshCw size={30} /></div>
-      </div>
+      <Layout pageTitle="Dashboard">
+        <div className="flex gap-5 mb-5">
+          <Skeleton className="h-72 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-72 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-72 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-72 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-72 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="flex gap-5 mb-5">
+          <Skeleton className="h-60 w-96 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-60 w-96 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-60 w-96 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="flex gap-5">
+          <Skeleton className="h-60 w-full rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+      </Layout>
     );
   }
   
@@ -171,15 +187,10 @@ export default function DashboardAdmin() {
               <div>Nenhum autor publicou posts ainda</div>
             )}
               {analyticState?.topAuthor.profileImageUrl ? (
-                <Image
-                src={analyticState?.topAuthor.profileImageUrl}
-                width={100}
-                height={100}
-                alt="Picture of the author"
-                className="rounded-full"
-                style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "100%" }}
-                priority
-                />
+                <Avatar className="w-32 h-32">
+                  <AvatarImage className="object-cover" src={analyticState?.topAuthor.profileImageUrl} />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
               ) : (
                 <CircleUserRound size={200} /> 
               )}

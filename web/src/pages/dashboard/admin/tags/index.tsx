@@ -59,6 +59,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const editCriateTagSchema = z.object({
   name: z.string().min(1 ,'O nome é obrigatório').optional(),
@@ -81,6 +82,7 @@ export default function Tags() {
   const [isClient, setIsClient] = useState(false);
   const [editingTag, setEditingTag] = useState<Tag | null>(null);
   const [isLoading, setIsLoading] = useState(false)
+  const [loading, setLoading] = useState(true);
 
   const {
     register,
@@ -258,6 +260,12 @@ export default function Tags() {
   }, [dispatch, tagState.tags])
 
   useEffect(() => {
+    if (tagState.tags !== null && tagState.tags !== undefined) {
+      setLoading(false);
+    }
+  }, [tagState.tags]);
+
+  useEffect(() => {
     if (
       filterTags || 
       filterCreationDate || 
@@ -275,6 +283,30 @@ export default function Tags() {
   }, []);
 
   if (!isClient) return null;
+
+  if (loading || !tagState.tags) {
+    return (
+      <Layout pageTitle="Dashboard">
+        <div className="flex justify-between mb-5">
+          <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <div className="flex gap-5">
+            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          </div>
+        </div>
+        <div className="mb-5">
+          <Skeleton className="h-8 w-full rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div>
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+      </Layout>
+    );
+  }
 
   return(
     <Layout pageTitle="Tags">

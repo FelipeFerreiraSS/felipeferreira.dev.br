@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import SidebarMobile from "./sidebarMobile";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 type HeaderProps = {
   pageTitle: string
@@ -27,14 +28,10 @@ export default function Header({ pageTitle }: HeaderProps) {
           </div>
           <div className="mr-3">
             {userState.user?.profileImageUrl ? (
-              <Image
-                src={userState.user?.profileImageUrl}
-                width={50}
-                height={50}
-                alt="Picture of the author"
-                className="rounded-full"
-                style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "100%" }}
-              />
+              <Avatar className="w-12 h-12">
+                <AvatarImage className="object-cover" src={userState.user?.profileImageUrl} />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
             ) : (
               <CircleUserRound size={50}/> 
             )}

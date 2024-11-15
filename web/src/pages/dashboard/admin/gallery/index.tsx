@@ -2,6 +2,7 @@ import DeleteAlert from "@/components/deleteAlert";
 import Layout from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 import Uploader from "@/components/uploader";
 import { useToast } from "@/hooks/use-toast";
 import { deleteImage, fetchImagesList } from "@/store/features/image/truckFunctions";
@@ -17,6 +18,7 @@ export default function Gallery() {
   const { toast } = useToast()
   const dispatch: AppDispatch = useDispatch()
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   
   async function handleDeleteImage(result: boolean, id: number, url: string) {
     const isSuccess = await dispatch(deleteImage(id, url))
@@ -56,6 +58,55 @@ export default function Gallery() {
       dispatch(fetchImagesList());  
     }
   }, [dispatch])
+
+  useEffect(() => {
+    if (imagesState !== null && imagesState !== undefined) {
+      setLoading(false);
+    }
+  }, [imagesState]);
+
+  if (loading || !imagesState) {
+    return (
+      <Layout pageTitle="Dashboard">
+        <div className="mb-5">
+          <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="mb-5">
+          <Skeleton className="h-6 w-72 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="flex gap-5 mb-5">
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="mb-5">
+          <Skeleton className="h-6 w-72 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="flex gap-5 mb-5">
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="mb-5">
+          <Skeleton className="h-6 w-72 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="flex gap-5 mb-5">
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+      </Layout>
+    );
+  }
 
   return(
     <Layout pageTitle="Galeria">

@@ -57,6 +57,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type PostKey = keyof Post; 
 
@@ -71,6 +72,7 @@ export default function Posts() {
   const [filterUpdateDate, setFilterUpdateDate] = useState('');
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dispatch: AppDispatch = useDispatch()
   const { toast } = useToast()
 
@@ -195,6 +197,12 @@ export default function Posts() {
   }
 
   useEffect(() => {
+    if (postsState.posts !== null && postsState.posts !== undefined) {
+      setLoading(false);
+    }
+  }, [postsState.posts]);
+
+  useEffect(() => {
     if (!postsState.posts) {
       dispatch(fetchPostsList());  
     }
@@ -219,6 +227,30 @@ export default function Posts() {
   }, []);
 
   if (!isClient) return null;
+
+  if (loading || !postsState.posts) {
+    return (
+      <Layout pageTitle="Dashboard">
+        <div className="flex justify-between mb-5">
+          <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <div className="flex gap-5">
+            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          </div>
+        </div>
+        <div className="mb-5">
+          <Skeleton className="h-8 w-full rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div>
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+      </Layout>
+    );
+  }
 
   return(
     <Layout pageTitle="Posts">

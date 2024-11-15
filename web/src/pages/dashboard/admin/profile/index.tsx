@@ -22,6 +22,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import UploaderProfileImages from "@/components/user/uploaderProfileImages";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const profileSchema = z.object({
   firstName: z.string().min(1 ,'O nome é obrigatório'),
@@ -40,6 +42,7 @@ export default function Profile() {
   const [isLoading, setIsLoading] = useState(false)
   const [isFormChanged, setIsFormChanged] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   
   const {
     register,
@@ -101,6 +104,32 @@ export default function Profile() {
     setIsFormChanged(hasChanged);
   }, [formValues, userState]);
 
+  useEffect(() => {
+    if (userState !== null && userState !== undefined) {
+      setLoading(false);
+    }
+  }, [userState]);
+
+  if (loading || !userState) {
+    return (
+      <Layout pageTitle="Dashboard">
+        <div className="flex items-center gap-5 mb-5 p-4">
+          <Skeleton className="h-32 w-32 rounded-full bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="pl-4">
+          <Skeleton className="h-10 w-1/3 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-10 w-1/3 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-10 w-1/3 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-10 w-1/3 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-10 w-52 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-10 w-1/3 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout pageTitle="Perfil">
       <div>
@@ -110,15 +139,10 @@ export default function Profile() {
               <div>
                 <Label htmlFor="image">Foto de perfil</Label>
                 {userState?.profileImageUrl ? (
-                  <Image
-                    src={userState.profileImageUrl}
-                    width={100}
-                    height={100}
-                    alt="Picture of the author"
-                    className="rounded-full"
-                    style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "100%" }}
-                    priority
-                  />
+                  <Avatar className="w-32 h-32">
+                    <AvatarImage className="object-cover" src={userState.profileImageUrl} />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
                 ) : (
                   <CircleUserRound size={200} /> 
                 )}
