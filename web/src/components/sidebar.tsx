@@ -8,13 +8,13 @@ import ThemeToggle from "./themeToggle";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useRouter } from "next/router";
 
-interface SidebarItem {
+export interface SidebarItem {
   icon: JSX.Element;
   label: string;
   link: string
 }
 
-const sidebarAdminItems: SidebarItem[] = [
+export const sidebarAdminItems: SidebarItem[] = [
   { icon: <LayoutDashboard />, label: 'Dashboard', link: '/' },
   { icon: <NotebookText />, label: 'Posts', link: '/post' },
   { icon: <Users />, label: 'Usuários', link: '/users' },
@@ -23,7 +23,7 @@ const sidebarAdminItems: SidebarItem[] = [
   { icon: <UserRoundPen />, label: 'Pefil', link: '/profile' },
 ];
 
-const sidebarEditorItems: SidebarItem[] = [
+export const sidebarEditorItems: SidebarItem[] = [
   { icon: <LayoutDashboard />, label: 'Dashboard', link: '/dashboard' },
 ];
 
@@ -48,32 +48,35 @@ export default function Sidebar() {
     setIsCollapsed(!isCollapsed);
   };
   return (
-    <div className={`h-screen  text-black border-r-black  dark:border-r-gray-200 border-r-2 dark:text-gray-200 transition-all duration-300 flex flex-col justify-between ${
+    <div className={`h-screen text-zinc-800 border-r-gray-200 dark:border-r-zinc-800 border-r-[2px] dark:text-gray-200 transition-all duration-300 flex flex-col justify-between ${
       isCollapsed ? "w-20" : "w-64"
     }`}>
       <div>
         <div className="flex items-center justify-between p-4">
-          <span className={`text-2xl font-bold ${isCollapsed ? 'hidden' : 'block'}`}>Logo</span>
-          <Button
-            variant="ghost"
+          <span className={`ml-2 text-2xl font-bold ${isCollapsed ? 'hidden' : 'block'}`}>Logo</span>
+          <span
             onClick={toggleSidebar}
+            className="hover:bg-gray-200 hover:dark:bg-zinc-800 px-3 py-2 rounded-lg cursor-pointer -ml-1"
           >
             {isCollapsed ? <ChevronsRight size={30}/> : <ChevronsLeft size={30}/>}
-          </Button>
+          </span>
         </div>
         {userState.user?.type === 'admin' ? (
-          <ul className="mt-6 ml-3">
+          <ul className="mt-6 ml-3 mr-3">
             {sidebarAdminItems.map((item, index) => (
               <Link href={`/dashboard/${userState.user?.type}${item.link}`} key={index}>
                 <li
-                  className={`relative group flex items-center p-2 hover:bg-gray-700 cursor-pointer ${
-                    isActive(item.link, userState.user?.type) ? 'bg-gray-500' : ''
-                  }`}
+                  className={`rounded-lg mb-1 relative group flex items-center px-3 py-2 hover:bg-gray-200 hover:dark:bg-zinc-800 cursor-pointer 
+                    ${isActive(item.link, userState.user?.type) ? 'bg-gray-200 dark:bg-zinc-800' : ''}
+                    
+                  `}
                 >
-                  <span className="text-xl">{item.icon}</span>
+                  <div className="text-xl w-8 flex justify-center">
+                    <span>{item.icon}</span>
+                  </div>
                   {!isCollapsed && <span className="ml-4">{item.label}</span>}
                   {isCollapsed && (
-                    <span className="absolute z-50 cursor-default left-20 bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="absolute z-50 cursor-default left-20 bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       {item.label}
                     </span>
                   )}
@@ -97,8 +100,10 @@ export default function Sidebar() {
       <div className="m-3">
         <ThemeToggle isCollapsed={isCollapsed}/>
         <ul>
-          <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer" onClick={() => signOut()}>
-            <span className="text-xl"><LogOut /></span>
+          <li className="mt-1 rounded-lg flex items-center px-3 py-2 hover:bg-gray-200 hover:dark:bg-zinc-800 cursor-pointer" onClick={() => signOut()}>
+            <div className="text-xl w-8 flex justify-center">
+              <span><LogOut /></span>
+            </div>
             {!isCollapsed && <span className="ml-4">Sair</span>}
           </li>
         </ul>

@@ -278,7 +278,7 @@ export default function Tags() {
 
   return(
     <Layout pageTitle="Tags">
-      <div className="p-4">
+      <div>
         <div className="flex justify-between mb-5">
           <div>
             <Popover>

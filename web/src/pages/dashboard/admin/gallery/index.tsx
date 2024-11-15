@@ -59,7 +59,7 @@ export default function Gallery() {
 
   return(
     <Layout pageTitle="Galeria">
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto">
         {groupedImages ? (
           <>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

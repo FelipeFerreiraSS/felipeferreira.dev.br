@@ -222,7 +222,7 @@ export default function Posts() {
 
   return(
     <Layout pageTitle="Posts">
-      <div className="p-4">
+      <div>
         <div className="flex justify-between mb-5">
           <Button
             className="bg-blue-500 " 

@@ -221,7 +221,7 @@ export default function Users() {
 
   return (
     <Layout pageTitle="Usuários">
-      <div className="p-4">
+      <div>
         <div className="flex justify-between mb-5">
           <Button
             className="bg-blue-500 " 
