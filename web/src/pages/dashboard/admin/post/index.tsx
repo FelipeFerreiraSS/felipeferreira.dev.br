@@ -320,7 +320,7 @@ export default function Posts() {
         </div>
 
         {/* Tabela */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-">
           <Table className="min-w-full border-collapse">
             {filteredData?.length === 0 ? (
               <TableCaption>Nenhum resultado encontrado</TableCaption>

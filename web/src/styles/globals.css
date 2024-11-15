@@ -32,9 +32,27 @@ body {
   }
 } */
 
+/* Estilizando a barra de rolagem */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--scrollbar-thumb));
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--scrollbar-thumb-hover));
+}
+
 @layer base {
   :root {
-
     --background: 0 0% 100%;
 
     --foreground: 240 10% 3.9%;
@@ -83,10 +101,13 @@ body {
 
     --chart-5: 27 87% 67%;
 
-    --radius: 0.5rem
+    --radius: 0.5rem;
+
+    --scrollbar-thumb: 240 16% 91%;
+
+    --scrollbar-thumb-hover: 240 16% 85%;
   }
   .dark {
-
     --background: 240 10% 3.9%;
 
     --foreground: 0 0% 98%;
@@ -133,7 +154,11 @@ body {
 
     --chart-4: 280 65% 60%;
 
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
+
+    --scrollbar-thumb: 240 3.7% 15.9%;
+
+    --scrollbar-thumb-hover: 240 3.7% 20%;
   }
 }
 
@@ -153,7 +178,7 @@ body {
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
-    --chart-5: 131 56% 38%;;
+    --chart-5: 131 56% 38%;
     --chart-6: 87 27% 97%;
     --chart-7: 47 17% 57%;
     --chart-8: 27 87% 67%;
@@ -171,4 +196,3 @@ body {
     --chart-8: 340 75% 55%;
   }
 }
-

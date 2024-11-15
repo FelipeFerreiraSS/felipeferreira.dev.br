@@ -27,8 +27,12 @@ export const sidebarEditorItems: SidebarItem[] = [
   { icon: <LayoutDashboard />, label: 'Dashboard', link: '/dashboard' },
 ];
 
-export default function Sidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+type SidebarProps = {
+  isCollapsed: boolean;
+  setIsCollapsed: (collapsed: boolean) => void;
+}
+
+export default function Sidebar({isCollapsed, setIsCollapsed}: SidebarProps) {
   const userState = useSelector((state: RootState) => state.user);
   const { signOut } = useContext(AuthContext)
 
@@ -68,7 +72,6 @@ export default function Sidebar() {
                 <li
                   className={`rounded-lg mb-1 relative group flex items-center px-3 py-2 hover:bg-gray-200 hover:dark:bg-zinc-800 cursor-pointer 
                     ${isActive(item.link, userState.user?.type) ? 'bg-gray-200 dark:bg-zinc-800' : ''}
-                    
                   `}
                 >
                   <div className="text-xl w-8 flex justify-center">
@@ -76,7 +79,7 @@ export default function Sidebar() {
                   </div>
                   {!isCollapsed && <span className="ml-4">{item.label}</span>}
                   {isCollapsed && (
-                    <span className="absolute z-50 cursor-default left-20 bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="absolute z-50 cursor-default left-20 bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 px-2 py-1 rounded-md opacity-0 group-hover:opacity-100  transition-opacity duration-300">
                       {item.label}
                     </span>
                   )}
