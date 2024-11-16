@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { RootState } from "@/store/store";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormErrorMessage from "@/components/formErrorMessage";
+import { RefreshCw } from "lucide-react";
 
 const loginSchema = z.object({
   email: z.string().min(1 ,'O email é obrigatório'),
@@ -22,6 +23,7 @@ const loginSchema = z.object({
 export type LoginSchema = z.infer<typeof loginSchema>
 
 export default function Login() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -34,8 +36,14 @@ export default function Login() {
   const router = useRouter();
 
   async function handleSignIn(data: LoginSchema) {
-    await signIn(data)
+    setIsSubmitting(true);
+    try {
+      await signIn(data);
+    } finally {
+      setIsSubmitting(false); 
+    }
   }
+
   const userState = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
@@ -96,10 +104,18 @@ export default function Login() {
 
             <div>
               <Button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                type="submit"
+                disabled={isSubmitting}
+                className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
-                Login
+                {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      Login <RefreshCw size={18} className="animate-spin"/>
+                    </span>
+                  ) : (
+                    'Login'
+                  )
+                }
               </Button>
             </div>
           </form>

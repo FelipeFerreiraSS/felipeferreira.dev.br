@@ -129,7 +129,7 @@ export default function Gallery() {
             {Object?.entries(groupedImages).map(([month, monthImages]) => (
               <section key={month} className="mb-8">
                 <h2 className="text-2xl font-semibold mb-4">{month[0].toUpperCase() + month.substring(1)}</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
                   {monthImages.map((image) => (
                     <>
                       <Dialog >

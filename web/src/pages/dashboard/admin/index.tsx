@@ -10,7 +10,7 @@ import { fetchAnalytics } from "@/store/features/analytic/truckFunctions";
 import PostsByMonthChart from "@/components/dashboard/postsByMonth";
 import PostsPerTagChart from "@/components/dashboard/postsPerTag";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CircleUserRound, Clock2, Images, NotebookPen, NotebookText, RefreshCw, Tag } from "lucide-react";
+import { ChevronRight, CircleUserRound, Clock2, Images, NotebookPen, NotebookText, Tag } from "lucide-react";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -56,94 +56,94 @@ export default function DashboardAdmin() {
   return (
     <Layout pageTitle="Dashboard">
       <div className="flex gap-5 mb-5">
-        <Card className="max-w-52">
-          <CardHeader>
-            <CardTitle 
-              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
-            >
-              <NotebookText size={40} />
-            </CardTitle>
-            {/* <CardDescription>Card Description</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <p>Posts publicados</p>
-            <h3 className="font-bold text-5xl">{analyticState?.postsPublished || 0}</h3>
+        <Card className="max-h-40 flex flex-col items-center justify-center">
+          <CardContent className="flex flex-col justify-center p-4 gap-y-2">
+            <div className="flex gap-3 text-gray-500">
+              <NotebookText size={20} />
+              <p>Posts publicados</p>
+            </div>
+            <div>
+              <h3 className="font-bold text-4xl">{analyticState?.postsPublished || 0}</h3>
+            </div>
+            <div className="flex justify-between items-center gap-3 text-gray-500">
+              <p className="text-sm">Todos os posts</p>
+              <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
+                <ChevronRight size={15}/>
+              </span>
+            </div>
           </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
         </Card>
 
-        <Card className="max-w-56">
-          <CardHeader>
-            <CardTitle 
-              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
-            >
-              <NotebookPen size={40} />
-            </CardTitle>
-            {/* <CardDescription>Card Description</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <p>Posts não publicados</p>
-            <h3 className="font-bold text-5xl">{analyticState?.postsDraft || 0}</h3>
+        <Card className="max-h-40 flex flex-col items-center justify-center">
+          <CardContent className="flex flex-col justify-center p-4 gap-y-2">
+            <div className="flex gap-3 text-gray-500">
+              <NotebookPen size={20} />
+              <p>Posts não publicados</p>
+            </div>
+            <div>
+              <h3 className="font-bold text-4xl">{analyticState?.postsDraft || 0}</h3>
+            </div>
+            <div className="flex justify-between items-center gap-3 text-gray-500">
+              <p className="text-sm">Todos os posts</p>
+              <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
+                <ChevronRight  size={15}/>
+              </span>
+            </div>
           </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
         </Card>
 
-        <Card className="max-w-52">
-          <CardHeader>
-            <CardTitle 
-              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
-            >
-              <Tag size={40} />
-            </CardTitle>
-            {/* <CardDescription>Card Description</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <p>Total de Tags</p>
-            <h3 className="font-bold text-5xl">{analyticState?.tags || 0}</h3>
+        <Card className="max-h-40 flex flex-col items-center justify-center">
+          <CardContent className="flex flex-col justify-center p-4 gap-y-2">
+            <div className="flex gap-3 text-gray-500">
+              <Clock2 size={20} />
+              <p>Média de leitura por post</p>
+            </div>
+            <div>
+              <h3 className="font-bold text-4xl">{analyticState?.averageReadTime || '0:00'} Min</h3>
+            </div>
+            <div className="flex justify-between items-center gap-3 text-gray-500">
+              <p className="text-sm">Todos os posts</p>
+              <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
+                <ChevronRight size={15}/>
+              </span>
+            </div>
           </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
         </Card>
 
-        <Card className="max-w-52">
-          <CardHeader>
-            <CardTitle 
-              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
-            >
-              <Images size={40} />
-            </CardTitle>
-            {/* <CardDescription>Card Description</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <p>Total de Imagens</p>
-            <h3 className="font-bold text-5xl">{analyticState?.images || 0}</h3>
+        <Card className="max-h-40 flex flex-col items-center justify-center">
+          <CardContent className="flex flex-col justify-center p-4 gap-y-2">
+            <div className="flex gap-3 text-gray-500">
+              <Tag size={20} />
+              <p>Total de Tags</p>
+            </div>
+            <div>
+              <h3 className="font-bold text-4xl">{analyticState?.tags || 0}</h3>
+            </div>
+            <div className="flex justify-between items-center gap-3 text-gray-500">
+              <p className="text-sm">Todas as tags</p>
+              <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
+                <ChevronRight size={15}/>
+              </span>
+            </div>
           </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
         </Card>
 
-        <Card className="max-w-72">
-          <CardHeader>
-            <CardTitle 
-              className="bg-slate-300 dark:bg-slate-800 w-14 h-14 rounded-full flex items-center justify-center"
-            >
-              <Clock2 size={40} />
-            </CardTitle>
-            {/* <CardDescription>Card Description</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <p>Média de leitura do post</p>
-            <h3 className="font-bold text-5xl">{analyticState?.averageReadTime || '0:00'} Min</h3>
+        <Card className="max-h-40 flex flex-col items-center justify-center">
+          <CardContent className="flex flex-col justify-center p-4 gap-y-2">
+            <div className="flex gap-3 text-gray-500">
+              <Images size={20} />
+              <p>Total de Imagens</p>
+            </div>
+            <div>
+              <h3 className="font-bold text-4xl">{analyticState?.images || 0}</h3>
+            </div>
+            <div className="flex justify-between items-center gap-3 text-gray-500">
+              <p className="text-sm">Todas as imagens</p>
+              <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
+                <ChevronRight size={15}/>
+              </span>
+            </div>
           </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
         </Card>
 
       </div>
@@ -176,37 +176,37 @@ export default function DashboardAdmin() {
             <CardDescription>Autor que mais publicou posts no blog</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col items-center justify-center mb-5">
-            {analyticState?.topAuthor ? (
-              <p>
-                {analyticState?.topAuthor.type === 'admin' ? 'Administrador:' : 'Editor:'} { }
-                {analyticState?.topAuthor.firstName || ""} { }
-                {analyticState?.topAuthor.lastName || ""}
-              </p>
-            ) : (
-              <div>Nenhum autor publicou posts ainda</div>
-            )}
+            <div className="flex flex-col justify-center items-center">
               {analyticState?.topAuthor.profileImageUrl ? (
-                <Avatar className="w-32 h-32">
+                <Avatar className="w-28 h-28">
                   <AvatarImage className="object-cover" src={analyticState?.topAuthor.profileImageUrl} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               ) : (
                 <CircleUserRound size={200} /> 
               )}
+              <p className="font-bold">
+                {analyticState?.topAuthor.type === 'admin' ? 'Administrador:' : 'Editor:'}
+              </p>
+              <p>
+                {analyticState?.topAuthor.firstName || ""} { }
+                {analyticState?.topAuthor.lastName || ""}
+              </p>
             </div>
-            {analyticState?.topAuthor ? (
-              <h3 
-                className="font-bold text-5xl flex items-center justify-center gap-5"
-              >
-                {analyticState?.topAuthor.postsPublished || '0'} 
-                <span 
-                  className="font-normal text-lg"
+            <div>
+              {analyticState?.topAuthor ? (
+                <h3 
+                  className="font-bold text-4xl flex items-center justify-center gap-5"
                 >
-                  posts publicados
-                </span>
-              </h3>
-            ) : null}
+                  {analyticState?.topAuthor.postsPublished || '0'} 
+                  <span 
+                    className="font-normal text-lg"
+                  >
+                    posts publicados
+                  </span>
+                </h3>
+              ) : null}
+            </div>
           </CardContent>
           {/* <CardFooter>
             <p>Card Footer</p>
@@ -214,10 +214,9 @@ export default function DashboardAdmin() {
         </Card>
       </div>
       <div>
-        <Card>
+        <Card className="w-fit">
           <CardHeader>
             <CardTitle>Ultimo post publicado</CardTitle>
-            {/* <CardDescription></CardDescription> */}
           </CardHeader>
           <CardContent>
             {analyticState?.mostRecentPost ? (
@@ -254,9 +253,6 @@ export default function DashboardAdmin() {
               <div>Nenhum post foi publicado ainda</div>
             )}
           </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
         </Card>
       </div>
     </Layout>
