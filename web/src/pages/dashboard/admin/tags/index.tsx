@@ -293,22 +293,28 @@ export default function Tags() {
   if (loading || !tagState.tags) {
     return (
       <Layout pageTitle="Dashboard">
-        <div className="flex justify-between mb-5">
-          <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        <div className="flex flex-col sm:flex-row justify-between mb-5">
+          <Skeleton className="h-12 w-[20%] sm:w-32 mb-3 sm:mb-0 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <div className="flex gap-5">
-            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-            <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+            <Skeleton className="h-12 w-[40%] sm:w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+            <Skeleton className="h-12 w-[40%] sm:w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+            <Skeleton className="h-12 w-12 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           </div>
         </div>
-        <div className="mb-5">
+        <div className="mb-5 hidden sm:block">
           <Skeleton className="h-8 w-full rounded-xl bg-gray-200 dark:bg-zinc-800" />
         </div>
-        <div>
+        <div className="hidden sm:block">
           <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-24 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="block sm:hidden">
+          <Skeleton className="h-52 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-52 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-52 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-52 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
         </div>
       </Layout>
     );

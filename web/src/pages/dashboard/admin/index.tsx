@@ -36,14 +36,25 @@ export default function DashboardAdmin() {
   if (loading || !analyticState) {
     return (
       <Layout pageTitle="Dashboard">
-        <div className="flex gap-5 mb-5">
-          <Skeleton className="h-72 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-72 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-72 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-72 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-72 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        <div className="hidden sm:flex gap-5 mb-5">
+          <Skeleton className="h-40 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-40 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-40 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-40 w-52 rounded-xl bg-gray-200 dark:bg-zinc-800" />
         </div>
-        <div className="flex gap-5 mb-5">
+        <div className="block sm:hidden">
+          <Skeleton className="h-10 w-full rounded-xl mb-3 bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-5 w-full rounded-xl mb-2 bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-5 w-full rounded-xl mb-2 bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-5 w-full rounded-xl mb-2 bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-5 w-full rounded-xl mb-2 bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="sm:hidden">
+          <Skeleton className="h-60 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-60 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-60 w-full mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="hidden sm:flex gap-5 mb-5">
           <Skeleton className="h-60 w-96 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-60 w-96 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-60 w-96 rounded-xl bg-gray-200 dark:bg-zinc-800" />

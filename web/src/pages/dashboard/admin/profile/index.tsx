@@ -114,16 +114,16 @@ export default function Profile() {
     return (
       <Layout pageTitle="Dashboard">
         <div className="flex items-center gap-5 mb-5 p-4">
-          <Skeleton className="h-32 w-32 rounded-full bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-40 w-40 rounded-full bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
         </div>
         <div className="pl-4">
-          <Skeleton className="h-10 w-1/3 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-10 w-1/3 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-10 w-1/3 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-10 w-1/3 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-10 w-[70%] lg:w-[50%] 2xl:w-[20%] mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-10 w-[70%] lg:w-[50%] 2xl:w-[20%] mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-10 w-[70%] lg:w-[50%] 2xl:w-[20%] mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-10 w-[70%] lg:w-[50%] 2xl:w-[20%] mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-10 w-52 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-10 w-1/3 mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-10 w-[70%] lg:w-[50%] 2xl:w-[20%] mb-5 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
         </div>
       </Layout>

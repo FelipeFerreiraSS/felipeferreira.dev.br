@@ -74,18 +74,7 @@ export default function Gallery() {
         <div className="mb-5">
           <Skeleton className="h-6 w-72 rounded-xl bg-gray-200 dark:bg-zinc-800" />
         </div>
-        <div className="flex gap-5 mb-5">
-          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-        </div>
-        <div className="mb-5">
-          <Skeleton className="h-6 w-72 rounded-xl bg-gray-200 dark:bg-zinc-800" />
-        </div>
-        <div className="flex gap-5 mb-5">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-w-[1200px] gap-5 mb-5">
           <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
@@ -95,9 +84,17 @@ export default function Gallery() {
         <div className="mb-5">
           <Skeleton className="h-6 w-72 rounded-xl bg-gray-200 dark:bg-zinc-800" />
         </div>
-        <div className="flex gap-5 mb-5">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-w-[1200px] gap-5 mb-5">
           <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+          <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="mb-5">
+          <Skeleton className="h-6 w-72 rounded-xl bg-gray-200 dark:bg-zinc-800" />
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-w-[1200px] gap-5 mb-5">
           <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-36 w-36 rounded-xl bg-gray-200 dark:bg-zinc-800" />
