@@ -10,9 +10,11 @@ import {
   ArrowUp10, 
   ArrowUpAZ, 
   CircleCheckBig, 
+  Filter, 
   ImageOff, 
   Pencil, 
-  PencilLine 
+  PencilLine, 
+  PlusCircle
 } from "lucide-react";
 import { 
   Pagination, 
@@ -58,6 +60,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 
 type PostKey = keyof Post; 
 
@@ -255,17 +259,19 @@ export default function Posts() {
   return(
     <Layout pageTitle="Posts">
       <div>
-        <div className="flex justify-between mb-5">
+        <div className="flex flex-col sm:flex-row justify-between mb-5">
           <Button
-            className="bg-blue-500 " 
+            className="bg-blue-500 w-28 mb-5 sm:mb-0" 
           >
-            <Link href={'/dashboard/admin/post/create-post'}>Criar post</Link>
+            <Link href={'/dashboard/admin/post/create-post'} className="flex items-center justify-center">
+              <PlusCircle className="w-4 h-4 mr-1"/>Criar post
+            </Link>
           </Button>
           <div className="flex gap-5">
             <Input
               type="text"
               placeholder={`Pesquisar por ${searchFor() || '...'} `}
-              className="p-2 w-48 border border-gray-300 rounded"
+              className="p-2 w-[40%] sm:w-48 border border-gray-300 rounded"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -273,7 +279,7 @@ export default function Posts() {
               onValueChange={(value) => setSelectSearchQuery(value)}
               value={selectSearchQuery}
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[40%] sm:w-[180px]">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
               <SelectContent>
@@ -283,20 +289,22 @@ export default function Posts() {
                 <SelectItem value="author">Autor</SelectItem>
               </SelectContent>
             </Select>
+
             <Sheet>
               <SheetTrigger>
-                <Button
-                  className="bg-blue-500 rounded"
-                >
-                  Filtros
+                <Button className="bg-blue-500 rounded flex items-center justify-center gap-2">
+                  <span className="block sm:hidden">
+                    <Filter />
+                  </span>
+                  <span className="hidden sm:block">Filtros</span>
                 </Button>
               </SheetTrigger>
               <SheetContent>
                 <SheetHeader>
-                  <SheetTitle>Filtros</SheetTitle>
+                  <SheetTitle className="text-start">Filtros</SheetTitle>
                   <SheetDescription>
-                    <div className="flex flex-col gap-4 mb-4">
-                      <p>Status</p>
+                    <div className="flex flex-col items-start gap-4 mb-4">
+                      <Label>Status</Label>
                       <Select 
                         onValueChange={(value) => setFilterStatus(value)}
                         value={filterStatus}
@@ -309,7 +317,7 @@ export default function Posts() {
                           <SelectItem value="false">Rascunho</SelectItem>
                         </SelectContent>
                       </Select>
-                      <p>Tags</p>
+                      <Label>Tags</Label>
                       <Select 
                         onValueChange={(value) => setFilterTags(value)}
                         value={filterTags}
@@ -323,27 +331,27 @@ export default function Posts() {
                         ))}
                         </SelectContent>
                       </Select>
-                      <p>Data de criação</p>
+                      <Label>Data de criação</Label>
                       <Input
                         type="date"
-                        className="p-2 border border-gray-300 rounded max-w-40"
+                        className="p-2 border border-gray-300 rounded w-[180px]"
                         value={filterCreationDate}
                         onChange={(e) => setFilterCreationDate(e.target.value)}
                       />
-                      <p>Data de atualização</p>
+                      <Label>Data de atualização</Label>
                       <Input
                         type="date"
-                        className="p-2 border border-gray-300 rounded max-w-40"
+                        className="p-2 border border-gray-300 rounded w-[180px]"
                         value={filterUpdateDate}
                         onChange={(e) => setFilterUpdateDate(e.target.value)}
                       />
+                      <Button
+                        className="p-2 bg-blue-500 rounded"
+                        onClick={() => {cleanFilters()}}
+                      >
+                        Limpar Filtros
+                      </Button>
                     </div>
-                    <Button
-                      className="p-2 bg-blue-500 rounded"
-                      onClick={() => {cleanFilters()}}
-                    >
-                      Limpar Filtros
-                    </Button>
                   </SheetDescription>
                 </SheetHeader>
               </SheetContent>
@@ -352,7 +360,7 @@ export default function Posts() {
         </div>
 
         {/* Tabela */}
-        <div className="overflow-x-">
+        <div className="overflow-x- hidden sm:block">
           <Table className="min-w-full border-collapse">
             {filteredData?.length === 0 ? (
               <TableCaption>Nenhum resultado encontrado</TableCaption>
@@ -492,8 +500,110 @@ export default function Posts() {
             </TableBody>
           </Table>
         </div>
-        <Pagination className="flex justify-center mt-4 space-x-2">
-          <div className="flex justify-center items-center gap-3">
+
+        {/* Cards */}
+        <div className="block sm:hidden">
+          {paginatedData?.map((post) => (
+            <Card className="max-w-full mb-3">
+              <CardHeader className="p-3">
+                <div className="flex gap-3">
+                  {post.headerImage?.imageUrl ? (
+                    <Image
+                      src={post.headerImage?.imageUrl ?? '/default-image.png'}
+                      width={150}
+                      height={50}
+                      alt="Picture of the author"
+                      className="rounded-xl max-h-28 max-w-36"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center max-h-28 min-w-36 max-w-36 text-black rounded-xl bg-slate-100"
+                    >
+                      <p className="flex flex-col justify-center items-center text-center"><ImageOff />Post sem capa</p>
+                    </div>
+                  )}
+                  <div>
+                    <CardTitle className="mb-3">
+                      {post.title.length > 31 
+                        ? `${post.title.slice(0, 31)}...` 
+                        : post.title
+                      }
+                    </CardTitle>
+                    <CardDescription>
+                      {post.summary.length > 62 
+                        ? `${post.summary.slice(0, 62)}...` 
+                        : post.summary
+                      }
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="p-3 space-x-4 w-full">
+                <div className="w-full">
+                  <div className="flex justify-between w-full mb-3">
+                    <div className="flex gap-1">
+                      <p>{post.author.firstName}</p>
+                      <p>{post.author.lastName}</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500">{new Date(post.createdAt).toLocaleDateString()}</p>
+                      {/* <p>{new Date(post.updatedAt).toLocaleDateString()}</p> */}
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center mb-3">
+                    <div>
+                      {post.published ? 
+                        <Badge className="bg-green-400 text-black gap-2"><CircleCheckBig size={15} /> Publicado</Badge> 
+                        : 
+                        <Badge className="bg-yellow-400 text-black gap-2"><PencilLine size={15}/>Escrevendo</Badge>
+                      }
+                    </div>
+                    <div className="flex gap-1">
+                      <div className="flex">
+                        {post.tags.length > 4 ? (
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button variant="outline"> Ver tags</Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto">
+                              <ol>
+                                {post.tags.map((tag) => (
+                                  <li key={tag.id}>
+                                    {tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}
+                                  </li>
+                                ))}
+                              </ol>
+                            </PopoverContent>
+                          </Popover>
+                        ) : (
+                          <>
+                            {post.tags.map((tag) => (
+                              <Badge key={tag.id} className="bg-blue-100 text-blue-600 ml-2 hover:bg-blue-100 hover:text-blue-700">
+                                {tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}
+                              </Badge>
+                            ))}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <Link href={`/dashboard/admin/post/edit-post/${post.id}`}>
+                    <Button variant={"outline"} className="gap-2 -ml-4"><Pencil />Editar</Button>
+                  </Link>
+                  <DeleteAlert onConfirm={(result) => handleDeletePost(result, post.id)} id={post.id} cardButton={true}/>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+          {filteredData?.length === 0 ? (
+            <div className="w-full flex items-center justify-center sm:hidden">
+              <p>Nenhum resultado encontrado</p>
+            </div>
+          ) : null}
+        </div>
+        <Pagination className="flex flex-col sm:flex-row justify-center mt-4 space-x-2">
+          <div className="flex justify-center items-center gap-3 mb-5 sm:mb-0">
             <p>Items por pagina</p>
             <Select onValueChange={(value) => setItemsPerPage(parseInt(value))}>
               <SelectTrigger className="w-[60px]">
@@ -506,7 +616,7 @@ export default function Posts() {
               </SelectContent>
             </Select>
           </div>
-          <PaginationContent>
+          <PaginationContent className="flex justify-center items-center">
 
             {/* Botão Anterior */}
             <PaginationItem>

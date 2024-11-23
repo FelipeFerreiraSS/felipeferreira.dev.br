@@ -13,7 +13,14 @@ import {
 import { Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 
-export default function DeleteAlert({ onConfirm, id }: { onConfirm: (result: boolean) => void, id: number }) {
+type DeleteAlertProps = {
+  onConfirm: (result: boolean) => void;
+  id: number;
+  cardButton?: boolean | false;
+};
+
+
+export default function DeleteAlert({onConfirm, cardButton}: DeleteAlertProps) {
   const handleDelete = () => {
     onConfirm(true);
   };
@@ -21,11 +28,15 @@ export default function DeleteAlert({ onConfirm, id }: { onConfirm: (result: boo
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <button
-          className="hover:bg-red-500 p-2 rounded-full hover:text-white"
-        >
-          <Trash2 />
-        </button>
+        {cardButton ? (
+          <Button variant={"destructive"} className="gap-2 -ml-4"><Trash2 />Editar</Button>
+        ) : (
+          <button
+            className="hover:bg-red-500 p-2 rounded-full hover:text-white"
+          >
+            <Trash2 />
+          </button>
+        )}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -36,7 +47,7 @@ export default function DeleteAlert({ onConfirm, id }: { onConfirm: (result: boo
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Deletar</AlertDialogAction>
+          <AlertDialogAction onClick={handleDelete} className="bg-red-500 hover:bg-red-400">Deletar</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

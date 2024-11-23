@@ -4,9 +4,11 @@ import {
   ArrowUp10, 
   ArrowUpAZ,
   CircleCheckBig,
+  Filter,
   NotebookText,
   Pencil,
-  PencilLine, 
+  PencilLine,
+  PlusCircle, 
 } from "lucide-react";
 import { 
   Pagination, 
@@ -60,6 +62,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 
 const editCriateTagSchema = z.object({
   name: z.string().min(1 ,'O nome é obrigatório').optional(),
@@ -83,6 +87,7 @@ export default function Tags() {
   const [editingTag, setEditingTag] = useState<Tag | null>(null);
   const [isLoading, setIsLoading] = useState(false)
   const [loading, setLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const {
     register,
@@ -115,6 +120,7 @@ export default function Tags() {
       setValue('name', '');
       dispatch(fetchTagsList());
       reset();
+      setIsDialogOpen(false)
     } else {
       toast({
         variant: "destructive",
@@ -172,7 +178,7 @@ export default function Tags() {
 
   async function handleEditTag(tag: Tag) {
     setEditingTag(tag); // Setar a tag que será editada
-    setValue('editName', tag.name); // Definir o valor no formulário de edição
+    setValue('editName', tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')); // Definir o valor no formulário de edição
   }
 
   const handleSort = (key: string) => {
@@ -311,39 +317,47 @@ export default function Tags() {
   return(
     <Layout pageTitle="Tags">
       <div>
-        <div className="flex justify-between mb-5">
-          <div>
-            <Popover>
-              <PopoverTrigger className="bg-blue-500 py-2 px-3 hover:bg-black text-white rounded-sm" >
-                Criar Tag
-              </PopoverTrigger>
-              <PopoverContent>
-                <form className="space-y-6" onSubmit={handleSubmit(handleCreateTag)}>
-                  <div>
-                    <Input 
-                      {...register("name")}
-                      type="text" 
-                      id="name" 
-                      placeholder="Tag" 
-                      autoComplete="Tag" 
-                      name="name"
-                    />
-                    <FormErrorMessage error={errors.name?.message}/>
-                  </div> 
-                  <div>
-                    <SubmitButton isLoading={isLoading}>
-                      Salvar
-                    </SubmitButton>
-                  </div>
-                </form> 
-              </PopoverContent>
-            </Popover>
-          </div>
+        <div className="flex flex-col sm:flex-row justify-between mb-5">
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button
+                className="bg-blue-500 w-32 mb-5 sm:mb-0 flex items-center justify-center" 
+                onClick={() => setIsDialogOpen(true)}
+              >
+                  <PlusCircle className="w-4 h-4 mr-1"/>Nova Tag
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle className="mb-3">Adicionar nova tag</DialogTitle>
+                <DialogDescription>
+                  <form className="space-y-6" onSubmit={handleSubmit(handleCreateTag)}>
+                    <div>
+                      <Input 
+                        {...register("name")}
+                        type="text" 
+                        id="name" 
+                        placeholder="Tag" 
+                        autoComplete="Tag" 
+                        name="name"
+                      />
+                      <FormErrorMessage error={errors.name?.message}/>
+                    </div> 
+                    <div>
+                      <SubmitButton isLoading={isLoading}>
+                        Salvar
+                      </SubmitButton>
+                    </div>
+                  </form> 
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
           <div className="flex gap-5">
             <Input
               type="text"
               placeholder={`Pesquisar por ${searchFor() || '...'} `}
-              className="p-2 w-48 border border-gray-300 rounded"
+              className="p-2 w-[40%] sm:w-48 border border-gray-300 rounded"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -351,7 +365,7 @@ export default function Tags() {
               onValueChange={(value) => setSelectSearchQuery(value)}
               value={selectSearchQuery}
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[40%] sm:w-[180px]">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
               <SelectContent>
@@ -359,40 +373,42 @@ export default function Tags() {
                 <SelectItem value="name">Nome</SelectItem>
               </SelectContent>
             </Select>
+
             <Sheet>
               <SheetTrigger>
-                <Button
-                  className="bg-blue-500 rounded"
-                >
-                  Filtros
+                <Button className="bg-blue-500 rounded flex items-center justify-center gap-2">
+                  <span className="block sm:hidden">
+                    <Filter />
+                  </span>
+                  <span className="hidden sm:block">Filtros</span>
                 </Button>
               </SheetTrigger>
               <SheetContent>
                 <SheetHeader>
-                  <SheetTitle>Filtros</SheetTitle>
+                  <SheetTitle className="text-start">Filtros</SheetTitle>
                   <SheetDescription>
-                    <div className="flex flex-col gap-4 mb-4">
-                      <p>Data de criação</p>
+                    <div className="flex flex-col items-start gap-4 mb-4">
+                      <Label>Data de criação</Label>
                       <Input
                         type="date"
-                        className="p-2 border border-gray-300 rounded max-w-40"
+                        className="p-2 border border-gray-300 rounded w-[180px]"
                         value={filterCreationDate}
                         onChange={(e) => setFilterCreationDate(e.target.value)}
                       />
-                      <p>Data de atualização</p>
+                      <Label>Data de atualização</Label>
                       <Input
                         type="date"
-                        className="p-2 border border-gray-300 rounded max-w-40"
+                        className="p-2 border border-gray-300 rounded w-[180px]"
                         value={filterUpdateDate}
                         onChange={(e) => setFilterUpdateDate(e.target.value)}
                       />
+                      <Button
+                        className="p-2 bg-blue-500 rounded"
+                        onClick={() => {cleanFilters()}}
+                      >
+                        Limpar Filtros
+                      </Button>
                     </div>
-                    <Button
-                      className="p-2 bg-blue-500 rounded"
-                      onClick={() => {cleanFilters()}}
-                    >
-                      Limpar Filtros
-                    </Button>
                   </SheetDescription>
                 </SheetHeader>
               </SheetContent>
@@ -401,7 +417,7 @@ export default function Tags() {
         </div>
 
         {/* Tabela */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x- hidden sm:block">
           <Table className="min-w-full border-collapse">
             {filteredData?.length === 0 ? (
               <TableCaption>Nenhum resultado encontrado</TableCaption>
@@ -549,8 +565,153 @@ export default function Tags() {
             </TableBody>
           </Table>
         </div>
-        <Pagination className="flex justify-center mt-4 space-x-2">
-          <div className="flex justify-center items-center gap-3">
+
+        {/* Cards */}
+        <div className="block sm:hidden">
+          {paginatedData?.map((tag) => (
+            <Card className="max-w-full mb-3">
+              <CardHeader className="p-3">
+                <div className="flex justify-between gap-3">
+                  <div className="flex gap-1">
+                    <p>{tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    {tag.posts?.length}
+                    {tag.posts?.length > 0 ? (
+                      <Dialog >
+                        <DialogTrigger className="flex justify-center items-center">
+                          <NotebookText />
+                        </DialogTrigger>
+                        <DialogContent className="max-w-80 max-h-[800px] sm:max-w-3xl overflow-y-auto sm:max-h-5/6 rounded-lg">
+                          <DialogHeader>
+                            <DialogTitle className="mb-3">Posts utilizando a tag {tag.name.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)) .join(' ')}</DialogTitle>
+                            <DialogDescription className="flex flex-col sm:flex-row items-center justify-center text-black">
+                            <Table className="min-w-full border-collapse hidden sm:block">
+                                {filteredData?.length === 0 ? (
+                                  <TableCaption>Nenhum resultado encontrado</TableCaption>
+                                ) : null}
+                                <TableHeader>
+                                  <TableRow>
+                                    <TableHead>ID</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Título</TableHead>
+                                    <TableHead>Criação</TableHead>
+                                    <TableHead>Atualização</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  {tag.posts?.map((post) => (
+                                    <TableRow key={post.id}>
+                                      <TableCell className="font-medium">{post.id}</TableCell>
+                                      <TableCell
+                                      >
+                                        {post.published ? 
+                                          <Badge className="bg-green-400 text-black gap-2"><CircleCheckBig size={15} /> Publicado</Badge> 
+                                          : 
+                                          <Badge className="bg-yellow-400 text-black gap-2"><PencilLine size={15}/>Escrevendo</Badge>
+                                        }
+                                      </TableCell>
+                                      <TableCell>{post.title}</TableCell>
+                                      <TableCell>{new Date(post.createdAt).toLocaleDateString()}</TableCell>
+                                      <TableCell>{new Date(post.updatedAt).toLocaleDateString()}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                              {tag.posts?.map((post) => (
+                                <Card className="w-full mb-3 block sm:hidden">
+                                  <CardHeader className="p-3">
+                                    <CardTitle className="mb-3 text-start">
+                                      {post.title}
+                                    </CardTitle>
+                                    <CardDescription className="text-start">
+                                      {post.summary}
+                                    </CardDescription>
+                                  </CardHeader>
+                                  <CardContent className="p-3 space-x-4 w-full">
+                                    <div className="w-full">
+                                      <div className="flex justify-between w-full mb-3">
+                                        <div className="flex gap-3">
+                                          <p className="text-slate-500">{new Date(post.createdAt).toLocaleDateString()}</p>
+                                          <p className="text-slate-500">{new Date(post.updatedAt).toLocaleDateString()}</p>
+                                        </div>
+                                      </div>
+                                      <div className="flex justify-between items-center mb-3">
+                                        <div>
+                                          {post.published ? 
+                                            <Badge className="bg-green-400 text-black gap-2"><CircleCheckBig size={15} /> Publicado</Badge> 
+                                            : 
+                                            <Badge className="bg-yellow-400 text-black gap-2"><PencilLine size={15}/>Escrevendo</Badge>
+                                          }
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                              ))}
+                            </DialogDescription>
+                          </DialogHeader>
+                        </DialogContent>
+                      </Dialog>
+                    ): (
+                      null
+                    )}
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="p-3 space-x-4 w-full">
+                <div className="w-full">
+                  <div className="flex justify-between w-full mb-3">
+                    <div className="flex gap-2">
+                      <p className="text-slate-500">{new Date(tag.createdAt).toLocaleDateString()}</p>
+                      <p className="text-slate-500">{new Date(tag.updatedAt).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <Popover>
+                    <PopoverTrigger>
+                      <button 
+                        className="hover:bg-blue-500 p-2 rounded-full hover:text-white"
+                        onClick={() => handleEditTag(tag)}
+                      >
+                        <Button variant={"outline"} className="gap-2 -ml-4"><Pencil />Editar</Button>
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                    <form className="space-y-6" onSubmit={handleSubmit(handleUpdateTag)}>
+                      <div>
+                        <Input 
+                          {...register('editName')}
+                          type="text" 
+                          id="editName" 
+                          placeholder="Tag"
+                          autoComplete="Tag" 
+                          name="editName"
+                        />
+                        <FormErrorMessage error={errors.editName?.message}/>
+                      </div> 
+                      <div>
+                        <SubmitButton isLoading={isLoading}>
+                          Salvar
+                        </SubmitButton>
+                      </div>
+                    </form> 
+                    </PopoverContent>
+                  </Popover>
+                  <DeleteAlert onConfirm={(result) => handleDeleteTag(result, tag.id)} id={tag.id} cardButton={true}/>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+          {filteredData?.length === 0 ? (
+            <div className="w-full flex items-center justify-center sm:hidden">
+              <p>Nenhum resultado encontrado</p>
+            </div>
+          ) : null}
+        </div>
+        <Pagination className="flex flex-col sm:flex-row justify-center mt-4 space-x-2">
+          <div className="flex justify-center items-center gap-3 mb-5 sm:mb-0">
             <p>Items por pagina</p>
             <Select onValueChange={(value) => setItemsPerPage(parseInt(value))}>
               <SelectTrigger className="w-[60px]">
@@ -563,7 +724,7 @@ export default function Tags() {
               </SelectContent>
             </Select>
           </div>
-          <PaginationContent>
+          <PaginationContent className="flex justify-center items-center">
 
             {/* Botão Anterior */}
             <PaginationItem>

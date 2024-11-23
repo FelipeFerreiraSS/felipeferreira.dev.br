@@ -7,9 +7,11 @@ import {
   ArrowUpAZ, 
   CircleCheckBig, 
   Crown, 
+  Filter, 
   NotebookText, 
   Pencil, 
-  PencilLine 
+  PencilLine, 
+  PlusCircle
 } from "lucide-react";
 import { 
   Pagination, 
@@ -60,6 +62,10 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { User } from "@/types/User";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import Image from "next/image";
 
 type PostKey = keyof User
 
@@ -254,17 +260,19 @@ export default function Users() {
   return (
     <Layout pageTitle="Usuários">
       <div>
-        <div className="flex justify-between mb-5">
+        <div className="flex flex-col sm:flex-row justify-between mb-5">
           <Button
-            className="bg-blue-500 " 
+            className="bg-blue-500 w-32 mb-5 sm:mb-0" 
           >
-            <Link href={'/dashboard/admin/users/create-user'}>Novo usuário</Link>
+            <Link href={'/dashboard/admin/users/create-user'} className="flex items-center justify-center">
+              <PlusCircle className="w-4 h-4 mr-1"/>Novo usuário
+            </Link>
           </Button>
           <div className="flex gap-5">
             <Input
               type="text"
               placeholder={`Pesquisar por ${searchFor() || '...'} `}
-              className="p-2 w-48 border border-gray-300 rounded"
+              className="p-2 w-[40%] sm:w-48 border border-gray-300 rounded"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -272,7 +280,7 @@ export default function Users() {
               onValueChange={(value) => setSelectSearchQuery(value)}
               value={selectSearchQuery}
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[40%] sm:w-[180px]">
                 <SelectValue placeholder="Selecione" />
               </SelectTrigger>
               <SelectContent>
@@ -281,20 +289,22 @@ export default function Users() {
                 <SelectItem value="email">E-mail</SelectItem>
               </SelectContent>
             </Select>
+
             <Sheet>
               <SheetTrigger>
-                <Button
-                  className="bg-blue-500 rounded"
-                >
-                  Filtros
+                <Button className="bg-blue-500 rounded flex items-center justify-center gap-2">
+                  <span className="block sm:hidden">
+                    <Filter />
+                  </span>
+                  <span className="hidden sm:block">Filtros</span>
                 </Button>
               </SheetTrigger>
               <SheetContent>
                 <SheetHeader>
-                  <SheetTitle>Filtros</SheetTitle>
+                  <SheetTitle className="text-start">Filtros</SheetTitle>
                   <SheetDescription>
-                    <div className="flex flex-col gap-4 mb-4">
-                      <p>Tipo</p>
+                    <div className="flex flex-col items-start gap-4 mb-4">
+                      <Label>Tipo</Label>
                       <Select 
                         onValueChange={(value) => setFilterUserType(value)}
                         value={filterUserType}
@@ -307,27 +317,27 @@ export default function Users() {
                           <SelectItem value="editor">Editor</SelectItem>
                         </SelectContent>
                       </Select>
-                      <p>Data de criação</p>
+                      <Label>Data de criação</Label>
                       <Input
                         type="date"
-                        className="p-2 border border-gray-300 rounded max-w-40"
+                        className="p-2 border border-gray-300 rounded w-[180px]"
                         value={filterCreationDate}
                         onChange={(e) => setFilterCreationDate(e.target.value)}
                       />
-                      <p>Data de atualização</p>
+                      <Label>Data de atualização</Label>
                       <Input
                         type="date"
-                        className="p-2 border border-gray-300 rounded max-w-40"
+                        className="p-2 border border-gray-300 rounded w-[180px]"
                         value={filterUpdateDate}
                         onChange={(e) => setFilterUpdateDate(e.target.value)}
                       />
+                      <Button
+                        className="p-2 bg-blue-500 rounded"
+                        onClick={() => {cleanFilters()}}
+                      >
+                        Limpar Filtros
+                      </Button>
                     </div>
-                    <Button
-                      className="p-2 bg-blue-500 rounded"
-                      onClick={() => {cleanFilters()}}
-                    >
-                      Limpar Filtros
-                    </Button>
                   </SheetDescription>
                 </SheetHeader>
               </SheetContent>
@@ -336,7 +346,7 @@ export default function Users() {
         </div>
 
         {/* Tabela */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x- hidden sm:block">
           <Table className="min-w-full border-collapse">
             {filteredData?.length === 0 ? (
               <TableCaption>Nenhum resultado encontrado</TableCaption>
@@ -475,8 +485,139 @@ export default function Users() {
             </TableBody>
           </Table>
         </div>
-        <Pagination className="flex justify-center mt-4 space-x-2">
-          <div className="flex justify-center items-center gap-3">
+
+        {/* Cards */}
+        <div className="block sm:hidden">
+          {paginatedData?.map((user) => (
+            <Card className="max-w-full mb-3">
+              <CardHeader className="p-3">
+                <div className="flex justify-between gap-3">
+                  <div className="flex gap-1">
+                    <p>{user.firstName}</p>
+                    <p>{user.lastName}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    {user.posts?.length}
+                    {user.posts?.length > 0 ? (
+                      <Dialog >
+                        <DialogTrigger className="flex justify-center items-center">
+                          <NotebookText />
+                        </DialogTrigger>
+                        <DialogContent className="max-w-80 max-h-[800px] sm:max-w-3xl overflow-y-auto sm:max-h-5/6 rounded-lg">
+                          <DialogHeader>
+                            <DialogTitle className="mb-3">Posts do usário {user.firstName}</DialogTitle>
+                            <DialogDescription className="flex flex-col sm:flex-row items-center justify-center text-black">
+                            <Table className="min-w-full border-collapse hidden sm:block">
+                                {filteredData?.length === 0 ? (
+                                  <TableCaption>Nenhum resultado encontrado</TableCaption>
+                                ) : null}
+                                <TableHeader>
+                                  <TableRow>
+                                    <TableHead>ID</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Título</TableHead>
+                                    <TableHead>Criação</TableHead>
+                                    <TableHead>Atualização</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  {user.posts?.map((post) => (
+                                    <TableRow key={post.id}>
+                                      <TableCell className="font-medium">{post.id}</TableCell>
+                                      <TableCell
+                                      >
+                                        {post.published ? 
+                                          <Badge className="bg-green-400 text-black gap-2"><CircleCheckBig size={15} /> Publicado</Badge> 
+                                          : 
+                                          <Badge className="bg-yellow-400 text-black gap-2"><PencilLine size={15}/>Escrevendo</Badge>
+                                        }
+                                      </TableCell>
+                                      <TableCell>{post.title}</TableCell>
+                                      <TableCell>{new Date(post.createdAt).toLocaleDateString()}</TableCell>
+                                      <TableCell>{new Date(post.updatedAt).toLocaleDateString()}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                              {user.posts?.map((post) => (
+                                <Card className="w-full mb-3 block sm:hidden">
+                                  <CardHeader className="p-3">
+                                    <CardTitle className="mb-3 text-start">
+                                      {post.title}
+                                    </CardTitle>
+                                    <CardDescription className="text-start">
+                                      {post.summary}
+                                    </CardDescription>
+                                  </CardHeader>
+                                  <CardContent className="p-3 space-x-4 w-full">
+                                    <div className="w-full">
+                                      <div className="flex justify-between w-full mb-3">
+                                        <div className="flex gap-3">
+                                          <p className="text-slate-500">{new Date(post.createdAt).toLocaleDateString()}</p>
+                                          <p className="text-slate-500">{new Date(post.updatedAt).toLocaleDateString()}</p>
+                                        </div>
+                                      </div>
+                                      <div className="flex justify-between items-center mb-3">
+                                        <div>
+                                          {post.published ? 
+                                            <Badge className="bg-green-400 text-black gap-2"><CircleCheckBig size={15} /> Publicado</Badge> 
+                                            : 
+                                            <Badge className="bg-yellow-400 text-black gap-2"><PencilLine size={15}/>Escrevendo</Badge>
+                                          }
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                              ))}
+                            </DialogDescription>
+                          </DialogHeader>
+                        </DialogContent>
+                      </Dialog>
+                    ): (
+                      null
+                    )}
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="p-3 space-x-4 w-full">
+                <div className="w-full">
+                  <div className="flex justify-between w-full mb-3">
+                    <div className="flex gap-1">
+                      <p>{user.email}</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500">{new Date(user.createdAt).toLocaleDateString()}</p>
+                      {/* <p>{new Date(post.updatedAt).toLocaleDateString()}</p> */}
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center mb-3">
+                    <div>
+                      {user.type === 'admin' ? 
+                        <Badge className="bg-green-400 text-black gap-2"><CircleCheckBig size={15} />Administrador</Badge> 
+                        : 
+                        <Badge className="bg-yellow-400 text-black gap-2"><PencilLine size={15}/>Editor</Badge>
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <Link href={`/dashboard/admin/post/edit-post/${user.id}`}>
+                    <Button variant={"outline"} className="gap-2 -ml-4"><Pencil />Editar</Button>
+                  </Link>
+                  <DeleteAlert onConfirm={(result) => handleDeleteUser(result, user.id)} id={user.id} cardButton={true}/>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+          {filteredData?.length === 0 ? (
+            <div className="w-full flex items-center justify-center sm:hidden">
+              <p>Nenhum resultado encontrado</p>
+            </div>
+          ) : null}
+        </div>
+        <Pagination className="flex flex-col sm:flex-row justify-center mt-4 space-x-2">
+          <div className="flex justify-center items-center gap-3 mb-5 sm:mb-0">
             <p>Items por pagina</p>
             <Select onValueChange={(value) => setItemsPerPage(parseInt(value))}>
               <SelectTrigger className="w-[60px]">
@@ -489,7 +630,7 @@ export default function Users() {
               </SelectContent>
             </Select>
           </div>
-          <PaginationContent>
+          <PaginationContent className="flex justify-center items-center">
 
             {/* Botão Anterior */}
             <PaginationItem>

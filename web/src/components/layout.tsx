@@ -28,7 +28,7 @@ export default function Layout({ children, pageTitle }: LayoutProps) {
         <Header pageTitle={pageTitle}/>
         <main 
           className="flex-1 p-4 overflow-x-auto transition-all duration-300 "
-          style={{ maxWidth: width !== undefined && width > 425 ? `${adjustedWidth}px` : '100%' }}
+          style={{ maxWidth: width !== undefined && width > 435 ? `${adjustedWidth}px` : '100%' }}
         >
           {children}
         </main>

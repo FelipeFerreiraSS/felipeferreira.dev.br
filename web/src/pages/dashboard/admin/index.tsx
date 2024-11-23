@@ -14,6 +14,8 @@ import { ChevronRight, CircleUserRound, Clock2, Images, NotebookPen, NotebookTex
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import Link from "next/link";
 
 export default function DashboardAdmin() {
   const [loading, setLoading] = useState(true);
@@ -55,7 +57,7 @@ export default function DashboardAdmin() {
   
   return (
     <Layout pageTitle="Dashboard">
-      <div className="flex gap-5 mb-5">
+      <div className="max-w-[1400px] hidden sm:grid grid-cols-1 gap-5 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 mb-5">
         <Card className="max-h-40 flex flex-col items-center justify-center">
           <CardContent className="flex flex-col justify-center p-4 gap-y-2">
             <div className="flex gap-3 text-gray-500">
@@ -68,7 +70,9 @@ export default function DashboardAdmin() {
             <div className="flex justify-between items-center gap-3 text-gray-500">
               <p className="text-sm">Todos os posts</p>
               <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
-                <ChevronRight size={15}/>
+                <Link href={'/dashboard/admin/post'}>
+                  <ChevronRight size={15}/>
+                </Link>
               </span>
             </div>
           </CardContent>
@@ -86,7 +90,9 @@ export default function DashboardAdmin() {
             <div className="flex justify-between items-center gap-3 text-gray-500">
               <p className="text-sm">Todos os posts</p>
               <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
-                <ChevronRight  size={15}/>
+                <Link href={'/dashboard/admin/post'}>
+                  <ChevronRight  size={15}/>
+                </Link>
               </span>
             </div>
           </CardContent>
@@ -104,7 +110,9 @@ export default function DashboardAdmin() {
             <div className="flex justify-between items-center gap-3 text-gray-500">
               <p className="text-sm">Todos os posts</p>
               <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
-                <ChevronRight size={15}/>
+                <Link href={'/dashboard/admin/post'}>
+                  <ChevronRight  size={15}/>
+                </Link>
               </span>
             </div>
           </CardContent>
@@ -122,7 +130,9 @@ export default function DashboardAdmin() {
             <div className="flex justify-between items-center gap-3 text-gray-500">
               <p className="text-sm">Todas as tags</p>
               <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
-                <ChevronRight size={15}/>
+                <Link href={'/dashboard/admin/tags'}>
+                  <ChevronRight  size={15}/>
+                </Link>
               </span>
             </div>
           </CardContent>
@@ -140,14 +150,84 @@ export default function DashboardAdmin() {
             <div className="flex justify-between items-center gap-3 text-gray-500">
               <p className="text-sm">Todas as imagens</p>
               <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
-                <ChevronRight size={15}/>
+                <Link href={'/dashboard/admin/gallery'}>
+                  <ChevronRight  size={15}/>
+                </Link>
               </span>
             </div>
           </CardContent>
         </Card>
 
       </div>
-      <div className="flex gap-5 mb-5">
+      <div className="sm:hidden max-w-full overflow-x-auto border-[1px] rounded-lg mb-5">
+        <Table className="min-w-full">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Descrição</TableHead>
+              <TableHead className="text-center">Valor</TableHead>
+              <TableHead className="text-center">Ver todos</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="flex gap-1"><NotebookText size={20} />Posts publicados</TableCell>
+              <TableCell className="text-center">{analyticState?.postsPublished || 0}</TableCell>
+              <TableCell className="flex items-center justify-center gap-3">
+                <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
+                  <Link href={'/dashboard/admin/post'}>
+                    <ChevronRight  size={15}/>
+                  </Link>
+                </span>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="flex gap-1"><NotebookPen size={20} />Posts não publicados</TableCell>
+              <TableCell className="text-center">{analyticState?.postsDraft || 0}</TableCell>
+              <TableCell className="flex items-center justify-center gap-3">
+                <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
+                  <Link href={'/dashboard/admin/post'}>
+                    <ChevronRight  size={15}/>
+                  </Link>
+                </span>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="flex gap-1 whitespace-nowrap"><Clock2 size={20} />Média de leitura por post</TableCell>
+              <TableCell className="text-center whitespace-nowrap">{analyticState?.averageReadTime || '0:00'} Min</TableCell>
+              <TableCell className="flex items-center justify-center">
+                <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
+                  <Link href={'/dashboard/admin/post'}>
+                    <ChevronRight  size={15}/>
+                  </Link>
+                </span>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="flex gap-1"><Tag size={20} />Total de Tags</TableCell>
+              <TableCell className="text-center">{analyticState?.tags || 0}</TableCell>
+              <TableCell className="flex items-center justify-center gap-3">
+                <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
+                  <Link href={'/dashboard/admin/tags'}>
+                    <ChevronRight  size={15}/>
+                  </Link>
+                </span>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="flex gap-1"><Images size={20} />Total de Imagens</TableCell>
+              <TableCell className="text-center">{analyticState?.images || 0}</TableCell>
+              <TableCell className="flex items-center justify-center gap-3">
+                <span className="p-1 rounded-lg cursor-pointer bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-zinc-500">
+                  <Link href={'/dashboard/admin/gallery'}>
+                    <ChevronRight  size={15}/>
+                  </Link>
+                </span>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
+      <div className="max-w-[1400px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-5">
         {analyticState?.postsByMonth && analyticState.postsByMonth.length > 0 ? (
           <PostsByMonthChart analyticPostsByMonth={analyticState?.postsByMonth} />
         ) : (
@@ -170,7 +250,7 @@ export default function DashboardAdmin() {
             </CardHeader>
           </Card>
         )}
-        <Card className="max-w-64">
+        <Card className="w-full sm:max-w-96">
           <CardHeader>
             <CardTitle>Top autor</CardTitle>
             <CardDescription>Autor que mais publicou posts no blog</CardDescription>
@@ -208,9 +288,6 @@ export default function DashboardAdmin() {
               ) : null}
             </div>
           </CardContent>
-          {/* <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter> */}
         </Card>
       </div>
       <div>
@@ -220,7 +297,7 @@ export default function DashboardAdmin() {
           </CardHeader>
           <CardContent>
             {analyticState?.mostRecentPost ? (
-              <div className="flex gap-5">
+              <div className="flex flex-col lg:flex-row gap-5">
                 <Image
                   src={analyticState?.mostRecentPost.headerImage.imageUrl ?? '/default-image.png'}
                   width={400}
@@ -232,10 +309,12 @@ export default function DashboardAdmin() {
                 />
                 <div>
                   <h2 className="font-bold text-3xl gap-5">{analyticState?.mostRecentPost.title || ""}</h2>
-                  <h3 className="text-xl flex gap-5">{analyticState?.mostRecentPost.summary || ""}</h3>
-                  <p className="text-base flex gap-5">Data de publicação: {new Date(analyticState?.mostRecentPost?.updatedAt || new Date()).toLocaleDateString()}</p>
-                  <p className="text-base flex gap-5">{analyticState?.mostRecentPost.readTime || '0'} Min de leitura</p>
-                  <ul className="flex flex-wrap gap-2 mt-4">
+                  <h3 className="text-base flex gap-5 mb-3">{analyticState?.mostRecentPost.summary || ""}</h3>
+                  <div className="flex gap-3 mb-3">
+                    <p className="text-sm flex gap-5">{new Date(analyticState?.mostRecentPost?.updatedAt || new Date()).toLocaleDateString()}</p>
+                    <p className="text-sm flex gap-5">{analyticState?.mostRecentPost.readTime || '0'} Min de leitura</p>
+                  </div>
+                  <ul className="flex flex-wrap gap-2 mb-3">
                     {analyticState?.mostRecentPost.tags ? (
                       <>
                         {analyticState?.mostRecentPost.tags.map((tag) => (
