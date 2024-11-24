@@ -5,10 +5,12 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Skeleton } from "@/components/ui/skeleton";
 import Uploader from "@/components/uploader";
 import { useToast } from "@/hooks/use-toast";
+import { authenticateUser } from "@/services/auth";
 import { deleteImage, fetchImagesList } from "@/store/features/image/truckFunctions";
 import { AppDispatch, RootState } from "@/store/store";
 import { Image as ImageType } from "@/types/Image";
 import { RefreshCw } from "lucide-react";
+import { GetServerSideProps } from "next";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -184,4 +186,33 @@ export default function Gallery() {
       </div>
     </Layout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  //const apiClient = getAPIClient(ctx)
+  //const { ['felipeferreirablog.token']: token } = parseCookies(ctx)
+
+  const authResult = await authenticateUser(ctx);
+  
+  if ('redirect' in authResult) {
+    return authResult; // Retorna o redirecionamento se necessário
+  }
+
+  const { userType } = authResult.props;
+
+  if (userType !== 'admin') {
+    return {
+      redirect: {
+        destination: '/dashboard/editor', // Redireciona para o editor se não for admin
+        permanent: false,
+      },
+    };
+  }
+
+  // Chamada API do lado do servidor
+  //await apiClient.get('/users')
+
+  return {
+    props: {}
+  }
 }

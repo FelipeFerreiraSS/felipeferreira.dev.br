@@ -25,13 +25,17 @@ export default function SidebarMobile() {
   const router = useRouter();
   
   const isActive = (path: string, type: string | undefined) => {
-    const currentPath = `/dashboard/${type}`;
-    
-    if (path === "/" && router.pathname === currentPath) {
-      return true;
+    const basePath = `/dashboard/${type}`;
+    const currentPath = router.pathname
+      .split('/')
+      .slice(0, 4)
+      .join('/');
+
+    if (path === '/') {
+      return currentPath === basePath;
     }
-    
-    return router.pathname === `${currentPath}${path}`;
+
+    return currentPath === `${basePath}${path}`;
   };
 
   const toggleSidebar = () => {

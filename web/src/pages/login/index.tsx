@@ -14,6 +14,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormErrorMessage from "@/components/formErrorMessage";
 import { RefreshCw } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const loginSchema = z.object({
   email: z.string().min(1 ,'O email é obrigatório'),
@@ -31,6 +32,8 @@ export default function Login() {
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema)
   })
+
+  const { toast } = useToast()
 
   const { signIn } = useContext(AuthContext);
   const router = useRouter();
@@ -57,6 +60,30 @@ export default function Login() {
         router.push('/login');
       }
   }, [userState, router]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
+
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: 
+          error === 'invalid_token'
+            ? 'Sessão inválida'
+            : error === 'expired_token'
+            ? 'Sessão expirada'
+            : 'Erro na autenticação',
+        description: 
+          error === 'invalid_token'
+            ? 'O token de autenticação fornecido é inválido. Por favor, faça login novamente.'
+            : error === 'expired_token'
+            ? 'Sua sessão expirou devido à inatividade. Faça login para continuar.'
+            : 'Ocorreu um problema ao validar seu token de autenticação. Tente novamente.',
+        duration: 5000,
+      });
+    }
+  }, [toast]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

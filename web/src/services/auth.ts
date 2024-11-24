@@ -15,6 +15,28 @@ export const authenticateUser = async (ctx: GetServerSidePropsContext) => {
   }
 
   try {
+    const decodedToken = jwt.decode(token) as { exp?: number };
+
+    if (decodedToken?.exp && Date.now() >= decodedToken.exp * 1000) {
+      return {
+        redirect: {
+          destination: '/login?error=expired_token',
+          permanent: false,
+        },
+      };
+    }
+  } catch (error) {
+    console.error('Erro ao verificar o token:', error);
+
+    return {
+      redirect: {
+        destination: '/login?error=token_error',
+        permanent: false,
+      },
+    };
+  }
+
+  try {
     const secretKey = process.env.SECRET_KEY_JWT as string;
     const decodedToken = jwt.verify(token, secretKey) as { type: string };
 
