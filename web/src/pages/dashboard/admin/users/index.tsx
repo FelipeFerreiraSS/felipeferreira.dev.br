@@ -608,7 +608,7 @@ export default function Users() {
                   </div>
                 </div>
                 <div className="flex justify-between">
-                  <Link href={`/dashboard/admin/post/edit-post/${user.id}`}>
+                  <Link href={`/dashboard/admin/users/edit-user/${user.id}`}>
                     <Button variant={"outline"} className="gap-2 -ml-4"><Pencil />Editar</Button>
                   </Link>
                   <DeleteAlert onConfirm={(result) => handleDeleteUser(result, user.id)} id={user.id} cardButton={true}/>

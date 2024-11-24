@@ -137,7 +137,6 @@ export default function Profile() {
           <CardContent>
             <div className="flex items-center gap-10 mt-5">
               <div>
-                <Label htmlFor="image">Foto de perfil</Label>
                 {userState?.profileImageUrl ? (
                   <Avatar className="w-32 h-32">
                     <AvatarImage className="object-cover" src={userState.profileImageUrl} />

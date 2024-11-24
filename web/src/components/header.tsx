@@ -1,10 +1,10 @@
 import { RootState } from "@/store/store";
 import { Bell, ChevronDown, CircleUserRound, UserRoundPen } from "lucide-react";
-import Image from "next/image";
 import { useSelector } from "react-redux";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import SidebarMobile from "./sidebarMobile";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import Link from "next/link";
 
 type HeaderProps = {
   pageTitle: string
@@ -47,11 +47,13 @@ export default function Header({ pageTitle }: HeaderProps) {
                   <ChevronDown />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="max-w-40 mr-10 mt-7">
-                <div className="flex cursor-pointer gap-3">
-                  <UserRoundPen />
-                  <p>Editar perfil</p>
-                </div>
+              <PopoverContent className="max-w-44 mr-7 mt-5 p-2">
+                <Link href={'/dashboard/admin/profile'}>
+                  <div className="flex cursor-pointer gap-3 px-2 py-2 rounded-lg hover:bg-gray-200 hover:dark:bg-zinc-800">
+                    <UserRoundPen />
+                    <p>Editar perfil</p>
+                  </div>
+                </Link>
               </PopoverContent>
             </Popover>
           </div>

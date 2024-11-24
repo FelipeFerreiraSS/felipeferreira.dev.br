@@ -677,12 +677,13 @@ export default function Tags() {
                 <div className="flex justify-between">
                   <Popover>
                     <PopoverTrigger>
-                      <button 
-                        className="hover:bg-blue-500 p-2 rounded-full hover:text-white"
+                      <Button 
+                        variant={"outline"} 
+                        className="gap-2 -ml-4"
                         onClick={() => handleEditTag(tag)}
                       >
-                        <Button variant={"outline"} className="gap-2 -ml-4"><Pencil />Editar</Button>
-                      </button>
+                        <Pencil />Editar
+                      </Button>
                     </PopoverTrigger>
                     <PopoverContent>
                     <form className="space-y-6" onSubmit={handleSubmit(handleUpdateTag)}>

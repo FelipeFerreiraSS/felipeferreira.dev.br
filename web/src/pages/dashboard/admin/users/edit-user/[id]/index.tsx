@@ -134,12 +134,17 @@ export default function EditUser() {
   return (
     <Layout pageTitle="Editar usuário">
       <div>
+        <Button
+          className="bg-blue-500 mb-5"
+          onClick={() => router.back()} 
+        >
+          Voltar
+        </Button>
         <Card>
           <CardContent>
           <div className="flex items-center justify-between mt-5">
             <div className="flex items-center gap-10">
               <div>
-                <Label htmlFor="image">Foto de perfil</Label>
                 {userIdState?.profileImageUrl ? (
                   <Avatar className="w-32 h-32">
                     <AvatarImage className="object-cover" src={userIdState.profileImageUrl} />
@@ -175,12 +180,6 @@ export default function EditUser() {
                 </Dialog>
               </div>
             </div>
-            <Button
-              className="bg-blue-500 "
-              onClick={() => router.back()} 
-            >
-              Voltar
-            </Button>
             </div>
             <form className="space-y-6 max-w-lg" onSubmit={handleSubmit(handleUpdateUser)}>
               <div>
