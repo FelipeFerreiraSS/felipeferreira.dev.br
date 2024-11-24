@@ -112,7 +112,12 @@ export default function Gallery() {
           <>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="mb-5" onClick={() => setIsDialogOpen(true)}>Adicionar imagem</Button>
+                <Button 
+                  className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600 mb-5" 
+                  onClick={() => setIsDialogOpen(true)}
+                >
+                  Adicionar imagem
+                </Button>
               </DialogTrigger>
               <DialogContent className="max-w-3xl">
                 <DialogHeader>

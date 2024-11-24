@@ -152,13 +152,14 @@ export default function Profile() {
                     <Button 
                       variant={"default"}
                       onClick={() => setIsDialogOpen(true)} 
+                      className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600"
                     >
                       {userState?.profileImageUrl ? 'Altera imagem':'Adicionar imagem'}
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-3xl">
                     <DialogHeader>
-                      <DialogTitle className="mb-3">Atualizar foto de perfil</DialogTitle>
+                      <DialogTitle className="mb-3 ">Atualizar foto de perfil</DialogTitle>
                       <DialogDescription>
                         <UploaderProfileImages 
                           profileImageUrl={userState?.profileImageUrl ? userState?.profileImageUrl : null} 

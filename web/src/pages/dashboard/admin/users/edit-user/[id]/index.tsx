@@ -135,7 +135,7 @@ export default function EditUser() {
     <Layout pageTitle="Editar usuário">
       <div>
         <Button
-          className="bg-blue-500 mb-5"
+          className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600 mb-5"
           onClick={() => router.back()} 
         >
           Voltar
@@ -160,6 +160,7 @@ export default function EditUser() {
                     <Button 
                       variant={"default"}
                       onClick={() => setIsDialogOpen(true)}
+                      className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600"
                     >
                       {userIdState?.profileImageUrl ? 'Altera imagem':'Adicionar imagem'}
                     </Button>

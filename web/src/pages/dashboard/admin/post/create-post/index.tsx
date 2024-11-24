@@ -242,7 +242,7 @@ export default function CreatePost() {
     <Layout pageTitle="Criar post">
       <div className="mb-5">
         <Button
-          className="bg-blue-500 "
+          className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600 "
           onClick={() => router.back()} 
         >
           Voltar
@@ -328,7 +328,7 @@ export default function CreatePost() {
                     </DialogHeader>
                     <DialogFooter className="sm:justify-end">
                       <DialogClose asChild>
-                        <Button type="button" variant="default" className="bg-blue-500 ">
+                        <Button type="button" variant="default" className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600 ">
                           Salvar
                         </Button>
                       </DialogClose>
@@ -404,7 +404,7 @@ export default function CreatePost() {
                   <div className="flex justify-end gap-5">
                     <Button
                       type="button"
-                      className="bg-blue-500"
+                      className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600"
                       onClick={handleSubmit(handleSave)} // Submete o formulário para salvar
                       disabled={isLoading || getValuePublished}
                     >
@@ -412,7 +412,7 @@ export default function CreatePost() {
                     </Button>
                     <Button
                       type="button"
-                      className="bg-blue-500"
+                      className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600"
                       onClick={handleSubmit(handlePublish)} // Submete o formulário para publicar
                       disabled={isLoading || getValuePublished}
                     >

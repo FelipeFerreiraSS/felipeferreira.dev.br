@@ -80,7 +80,7 @@ export default function CreateUser() {
           <CardContent>
             <div className="flex items-center justify-between mt-5 mb-5">
               <Button
-                className="bg-blue-500 "
+                className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600"
                 onClick={() => router.back()} 
               >
                 Voltar
@@ -156,7 +156,7 @@ export default function CreateUser() {
                 <FormErrorMessage error={errors.password?.message}/>
               </div>
               <div>
-                <SubmitButton isLoading={isLoading}>
+                <SubmitButton isLoading={!isLoading}>
                   Cadastrar
                 </SubmitButton>
               </div>

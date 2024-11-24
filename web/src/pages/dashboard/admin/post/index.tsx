@@ -267,7 +267,7 @@ export default function Posts() {
       <div>
         <div className="flex flex-col sm:flex-row justify-between mb-5">
           <Button
-            className="bg-blue-500 w-28 mb-5 sm:mb-0" 
+            className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600 w-28 mb-5 sm:mb-0" 
           >
             <Link href={'/dashboard/admin/post/create-post'} className="flex items-center justify-center">
               <PlusCircle className="w-4 h-4 mr-1"/>Criar post
@@ -298,7 +298,7 @@ export default function Posts() {
 
             <Sheet>
               <SheetTrigger>
-                <Button className="bg-blue-500 rounded flex items-center justify-center gap-2">
+                <Button className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600 rounded flex items-center justify-center gap-2">
                   <span className="block sm:hidden">
                     <Filter />
                   </span>
@@ -352,10 +352,10 @@ export default function Posts() {
                         onChange={(e) => setFilterUpdateDate(e.target.value)}
                       />
                       <Button
-                        className="p-2 bg-blue-500 rounded"
+                        className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600 p-2 rounded"
                         onClick={() => {cleanFilters()}}
                       >
-                        Limpar Filtros
+                        Limpar filtros
                       </Button>
                     </div>
                   </SheetDescription>
@@ -645,7 +645,7 @@ export default function Posts() {
               return (
                 <PaginationItem key={pageNumber}>
                   <PaginationLink
-                    className={`p-2 cursor-pointer ${pageNumber === currentPage ? 'bg-blue-500 text-white' : 'border-gray-300'}`}
+                    className={`p-2 cursor-pointer ${pageNumber === currentPage ? 'bg-blue-600 text-white hover:text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600' : 'border-gray-300'}`}
                     onClick={(e) => {
                       e.preventDefault();
                       changePage(pageNumber);

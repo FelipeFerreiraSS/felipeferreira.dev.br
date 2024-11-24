@@ -198,7 +198,7 @@ export default function Uploader(props: SubmitButtonProps) {
         className={`${
           saveDisabled
             ? 'cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400'
-            : 'border-black bg-black text-white hover:bg-white hover:text-black'
+            : 'bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600'
         } flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none`}
       >
         {saving ? (

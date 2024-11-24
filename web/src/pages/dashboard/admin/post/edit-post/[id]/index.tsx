@@ -273,7 +273,7 @@ export default function EditPost() {
     <Layout pageTitle="Editar post">
       <div className="mb-5">
         <Button
-          className="bg-blue-500 "
+          className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600"
           onClick={() => router.back()} 
         >
           Voltar
@@ -359,7 +359,7 @@ export default function EditPost() {
                     </DialogHeader>
                     <DialogFooter className="sm:justify-end">
                       <DialogClose asChild>
-                        <Button type="button" variant="default" className="bg-blue-500 ">
+                        <Button type="button" variant="default" className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600">
                           Salvar
                         </Button>
                       </DialogClose>
@@ -442,7 +442,7 @@ export default function EditPost() {
                   <div className="flex justify-end gap-5">
                     <Button
                       type="submit"
-                      className="bg-blue-500 " 
+                      className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600" 
                       onClick={handleSave}
                       disabled={isLoading || getValuePublished}
                     >
@@ -451,7 +451,7 @@ export default function EditPost() {
                     <Button
                       {...register('published')} 
                       type="submit"
-                      className="bg-blue-500 " 
+                      className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600" 
                       onClick={handlePublish}
                       disabled={isLoading || getValuePublished}
                     >

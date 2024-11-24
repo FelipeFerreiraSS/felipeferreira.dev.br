@@ -268,7 +268,7 @@ export default function Users() {
       <div>
         <div className="flex flex-col sm:flex-row justify-between mb-5">
           <Button
-            className="bg-blue-500 w-32 mb-5 sm:mb-0" 
+            className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600 w-32 mb-5 sm:mb-0" 
           >
             <Link href={'/dashboard/admin/users/create-user'} className="flex items-center justify-center">
               <PlusCircle className="w-4 h-4 mr-1"/>Novo usuário
@@ -298,7 +298,7 @@ export default function Users() {
 
             <Sheet>
               <SheetTrigger>
-                <Button className="bg-blue-500 rounded flex items-center justify-center gap-2">
+                <Button className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600rounded flex items-center justify-center gap-2">
                   <span className="block sm:hidden">
                     <Filter />
                   </span>
@@ -338,7 +338,7 @@ export default function Users() {
                         onChange={(e) => setFilterUpdateDate(e.target.value)}
                       />
                       <Button
-                        className="p-2 bg-blue-500 rounded"
+                        className="p-2 bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600 rounded"
                         onClick={() => {cleanFilters()}}
                       >
                         Limpar Filtros
@@ -659,7 +659,7 @@ export default function Users() {
               return (
                 <PaginationItem key={pageNumber}>
                   <PaginationLink
-                    className={`p-2 cursor-pointer ${pageNumber === currentPage ? 'bg-blue-500 text-white' : 'border-gray-300'}`}
+                    className={`p-2 cursor-pointer ${pageNumber === currentPage ? 'bg-blue-600 text-white hover:text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600' : 'border-gray-300'}`}
                     onClick={(e) => {
                       e.preventDefault();
                       changePage(pageNumber);
