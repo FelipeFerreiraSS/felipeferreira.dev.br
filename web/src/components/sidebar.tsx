@@ -51,6 +51,11 @@ export default function Sidebar({isCollapsed, setIsCollapsed}: SidebarProps) {
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
+
+  const onlyOpenSidebar = () => {
+    setIsCollapsed(false)
+  }
+
   return (
     <div className={`h-screen text-zinc-800 border-r-gray-200 dark:border-r-zinc-800 border-r-[2px] dark:text-gray-200 transition-all duration-300 flex flex-col justify-between ${
       isCollapsed ? "w-20" : "w-64"
@@ -73,16 +78,12 @@ export default function Sidebar({isCollapsed, setIsCollapsed}: SidebarProps) {
                   className={`rounded-lg mb-1 relative group flex items-center px-3 py-2 hover:bg-gray-200 hover:dark:bg-zinc-800 cursor-pointer 
                     ${isActive(item.link, userState.user?.type) ? 'bg-gray-200 dark:bg-zinc-800' : ''}
                   `}
+                  onMouseEnter={onlyOpenSidebar}
                 >
                   <div className="text-xl w-8 flex justify-center">
                     <span>{item.icon}</span>
                   </div>
                   {!isCollapsed && <span className="ml-4">{item.label}</span>}
-                  {isCollapsed && (
-                    <span className="absolute z-50 cursor-default left-20 bg-gray-200 dark:bg-zinc-800 text-zinc-800 dark:text-gray-200 px-2 py-1 rounded-md opacity-0 group-hover:opacity-100  transition-opacity duration-300">
-                      {item.label}
-                    </span>
-                  )}
                 </li>
               </Link>
             ))}
@@ -100,7 +101,7 @@ export default function Sidebar({isCollapsed, setIsCollapsed}: SidebarProps) {
           </ul>
         )}
       </div>
-      <div className="m-3">
+      <div className="m-3" onMouseEnter={onlyOpenSidebar}>
         <ThemeToggle isCollapsed={isCollapsed}/>
         <ul>
           <li className="mt-1 rounded-lg flex items-center px-3 py-2 hover:bg-gray-200 hover:dark:bg-zinc-800 cursor-pointer" onClick={() => signOut()}>

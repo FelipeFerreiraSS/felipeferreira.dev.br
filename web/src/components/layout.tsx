@@ -13,7 +13,7 @@ type LayoutProps = {
 
 export default function Layout({ children, pageTitle }: LayoutProps) {
   const { width } = useWindowSize();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   
   const adjustedWidth = width !== undefined 
     ? width - (isCollapsed ? 82 : 258) 
