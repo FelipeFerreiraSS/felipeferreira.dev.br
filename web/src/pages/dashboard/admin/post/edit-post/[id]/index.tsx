@@ -29,7 +29,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormErrorMessage from "@/components/formErrorMessage";
 import Layout from "@/components/layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CircleAlert, ImagePlus } from "lucide-react";
+import { ChevronDown, ChevronUp, CircleAlert, ImagePlus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -93,6 +93,7 @@ export default function EditPost() {
   const [postValue, setPostValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [readTime, setReadTime] = useState(0)
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const tagsState = useSelector((state: RootState) => state.tags)
   const imagesState = useSelector((state: RootState) => state.images.images)
@@ -124,9 +125,16 @@ export default function EditPost() {
     label: tag.name
   }));
 
+  const toggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   const handleImageClick = (image: ImageType) => {
     setSelectedImage({ id: image.id, imageUrl: image.imageUrl });
     setValue('selectedImage', image.imageUrl)
+    if (image.imageUrl) {
+      clearErrors('selectedImage');
+    }
   };
   
   const generateSlug = (title: string) => {
@@ -219,7 +227,7 @@ export default function EditPost() {
             id: postData.headerImage?.id, 
             imageUrl: postData.headerImage?.imageUrl
           });
-          if (postData.headerImage.imageUrl) {
+          if (postData.headerImage?.imageUrl) {
             setValue('selectedImage', postData.headerImage.imageUrl)
           }
           const selectedTagOptions: TagOption[] = postData.tags.map((tag: Tag) => ({
@@ -271,143 +279,143 @@ export default function EditPost() {
           Voltar
         </Button>
       </div>
-      <div className="flex w-full gap-5">
-        <Card className="w-[40%] h-full">
-          <CardHeader>
-            <CardTitle>Detalhes</CardTitle>
-            <CardDescription>
-              Adicione a imagem de capa, insira o título, selecione as tags  
-              e escreva um resumo do conteúdo.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col">
-              <Label htmlFor="title" className="mb-5">Imagem de capa</Label>
-              <Dialog>
-                <DialogTrigger className="w-[50%]">
-                  {selectedImage && selectedImage?.imageUrl  ? (
-                    <Image
-                      src={selectedImage.imageUrl}
-                      width={300}
-                      height={300}
-                      alt="Picture of the author"
-                      className="rounded-xl"
-                    />
-                  ) : (
-                    <>
-                      <Card>
-                        <CardContent className="flex justify-center items-center h-28">
-                          <ImagePlus className="mt-5"/>
-                        </CardContent>
-                      </Card>
-                      <FormErrorMessage error={errors.selectedImage?.message} />
-                    </>
-                  )}
-                </DialogTrigger>
-                <DialogContent className="max-w-3xl">
-                  <DialogHeader>
-                    <DialogTitle className="mb-3">Selecione uma imagem para capa</DialogTitle>
-                    <DialogDescription>
-                      <div>
-                        <div className="mb-3">
-                          <Uploader />
-                        </div>
-                        <div className="grid grid-cols-5 gap-2">
-                          {imagesState?.map((image) => (
-                            <div 
-                              key={image.id}
-                              onClick={() => handleImageClick(image)}
-                            >
-                              <Image
-                                src={image.imageUrl}
-                                width={200}
-                                height={200}
-                                alt="Picture of the author"
-                                className={`rounded-xl mb-3 cursor-pointer ${selectedImage?.id === image.id ? 'border-4 border-blue-500' : ''}`}
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter className="sm:justify-end">
-                    <DialogClose asChild>
-                      <Button type="button" variant="default" className="bg-blue-500 ">
-                        Salvar
-                      </Button>
-                    </DialogClose>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+      <div className="flex flex-col lg:flex-row w-full gap-5">
+        <Card className="w-full lg:w-[40%] h-full">
+          <CardHeader className="flex flex-row justify-between items-center">
+            <div>
+              <CardTitle className="mb-2">Detalhes</CardTitle>
+              <CardDescription>
+                Adicione a imagem de capa, insira o título, selecione as tags  
+                e escreva um resumo do conteúdo.
+              </CardDescription>
+              {isCollapsed && Object.keys(errors).length > 1 ? (
+                <FormErrorMessage error={"Preecha todos os campos antes de salvar"} />
+              ) : null}
             </div>
-            <form className="space-y-6" onSubmit={handleSubmit(handleUpdatePost)}>
-              <div>
-                <Label htmlFor="title">Titulo</Label>
-                <Input 
-                  {...register('title')}
-                  type="text" 
-                  id="title" 
-                  placeholder="Titulo" 
-                  autoComplete="titulo" 
-                  name="title"
-                />
-                <FormErrorMessage error={errors.title?.message}/>
-                <p>Slug: {slug}</p>
+            <div className="sm:hidden">
+              <button
+                className="px-2 py-1"
+                onClick={toggleCollapse}
+              >
+                {isCollapsed ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+              </button>
+            </div>
+          </CardHeader>
+          <div
+            className={`overflow-hidden transition-all duration-300 ${
+              isCollapsed ? "max-h-0 overflow-hidden" : "max-h-[600px] overflow-y-auto"
+            }`}
+          >
+            <CardContent>
+              <div className="flex flex-col">
+                <Label htmlFor="title" className="mb-5">Imagem de capa</Label>
+                <Dialog>
+                  <DialogTrigger className="w-[50%]">
+                    {selectedImage && selectedImage?.imageUrl  ? (
+                      <Image
+                        src={selectedImage.imageUrl}
+                        width={300}
+                        height={300}
+                        alt="Picture of the author"
+                        className="rounded-xl mb-3"
+                      />
+                    ) : (
+                      <>
+                        <Card>
+                          <CardContent className="flex justify-center items-center h-28">
+                            <ImagePlus className="mt-5"/>
+                          </CardContent>
+                        </Card>
+                        <FormErrorMessage error={errors.selectedImage?.message} />
+                      </>
+                    )}
+                  </DialogTrigger>
+                  <DialogContent className="max-w-3xl">
+                    <DialogHeader>
+                      <DialogTitle className="mb-3">Selecione uma imagem para capa</DialogTitle>
+                      <DialogDescription>
+                        <div>
+                          <div className="mb-3">
+                            <Uploader />
+                          </div>
+                          <div className="grid grid-cols-5 gap-2">
+                            {imagesState?.map((image) => (
+                              <div 
+                                key={image.id}
+                                onClick={() => handleImageClick(image)}
+                              >
+                                <Image
+                                  src={image.imageUrl}
+                                  width={200}
+                                  height={200}
+                                  alt="Picture of the author"
+                                  className={`rounded-xl mb-3 cursor-pointer ${selectedImage?.id === image.id ? 'border-4 border-blue-500' : ''}`}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="sm:justify-end">
+                      <DialogClose asChild>
+                        <Button type="button" variant="default" className="bg-blue-500 ">
+                          Salvar
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
-              <div>
-                <Label htmlFor="type">Tags</Label>
-                <Select
-                  value={selectedTags}
-                  isMulti
-                  name="tags"
-                  options={options}
-                  className="basic-multi-select"
-                  classNamePrefix="select"
-                  placeholder='-- Selecione --'
-                  noOptionsMessage={() => "Nenhuma opção encontrada"}
-                  onChange={(selectedOptions) => {
-                    setSelectedTags(selectedOptions as { value: string; label: string }[]);
-                    const selectedValues = selectedOptions.map((option) => option.value);
-                    setValue('selectedTags', selectedValues);
-                    if (selectedValues.length > 0) {
-                      clearErrors('selectedTags');
-                    }
-                  }}
-                />
-                <FormErrorMessage error={errors.selectedTags?.message} />
-              </div>
-              <div>
-                <Label htmlFor="summary">Resumo</Label>
-                <Textarea
-                  placeholder="Resumo do post" 
-                  {...register('summary')} 
-                />
-                <FormErrorMessage error={errors.summary?.message}/>
-              </div>
-              <div className="flex gap-5">
-                <Button
-                  type="submit"
-                  className="bg-blue-500 " 
-                  onClick={handleSave}
-                  disabled={isLoading || getValuePublished}
-                >
-                  Salvar {isLoading && !getValuePublished ? <LoadingSpinner /> : null}
-                </Button>
-                <Button
-                  {...register('published')} 
-                  type="submit"
-                  className="bg-blue-500 " 
-                  onClick={handlePublish}
-                  disabled={isLoading || getValuePublished}
-                >
-                  Publicar {isLoading && getValuePublished ? <LoadingSpinner /> : null} 
-                </Button>
-              </div>
-            </form>
-          </CardContent>
+              <form className="space-y-6" onSubmit={handleSubmit(handleUpdatePost)}>
+                <div>
+                  <Label htmlFor="title">Titulo</Label>
+                  <Input 
+                    {...register('title')}
+                    type="text" 
+                    id="title" 
+                    placeholder="Titulo" 
+                    autoComplete="titulo" 
+                    name="title"
+                  />
+                  <FormErrorMessage error={errors.title?.message}/>
+                  <p>Slug: {slug}</p>
+                </div>
+                <div>
+                  <Label htmlFor="type">Tags</Label>
+                  <Select
+                    value={selectedTags}
+                    isMulti
+                    name="tags"
+                    options={options}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    placeholder='-- Selecione --'
+                    noOptionsMessage={() => "Nenhuma opção encontrada"}
+                    onChange={(selectedOptions) => {
+                      setSelectedTags(selectedOptions as { value: string; label: string }[]);
+                      const selectedValues = selectedOptions.map((option) => option.value);
+                      setValue('selectedTags', selectedValues);
+                      if (selectedValues.length > 0) {
+                        clearErrors('selectedTags');
+                      }
+                    }}
+                  />
+                  <FormErrorMessage error={errors.selectedTags?.message} />
+                </div>
+                <div>
+                  <Label htmlFor="summary">Resumo</Label>
+                  <Textarea
+                    placeholder="Resumo do post" 
+                    {...register('summary')} 
+                  />
+                  <FormErrorMessage error={errors.summary?.message}/>
+                </div>
+              </form>
+            </CardContent>
+          </div>
         </Card>
-        <Card className="w-[60%]">
+        <Card className="w-full lg:w-[60%]">
           <CardHeader>
             <CardTitle>Conteúdo</CardTitle>
             <CardDescription>
@@ -422,21 +430,40 @@ export default function EditPost() {
                 <TabsTrigger value="preview">Preview</TabsTrigger>
               </TabsList>
               <TabsContent value="post">
-                <div>
+                <div className="flex flex-col">
                   <ReactQuill
                     value={postValue}
                     onChange={setPostValue}
                     modules={modules}
                     formats={formats}
                     theme="snow"
-                    className="rounded-lg shadow-md"
+                    className="rounded-lg shadow-md mb-5"
                   />
+                  <div className="flex justify-end gap-5">
+                    <Button
+                      type="submit"
+                      className="bg-blue-500 " 
+                      onClick={handleSave}
+                      disabled={isLoading || getValuePublished}
+                    >
+                      Salvar {isLoading && !getValuePublished ? <LoadingSpinner /> : null}
+                    </Button>
+                    <Button
+                      {...register('published')} 
+                      type="submit"
+                      className="bg-blue-500 " 
+                      onClick={handlePublish}
+                      disabled={isLoading || getValuePublished}
+                    >
+                      Publicar {isLoading && getValuePublished ? <LoadingSpinner /> : null} 
+                    </Button>
+                  </div>
                 </div>
               </TabsContent>
               <TabsContent value="preview">
                 {postValue && postValue !== '<p><br></p>' ? (
                   <div
-                    className="prose prose-lg mt-8"
+                    className="prose prose-lg mt-8 max-w-[330px] sm:max-w-full"
                     dangerouslySetInnerHTML={{ __html: postValue }}
                   />
                 ):(
