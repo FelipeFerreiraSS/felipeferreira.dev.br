@@ -268,7 +268,7 @@ export default function DashboardAdmin() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col justify-center items-center">
-              {analyticState?.topAuthor.profileImageUrl ? (
+              {analyticState?.topAuthor?.profileImageUrl ? (
                 <Avatar className="w-28 h-28">
                   <AvatarImage className="object-cover" src={analyticState?.topAuthor.profileImageUrl} />
                   <AvatarFallback>CN</AvatarFallback>
@@ -277,7 +277,7 @@ export default function DashboardAdmin() {
                 <CircleUserRound size={200} /> 
               )}
               <p className="font-bold">
-                {analyticState?.topAuthor.type === 'admin' ? 'Administrador:' : 'Editor:'}
+                {analyticState?.topAuthor?.type === 'admin' ? 'Administrador:' : 'Editor:'}
               </p>
               <p>
                 {analyticState?.topAuthor.firstName || ""} { }

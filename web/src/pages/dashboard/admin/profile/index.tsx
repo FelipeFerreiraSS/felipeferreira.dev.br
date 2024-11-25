@@ -112,7 +112,7 @@ export default function Profile() {
 
   if (loading || !userState) {
     return (
-      <Layout pageTitle="Dashboard">
+      <Layout pageTitle="Perfil">
         <div className="flex items-center gap-5 mb-5 p-4">
           <Skeleton className="h-40 w-40 rounded-full bg-gray-200 dark:bg-zinc-800" />
           <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />

@@ -294,7 +294,7 @@ export default function Tags() {
 
   if (loading || !tagState.tags) {
     return (
-      <Layout pageTitle="Dashboard">
+      <Layout pageTitle="Tags">
         <div className="flex flex-col sm:flex-row justify-between mb-5">
           <Skeleton className="h-12 w-[20%] sm:w-32 mb-3 sm:mb-0 rounded-xl bg-gray-200 dark:bg-zinc-800" />
           <div className="flex gap-5">

@@ -69,7 +69,7 @@ export default function Gallery() {
 
   if (loading || !imagesState) {
     return (
-      <Layout pageTitle="Dashboard">
+      <Layout pageTitle="Galeria">
         <div className="mb-5">
           <Skeleton className="h-12 w-32 rounded-xl bg-gray-200 dark:bg-zinc-800" />
         </div>
