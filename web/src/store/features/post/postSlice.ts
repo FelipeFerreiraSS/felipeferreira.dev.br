@@ -3,10 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface PostsState {
   posts: Post[] | null
+  userPosts: Post[] | null
 }
 
 const initialState: PostsState = {
-  posts: null
+  posts: null,
+  userPosts: null
 };
 
 const postsSlice = createSlice({
@@ -19,9 +21,15 @@ const postsSlice = createSlice({
     clearPosts: (state) => {
       state.posts = null;
     },
+    setUserPosts: (state, action: PayloadAction<Post[]>) => {
+      state.userPosts = action.payload;
+    },
+    clearUserPosts: (state) => {
+      state.userPosts = null;
+    },
   },
 });
 
-export const { setPosts, clearPosts } = postsSlice.actions;
+export const { setPosts, clearPosts, setUserPosts, clearUserPosts } = postsSlice.actions;
 
 export default postsSlice.reducer;

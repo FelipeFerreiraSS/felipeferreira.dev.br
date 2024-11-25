@@ -4,11 +4,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface ImageState {
   image: Image | null
   images: Image[] | null
+  userImages: Image[] | null
 }
 
 const initialState: ImageState = {
   image: null,
-  images: null
+  images: null,
+  userImages: null
 };
 
 const imageSlice = createSlice({
@@ -24,9 +26,15 @@ const imageSlice = createSlice({
     clearImage: (state) => {
       state.image = null;
     },
+    setUserImages: (state, action: PayloadAction<Image[]>) => {
+      state.userImages = action.payload;
+    },
+    clearUserImage: (state) => {
+      state.userImages = null;
+    },
   },
 });
 
-export const { setImage, setImages, clearImage } = imageSlice.actions;
+export const { setImage, setImages, clearImage, setUserImages, clearUserImage } = imageSlice.actions;
 
 export default imageSlice.reducer;

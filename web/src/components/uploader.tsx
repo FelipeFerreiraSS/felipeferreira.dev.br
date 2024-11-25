@@ -2,9 +2,9 @@
 
 import { useState, useCallback, useMemo, ChangeEvent } from 'react'
 import { PutBlobResult } from '@vercel/blob'
-import { AppDispatch } from '@/store/store'
-import { useDispatch } from 'react-redux'
-import { uploadAndCreateImage, fetchImagesList } from '@/store/features/image/truckFunctions'
+import { AppDispatch, RootState } from '@/store/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { uploadAndCreateImage, fetchImagesList, fetchUserImagesList } from '@/store/features/image/truckFunctions'
 import { useToast } from '@/hooks/use-toast'
 
 type SubmitButtonProps = {
@@ -24,6 +24,8 @@ export default function Uploader(props: SubmitButtonProps) {
   const [dragActive, setDragActive] = useState(false)
 
   const dispatch: AppDispatch = useDispatch()
+
+  const userState = useSelector((state: RootState) => state.user);
 
   const { toast } = useToast()
 
@@ -57,7 +59,11 @@ export default function Uploader(props: SubmitButtonProps) {
 
     const isSuccess = await dispatch(uploadAndCreateImage(file));
     if (isSuccess) {
-      await dispatch(fetchImagesList());
+      if (userState.user?.type === 'admin') {
+        await dispatch(fetchImagesList());
+      } else {
+        await dispatch(fetchUserImagesList());
+      }
       if (onSuccess) onSuccess(); // Chama a função de sucesso para fechar o modal
       toast({
         title: 'Sucesso',

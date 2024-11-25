@@ -1,6 +1,6 @@
 import { AppDispatch } from '../../store';
 import { api } from '@/services/api';
-import { setPosts } from './postSlice';
+import { setUserPosts, setPosts } from './postSlice';
 import { parseCookies } from 'nookies';
 import { CreatePostSchema } from '@/pages/dashboard/admin/post/create-post';
 import { EditPostSchema } from '@/pages/dashboard/admin/post/edit-post/[id]';
@@ -11,6 +11,17 @@ export const fetchPostsList = () => async (dispatch: AppDispatch) => {
     
     const postsData = response.data
     dispatch(setPosts(postsData));
+  } catch (error) {
+    console.error('Failed to fetch truck data:', error);
+  }
+};
+
+export const fetchUserPostsList = () => async (dispatch: AppDispatch) => {
+  try {
+    const response = await api.get('/posts/user')
+    
+    const postsData = response.data
+    dispatch(setUserPosts(postsData));
   } catch (error) {
     console.error('Failed to fetch truck data:', error);
   }

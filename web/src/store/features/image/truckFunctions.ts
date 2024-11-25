@@ -2,7 +2,7 @@
 import { AppDispatch } from '../../store';
 import { api } from '@/services/api';
 import { parseCookies } from 'nookies';
-import { setImages } from './imageSlice';
+import { setImages, setUserImages } from './imageSlice';
 import { del, put } from '@vercel/blob';
 import { customAlphabet } from 'nanoid';
 
@@ -19,6 +19,26 @@ export const fetchImagesList = () => async (dispatch: AppDispatch) => {
       });
     const imageData = response?.data.allImages
     dispatch(setImages(imageData));
+  } catch (error) {
+    console.error('Failed to fetch truck data:', error);
+  }
+};
+
+export const fetchUserImagesList = () => async (dispatch: AppDispatch) => {
+  const { 'felipeferreirablog.token': token } = parseCookies()
+  try {
+    const response = await api.get(`/images/user`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      .catch(error => {
+        console.error('Erro ao obter lista de imagems:', error);
+      });
+      console.log(response);
+      
+    const imageData = response?.data.allImages
+    dispatch(setUserImages(imageData));
   } catch (error) {
     console.error('Failed to fetch truck data:', error);
   }

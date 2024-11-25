@@ -24,7 +24,11 @@ export const sidebarAdminItems: SidebarItem[] = [
 ];
 
 export const sidebarEditorItems: SidebarItem[] = [
-  { icon: <LayoutDashboard />, label: 'Dashboard', link: '/dashboard' },
+  { icon: <LayoutDashboard />, label: 'Dashboard', link: '/' },
+  { icon: <NotebookText />, label: 'Posts', link: '/post' },
+  { icon: <Tags />, label: 'Tags', link: '/tags' },
+  { icon: <Images />, label: 'Galeria', link: '/gallery' },
+  { icon: <UserRoundPen />, label: 'Pefil', link: '/profile' },
 ];
 
 type SidebarProps = {
@@ -93,11 +97,18 @@ export default function Sidebar({isCollapsed, setIsCollapsed}: SidebarProps) {
             ))}
           </ul>
         ):(
-          <ul className="mt-6">
+          <ul className="mt-6 ml-3 mr-3">
             {sidebarEditorItems.map((item, index) => (
               <Link href={`/dashboard/${userState.user?.type}${item.link}`} key={index}>
-                <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-                  <span className="text-xl">{item.icon}</span>
+                <li
+                  className={`rounded-lg mb-1 relative group flex items-center px-3 py-2 hover:bg-gray-200 hover:dark:bg-zinc-800 cursor-pointer 
+                    ${isActive(item.link, userState.user?.type) ? 'bg-gray-200 dark:bg-zinc-800' : ''}
+                  `}
+                  onMouseEnter={onlyOpenSidebar}
+                >
+                  <div className="text-xl w-8 flex justify-center">
+                    <span>{item.icon}</span>
+                  </div>
                   {!isCollapsed && <span className="ml-4">{item.label}</span>}
                 </li>
               </Link>
