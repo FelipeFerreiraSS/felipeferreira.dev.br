@@ -187,7 +187,7 @@ export const getUserPostHandler = async (request: FastifyRequest, reply: Fastify
       },
     })
 
-    return reply.status(200).send({ userPosts: posts })
+    return reply.status(200).send(posts)
   } catch (error) {
     console.error('Erro ao obter posts:', error);
     return reply.status(500).send({ error: 'Erro interno do servidor' });
