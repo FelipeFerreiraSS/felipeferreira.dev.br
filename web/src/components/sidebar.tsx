@@ -1,6 +1,5 @@
 import { ChevronsLeft, ChevronsRight, Images, LayoutDashboard, LogOut, NotebookText, Tags, UserRoundPen, Users } from "lucide-react";
-import { useContext, useState } from "react";
-import { Button } from "./ui/button";
+import { useContext } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import Link from "next/link";

@@ -1,6 +1,5 @@
-import { ChevronsLeft, ChevronsRight, Images, LayoutDashboard, LogOut, Menu, NotebookText, Tags, UserRoundPen, Users } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 import { useContext, useState } from "react";
-import { Button } from "./ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import Link from "next/link";
@@ -10,7 +9,6 @@ import { useRouter } from "next/router";
 import { 
   Sheet, 
   SheetContent, 
-  SheetDescription, 
   SheetHeader, 
   SheetTitle, 
   SheetTrigger 
@@ -78,9 +76,16 @@ export default function SidebarMobile() {
             <ul className="mt-6">
               {sidebarEditorItems.map((item, index) => (
                 <Link href={`/dashboard/${userState.user?.type}${item.link}`} key={index}>
-                  <li className="flex items-center p-2 hover:bg-gray-700 cursor-pointer">
-                    <span className="text-xl">{item.icon}</span>
-                    {!isCollapsed && <span className="ml-4">{item.label}</span>}
+                  <li
+                    className={`rounded-lg mb-1 relative group flex items-center px-3 py-2 hover:bg-gray-200 hover:dark:bg-zinc-800 cursor-pointer 
+                      ${isActive(item.link, userState.user?.type) ? 'bg-gray-200 dark:bg-zinc-800' : ''}
+                      
+                    `}
+                  >
+                    <div className="text-xl w-8 flex justify-center">
+                      <span>{item.icon}</span>
+                    </div>
+                    <p className="ml-4">{item.label}</p>
                   </li>
                 </Link>
               ))}
