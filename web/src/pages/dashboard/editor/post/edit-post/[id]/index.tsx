@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { fetchPostsList, getPostById, updatePost } from "@/store/features/post/truckFunctions";
+import { fetchUserPostsList, getPostById, updatePost } from "@/store/features/post/truckFunctions";
 import { AppDispatch, RootState } from "@/store/store";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -173,12 +173,16 @@ export default function EditPost() {
 
   const title = watch('title', '')
 
-  async function handleUpdatePost(data: EditPostSchema) {
+  async function handleUpdatePost() {
     setIsLoading(true)
     const tagsAsStrings = selectedTags.map(tag => tag.value);
 
     const dataPost = {
-      ...data,
+      title: getValues('title'),
+      summary: getValues('summary'),
+      published: getValues('published'),
+      selectedImage: getValues('selectedImage'),
+      selectedTags: getValues('selectedTags'),
       slug: slug,
       tags: tagsAsStrings,
       headerImageId: selectedImage?.id,
@@ -193,8 +197,8 @@ export default function EditPost() {
         title: "Sucesso",
         description: "Usuário atualizado com sucesso.",
       });
-      dispatch(fetchPostsList()); 
-      router.push("/dashboard/admin/post")
+      dispatch(fetchUserPostsList()); 
+      router.push("/dashboard/editor/post")
     } else {
       toast({
         variant: "destructive",
@@ -207,10 +211,12 @@ export default function EditPost() {
   
   const handlePublish = () => {
     setValue('published', true);
+    handleUpdatePost()
   };
   
   const handleSave = () => {
     setValue('published', false);
+    handleUpdatePost()
   };
   
   const getValuePublished = getValues('published')
@@ -368,7 +374,7 @@ export default function EditPost() {
                   </DialogContent>
                 </Dialog>
               </div>
-              <form className="space-y-6" onSubmit={handleSubmit(handleUpdatePost)}>
+              <form className="space-y-6">
                 <div>
                   <Label htmlFor="title">Titulo</Label>
                   <Input 

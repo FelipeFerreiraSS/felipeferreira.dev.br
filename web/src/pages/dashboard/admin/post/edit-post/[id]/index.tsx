@@ -174,12 +174,16 @@ export default function EditPost() {
 
   const title = watch('title', '')
 
-  async function handleUpdatePost(data: EditPostSchema) {
+  async function handleUpdatePost() {
     setIsLoading(true)
     const tagsAsStrings = selectedTags.map(tag => tag.value);
 
     const dataPost = {
-      ...data,
+      title: getValues('title'),
+      summary: getValues('summary'),
+      published: getValues('published'),
+      selectedImage: getValues('selectedImage'),
+      selectedTags: getValues('selectedTags'),
       slug: slug,
       tags: tagsAsStrings,
       headerImageId: selectedImage?.id,
@@ -208,10 +212,12 @@ export default function EditPost() {
   
   const handlePublish = () => {
     setValue('published', true);
+    handleUpdatePost();
   };
   
   const handleSave = () => {
     setValue('published', false);
+    handleUpdatePost();
   };
   
   const getValuePublished = getValues('published')
@@ -369,7 +375,7 @@ export default function EditPost() {
                   </DialogContent>
                 </Dialog>
               </div>
-              <form className="space-y-6" onSubmit={handleSubmit(handleUpdatePost)}>
+              <form className="space-y-6">
                 <div>
                   <Label htmlFor="title">Titulo</Label>
                   <Input 

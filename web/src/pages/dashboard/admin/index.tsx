@@ -280,8 +280,8 @@ export default function DashboardAdmin() {
                 {analyticState?.topAuthor?.type === 'admin' ? 'Administrador:' : 'Editor:'}
               </p>
               <p>
-                {analyticState?.topAuthor.firstName || ""} { }
-                {analyticState?.topAuthor.lastName || ""}
+                {analyticState?.topAuthor?.firstName || ""} { }
+                {analyticState?.topAuthor?.lastName || ""}
               </p>
             </div>
             <div>

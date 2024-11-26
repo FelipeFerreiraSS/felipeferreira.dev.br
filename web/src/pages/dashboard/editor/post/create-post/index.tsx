@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import Uploader from "@/components/uploader";
 import { useToast } from "@/hooks/use-toast";
 import { fetchUserImagesList } from "@/store/features/image/truckFunctions";
-import { createPost, fetchPostsList } from "@/store/features/post/truckFunctions";
+import { createPost, fetchUserPostsList } from "@/store/features/post/truckFunctions";
 import { fetchTagsList } from "@/store/features/tag/truckFunctions";
 import { AppDispatch, RootState } from "@/store/store";
 import { Image  as ImageType } from "@/types/Image";
@@ -167,10 +167,14 @@ export default function CreatePost() {
     return doc.body.innerHTML;
   }
 
-  async function handleCreatePost(data: CreatePostSchema) {
+  async function handleCreatePost() {
     setIsLoading(true)
     const dataPost = {
-      ...data,
+      title: getValues('title'),
+      summary: getValues('summary'),
+      published: getValues('published'),
+      selectedImage: getValues('selectedImage'),
+      selectedTags: getValues('selectedTags'),
       slug: slug,
       tags: selectedTags,
       headerImageId: selectedImage?.id,
@@ -185,8 +189,8 @@ export default function CreatePost() {
         title: "Sucesso",
         description: "Usuário criado com sucesso.",
       });
-      dispatch(fetchPostsList()); 
-      router.push("/dashboard/admin/post")
+      dispatch(fetchUserPostsList()); 
+      router.push("/dashboard/editor/post")
     } else {
       toast({
         variant: "destructive",
@@ -199,10 +203,12 @@ export default function CreatePost() {
 
   const handlePublish = () => {
     setValue('published', true);
+    handleCreatePost();
   };
-
+  
   const handleSave = () => {
     setValue('published', false);
+    handleCreatePost();
   };
 
   const getValuePublished = getValues('published')
@@ -338,7 +344,7 @@ export default function CreatePost() {
                   </DialogContent>
                 </Dialog>
               </div>
-              <form className="space-y-6" onSubmit={handleSubmit(handleCreatePost)}>
+              <form className="space-y-6">
                 <div>
                   <Label htmlFor="title">Titulo</Label>
                   <Input 
@@ -407,7 +413,7 @@ export default function CreatePost() {
                     <Button
                       type="button"
                       className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600"
-                      onClick={handleSubmit(handleSave)} // Submete o formulário para salvar
+                      onClick={handleSave} // Submete o formulário para salvar
                       disabled={isLoading || getValuePublished}
                     >
                       Salvar {isLoading && !getValuePublished ? <LoadingSpinner /> : null}
@@ -415,7 +421,7 @@ export default function CreatePost() {
                     <Button
                       type="button"
                       className="bg-blue-600 text-white shadow hover:bg-blue-500 focus-visible:outline-blue-600"
-                      onClick={handleSubmit(handlePublish)} // Submete o formulário para publicar
+                      onClick={handlePublish} // Submete o formulário para publicar
                       disabled={isLoading || getValuePublished}
                     >
                       Publicar {isLoading && getValuePublished ? <LoadingSpinner /> : null}
