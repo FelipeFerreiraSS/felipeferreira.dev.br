@@ -9,6 +9,30 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+			typography: {
+        DEFAULT: {
+          css: {
+            pre: {
+              backgroundColor: '#282A36', // Fundo do bloco de código
+              color: '#F8F8F2', // Cor do texto do bloco de código
+              borderRadius: '0.5rem', // Borda arredondada
+              padding: '1rem', // Espaçamento interno
+            },
+            code: {
+              color: '#14b8a6', // Cor do texto do código inline
+              backgroundColor: '#0f172a', // Fundo do código inline
+              borderRadius: '0.25rem', // Borda arredondada
+              padding: '0.25rem 0.5rem', // Espaçamento interno
+            },
+						h2: {
+							color: '#FFFFFF'
+						},
+						a: {
+							color: '#3b82f6'
+						}
+          },
+        },
+      },
   		backgroundImage: {
   			'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
   			'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
