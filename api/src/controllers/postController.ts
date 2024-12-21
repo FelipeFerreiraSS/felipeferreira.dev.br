@@ -138,20 +138,32 @@ export const getPostBySlugHandler = async (request: FastifyRequest, reply: Fasti
   
     const post = await prisma.post.findMany({
       where: { slug: slug },
-      include: {
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        summary: true,
+        audioPostUrl: true,
+        readTime: true,
+        updatedAt: true,
+        content: true,
         author: {
           select: {
-            id: true,
             firstName: true,
             lastName: true,
-            email: true,
-            type: true,
-            createdAt: true,
-            updatedAt: true,
           },
         },
-        headerImage: true,
-        tags: true,
+        headerImage: {
+          select: {
+            imageUrl: true
+          }
+        },
+        tags: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
       },
     })
 
@@ -200,24 +212,76 @@ export const getPublishedPostHandler = async (request: FastifyRequest, reply: Fa
   try {
     const posts = await prisma.post.findMany({
       where: { published: true },
-      include: {
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        summary: true,
+        readTime: true,
+        updatedAt: true,
         author: {
           select: {
-            id: true,
             firstName: true,
             lastName: true,
-            email: true,
-            type: true,
-            createdAt: true,
-            updatedAt: true,
           },
         },
-        headerImage: true,
-        tags: true,
+        headerImage: {
+          select: {
+            imageUrl: true
+          }
+        },
+        tags: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
       },
     })
 
     return reply.status(200).send({ publishedPosts: posts })
+  } catch (error) {
+    console.error('Erro ao obter posts:', error);
+    return reply.status(500).send({ error: 'Erro interno do servidor' });
+  }
+}
+
+// Handler para obter apenas os últimos posts publicados
+export const getLatestPublishedPostHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+
+  try {
+    const posts = await prisma.post.findMany({
+      where: { published: true },
+      orderBy: { updatedAt: 'desc' },
+      take: 3,
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        summary: true,
+        readTime: true,
+        updatedAt: true,
+        author: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+        headerImage: {
+          select: {
+            imageUrl: true
+          }
+        },
+        tags: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
+      },
+    })
+
+    return reply.status(200).send({ latestPublishedPosts: posts })
   } catch (error) {
     console.error('Erro ao obter posts:', error);
     return reply.status(500).send({ error: 'Erro interno do servidor' });
@@ -240,20 +304,30 @@ export const getPostsByTagHandler = async (request: FastifyRequest, reply: Fasti
         tags: { some: { name: name } },
         published: true
       },
-      include: {
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        summary: true,
+        readTime: true,
+        updatedAt: true,
         author: {
           select: {
-            id: true,
             firstName: true,
             lastName: true,
-            email: true,
-            type: true,
-            createdAt: true,
-            updatedAt: true,
           },
         },
-        headerImage: true,
-        tags: true,
+        headerImage: {
+          select: {
+            imageUrl: true
+          }
+        },
+        tags: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
       },
     })
 
@@ -263,6 +337,10 @@ export const getPostsByTagHandler = async (request: FastifyRequest, reply: Fasti
 
     const tagDetails = await prisma.tag.findUnique({
       where: { name: name },
+      select: {
+        id: true,
+        name: true
+      }
     });
 
     return reply.status(200).send({ tagDetails: tagDetails, postsByTag: posts })
